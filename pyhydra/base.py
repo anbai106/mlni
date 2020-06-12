@@ -1,9 +1,7 @@
 import abc
 import pandas as pd
-from utils import GLMcorrection, load_data
+from .utils import GLMcorrection
 import numpy as np
-import os
-from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 __author__ = "Junhao Wen"

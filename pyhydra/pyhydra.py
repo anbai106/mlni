@@ -1,9 +1,8 @@
-import argparse
-from clustering import RB_RepeatedHoldOut_DualSVM_Subtype
-from classification import RB_RepeatedHoldOut_DualSVM_Classification
-from base import RB_Input
+from .clustering import RB_RepeatedHoldOut_DualSVM_Subtype
+from .classification import RB_RepeatedHoldOut_DualSVM_Classification
+from .base import RB_Input
 import os, pickle
-from utils import make_cv_partition
+from .utils import make_cv_partition
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -14,80 +13,40 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-# parser = argparse.ArgumentParser(description="Argparser for HYDRA, which is BIDS compliant")
-#
-# # Mandatory argument
-# parser.add_argument("--feature_tsv", type=str, default="/home/hao/Project/pyhydra/data/test_feature.tsv",
-#                            help="Path to the tsv containing extracted feature. The tsv contains the following headers: "
-#                                 "ii) the first column is the participant_id;"
-#                                 "iii) the second column should be the session_id;"
-#                                 "iv) the third column should be the diagnosis;"
-#                                 "v) the following column should be the extracted features. e.g., the ROI features")
-# parser.add_argument("--output_dir", type=str, default="/home/hao/test/pyhydra",
-#                            help="Path to store the clustering results")
-#
-# # Optional argument
-# parser.add_argument("--covariate_tsv", default='/home/hao/Project/pyhydra/data/test_covariate.tsv',
-#                     help="Path to the tsv containing the information of the covariates for correction."
-#                          "The first three columns has the same header as the feature_tsv. Covariate effect can be age or sex")
-# parser.add_argument("--cv_strategy", default='hold_out', type=str, choices=['k_fold', 'hold_out'],
-#                     help="cross validation strategy used. Default is hold_out")
-# parser.add_argument("--classification", default=False, action='store_true',
-#                     help="If SVM classification should be performed")
-# parser.add_argument("--save_models", default=False, action='store_true',
-#                     help="If save all models during CV. Default is False to save space. Set true only if you are going to apply the trained model to unseen data")
-# parser.add_argument("--cluster_predefined_c", default=0.25,
-#                     help="the predefined best c if you do not want to perform a nested CV to find it. If used, it should be a float number")
-# parser.add_argument("--class_weight_balanced", default=True, action='store_true',
-#                     help="If the two groups are balanced")
-# parser.add_argument("--weight_initialization_type", default="DPP", type=str, choices=["random_hyperplane", "random_assign", "k_means", "DPP"],
-#                     help="The strategy for initializing the weight to control the hyperplances and the subpopulation of patients")
-# parser.add_argument("--num_iteration", default=50, type=int,
-#                     help="the number of iterations to iteratively optimize the polytope")
-# parser.add_argument("--num_consensus", default=20, type=int,
-#                     help="the number of repeats for consensus clustering to eliminate the unstable clustering")
-# parser.add_argument("--k_min", default=2, type=int,
-#                     help="the minimum k for clustering solutions to evaluate")
-# parser.add_argument("--k_max", default=8, type=int,
-#                     help="the maximum k for clustering solutions to evaluate")
-# parser.add_argument("--cv_repetition", default=2, type=int,
-#                     help="number of repetitions or folds for cross validation, depending on the cross validation strategy")
-# parser.add_argument("--tol", default=1e-8, type=float,
-#                     help="clustering stopping criteria")
-# parser.add_argument("--n_threads", default=8, type=int,
-#                     help="number of threads to run in parallel for classification")
-# parser.add_argument("--verbose", default=False, action='store_true',
-#                     help="If the output message is verbose")
-
-def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=None, cv_strategy='hold_out', classification=False, save_models=False,
-            cluster_predefined_c=0.25, class_weight_balanced=True, weight_initialization_type='DPP',num_iteration=50,
-            num_consensus=20, tol=1e-8, n_threads=8, verbose=False):
+def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=None, cv_strategy='hold_out',
+            classification=False, save_models=False, cluster_predefined_c=0.25, class_weight_balanced=True,
+            weight_initialization_type='DPP', num_iteration=50, num_consensus=20, tol=1e-8, n_threads=8, verbose=False):
     """
     pyhydra core function
     Args:
-        feature_tsv:Path to the tsv containing extracted feature. The tsv contains the following headers: "
+        feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
+        the following headers: "
                                  "ii) the first column is the participant_id;"
                                  "iii) the second column should be the session_id;"
                                  "iv) the third column should be the diagnosis;"
                                  "v) the following column should be the extracted features. e.g., the ROI features"
-        output_dir:
-        k_min:
-        k_max:
-        cv_repetition:
-        covariate_tsv:
-        cv_strategy:
-        classification:
-        save_models:
-        cluster_predefined_c:
-        class_weight_balanced:
-        weight_initialization_type:
-        num_iteration:
-        num_consensus:
-        tol:
-        n_threads:
-        verbose:
+        output_dir: str, path to store the clustering results
+        k_min: int, minimum k (number of clusters)
+        k_max: int, maximum k (number of clusters)
+        cv_repetition: int, number of repetitions for cross-validation (CV)
+        covariate_tsv: str, path to the tsv containing the covariates, eg., age or sex. The header (first 3 columns) of
+                     the tsv file is the same as the feature_tsv, following the BIDS convention.
+        cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
+        classification: Bool, if SVM classification should be performed, default is False
+        save_models: Bool, if save all models during CV. Default is False to save space.
+                      Set true only if you are going to apply the trained model to unseen data.
+        cluster_predefined_c: Float, default is 0.25. The predefined best c if you do not want to perform a nested CV to
+                             find it. If used, it should be a float number
+        class_weight_balanced: Bool, default is True. If the two groups are balanced.
+        weight_initialization_type: str, default is DPP. The strategy for initializing the weight to control the
+                                    hyperplances and the subpopulation of patients. choices=["random_hyperplane", "random_assign", "k_means", "DPP"]
+        num_iteration: int, default is 50. The number of iterations to iteratively optimize the polytope.
+        num_consensus: int, default is 20. The number of repeats for consensus clustering to eliminate the unstable clustering.
+        tol: float, default is 1e-8. Clustering stopping criterion.
+        n_threads: int, default is 8. The number of threads to run model in parallel.
+        verbose: Bool, default is False. If the output message is verbose.
 
-    Returns:
+    Returns: classification or clustering outputs.
 
     """
     print('pyhydra for a binary classification or semi-supervised clustering...')
@@ -123,10 +82,4 @@ def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=
                                                            save_models=save_models, verbose=verbose)
 
         wf_clustering.run()
-
-# if __name__ == "__main__":
-#     commandline = parser.parse_known_args()
-#     options = commandline[0]
-#     if commandline[1]:
-#         raise Exception("unknown arguments: %s" % parser.parse_known_args()[1])
-#     main(options)
+        print('Finish...')

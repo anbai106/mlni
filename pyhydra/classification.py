@@ -1,4 +1,4 @@
-from base import WorkFlow, ClassificationAlgorithm, ClassificationValidation
+from .base import WorkFlow, ClassificationAlgorithm, ClassificationValidation
 import numpy as np
 import pandas as pd
 import os, json
@@ -6,7 +6,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from multiprocessing.pool import ThreadPool
-from utils import evaluate_prediction
+from .utils import evaluate_prediction
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
