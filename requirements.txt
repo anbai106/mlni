@@ -1,0 +1,7 @@
+################  Requirements for installation  ######################
+##### Requirements with Version Specifiers ######
+
+numpy
+sklearn
+pandas
+nibabel
