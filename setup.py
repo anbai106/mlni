@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyhydra",
+    name="pyHYDRA",
     version="1.0.0",
     author="junhao.wen",
     author_email="junhao.wen89@email.com",
