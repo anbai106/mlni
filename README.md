@@ -1,5 +1,5 @@
 # `pyHYDRA`
-**pyHYDRA** is the fast python implementation of the semi-supervised clustering method: [HYDRA](https://github.com/evarol/HYDRA). Moreover, pyHYDRA also allows binary classification tasks following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML).``
+**pyHYDRA** is the fast python implementation of the semi-supervised clustering method: [HYDRA](https://github.com/evarol/HYDRA). Moreover, pyHYDRA also allows binary classification tasks following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML).
 
 Compared to the matlab implementation of HYDRA, pyHYDRA has the following advantages:
 - Computationally faster with multi-threads implementation;
