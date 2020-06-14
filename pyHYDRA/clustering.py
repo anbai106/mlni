@@ -13,7 +13,7 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-class RB_RepeatedHoldOut_DualSVM_Subtype(WorkFlow):
+class RB_DualSVM_Subtype(WorkFlow):
     """
     The main class to run pyhydra with repeated holdout CV for clustering.
     """

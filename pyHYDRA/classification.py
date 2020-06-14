@@ -22,9 +22,9 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     The main class to run pyhydra with repeated holdout CV for classification.
     """
 
-    def __init__(self, input, split_index, output_dir,  n_threads=8, n_iterations=100, test_size=0.2,
-                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), covariate_tsv=None):
-
+    def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
+                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), verbose=False):
+        self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
         self._n_threads = n_threads
@@ -32,25 +32,24 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
         self._grid_search_folds = grid_search_folds
         self._balanced = balanced
         self._c_range = c_range
-        self._covariate_tsv = covariate_tsv
+        self._verbose = verbose
         self._test_size = test_size
         self._validation = None
         self._algorithm = None
-        self._input = input
 
     def run(self):
-
         ## by default, we solve the problem using dual solver with a linear kernel. Without the kernel method, because feature dimension is relatively low.
         x = self._input.get_x_raw()
         y = self._input.get_y()
-        # kernel = self._input.get_kernel()  # By default, for ROI features, kernel is not used for efficiency
-        if y[0] == 0:
-            print('For classification, the negative coefficients in the weight map are more likely to be classified as the first label in the diagnose tsv')
-        else:
-            print('For classification, the positive coefficients in the weight map are more likely to be classified as the second label in the diagnose tsv')
+        kernel = self._input.get_kernel()
+        if self._verbose:
+            if y[0] == 0:
+                print('For classification, the negative coefficients in the weight map are more likely to be classified as the first label in the diagnose tsv')
+            else:
+                print('For classification, the positive coefficients in the weight map are more likely to be classified as the second label in the diagnose tsv')
 
         # for regional approach, we don't use kernel==precomputed, it seems with python3, precomputed is super slow with ROI-based features.
-        self._algorithm = DualSVMAlgorithmWithoutKernel(x,
+        self._algorithm = LinearSVMAlgorithmWithPrecomputedKernel(kernel,
                                                      y,
                                                      balanced=self._balanced,
                                                      grid_search_folds=self._grid_search_folds,
@@ -69,9 +68,61 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
         self._algorithm.save_weights(classifier, x, classifier_dir)
         self._validation.save_results(self._output_dir)
 
-class DualSVMAlgorithmWithoutKernel(ClassificationAlgorithm):
+class RB_KFold_DualSVM_Classification(WorkFlow):
+    """
+    The main class to run pyhydra with stritified KFold CV for classification.
+    """
+
+    def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10, balanced=True,
+                 c_range=np.logspace(-6, 2, 17), verbose=False):
+        self._input = input
+        self._split_index = split_index
+        self._output_dir = output_dir
+        self._n_threads = n_threads
+        self._grid_search_folds = grid_search_folds
+        self._balanced = balanced
+        self._c_range = c_range
+        self._verbose = verbose
+        self._n_folds = n_folds
+        self._validation = None
+        self._algorithm = None
+
+    def run(self):
+        ## by default, we solve the problem using dual solver with a linear kernel. Without the kernel method, because feature dimension is relatively low.
+        x = self._input.get_x_raw()
+        y = self._input.get_y()
+        kernel = self._input.get_kernel()
+        if self._verbose:
+            if y[0] == 0:
+                print('For classification, the negative coefficients in the weight map are more likely to be classified as the first label in the diagnose tsv')
+            else:
+                print('For classification, the positive coefficients in the weight map are more likely to be classified as the second label in the diagnose tsv')
+
+        # for regional approach, we don't use kernel==precomputed, it seems with python3, precomputed is super slow with ROI-based features.
+        self._algorithm = LinearSVMAlgorithmWithPrecomputedKernel(kernel,
+                                                     y,
+                                                     balanced=self._balanced,
+                                                     grid_search_folds=self._grid_search_folds,
+                                                     c_range=self._c_range,
+                                                     n_threads=self._n_threads)
+
+        self._validation = KFoldCV(self._algorithm)
+
+        classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
+                                                                     splits_indices=self._split_index,
+                                                                     n_folds=self._n_folds)
+        classifier_dir = os.path.join(self._output_dir, 'classifier')
+        if not os.path.exists(classifier_dir):
+            os.makedirs(classifier_dir)
+
+        self._algorithm.save_classifier(classifier, classifier_dir)
+        self._algorithm.save_parameters(best_params, classifier_dir)
+        self._algorithm.save_weights(classifier, x, classifier_dir)
+        self._validation.save_results(self._output_dir)
+
+class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
     '''
-    Dual SVM with input X, not with kernel method for regional features.
+    Linear SVM with input X, not with kernel method for regional features.
     '''
 
     def __init__(self, x, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
@@ -85,9 +136,9 @@ class DualSVMAlgorithmWithoutKernel(ClassificationAlgorithm):
     def _launch_svc(self, x_train, x_test, y_train, y_test, c):
 
         if self._balanced:
-            svc = SVC(C=c, probability=True, tol=1e-6, class_weight='balanced', gamma='scale')
+            svc = SVC(C=c, probability=False, tol=1e-6, class_weight='balanced', kernel='linear')
         else:
-            svc = SVC(C=c, probability=True, tol=1e-6, gamma='scale')
+            svc = SVC(C=c, probability=False, tol=1e-6, kernel='linear')
 
         svc.fit(x_train, y_train)
         y_hat_train = svc.predict(x_train)
@@ -151,7 +202,7 @@ class DualSVMAlgorithmWithoutKernel(ClassificationAlgorithm):
                                                             (inner_x, x_test_inner,
                                                              y_train_inner, y_test_inner, c))
         inner_pool.close()
-        inner_pool.join()
+        inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
 
         best_parameter = self._select_best_parameter(async_result)
         x_test = self._x[test_index, :]
@@ -188,9 +239,9 @@ class DualSVMAlgorithmWithoutKernel(ClassificationAlgorithm):
         mean_bal_acc = np.mean(bal_acc_list)
 
         if self._balanced:
-            svc = SVC(C=best_c, probability=True, tol=1e-6, class_weight='balanced', gamma='scale')
+            svc = SVC(C=best_c, probability=True, tol=1e-6, class_weight='balanced', kernel='linear')
         else:
-            svc = SVC(C=best_c, probability=True, tol=1e-6, gamma='scale')
+            svc = SVC(C=best_c, probability=True, tol=1e-6, kernel='linear')
 
         svc.fit(self._x, self._y)
 
@@ -218,9 +269,9 @@ class DualSVMAlgorithmWithoutKernel(ClassificationAlgorithm):
         with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
             json.dump(parameters_dict, f)
 
-class DualSVMAlgorithmWithKernel(ClassificationAlgorithm):
+class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
     '''
-    Dual SVM with input X, with kernel method for regional features.
+    Dual SVM with precomputed linear kernel for regional features.
     '''
     def __init__(self, kernel, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
         self._kernel = kernel
@@ -299,7 +350,7 @@ class DualSVMAlgorithmWithKernel(ClassificationAlgorithm):
                                                             (inner_kernel, x_test_inner,
                                                              y_train_inner, y_test_inner, c))
         inner_pool.close()
-        inner_pool.join()
+        inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
 
         best_parameter = self._select_best_parameter(async_result)
         x_test = self._kernel[test_index, :][:, train_index]
@@ -365,6 +416,91 @@ class DualSVMAlgorithmWithKernel(ClassificationAlgorithm):
     def save_parameters(self, parameters_dict, output_dir):
         with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
             json.dump(parameters_dict, f)
+
+class KFoldCV(ClassificationValidation):
+    """
+    KFold CV.
+    """
+    def __init__(self, ml_algorithm):
+        self._ml_algorithm = ml_algorithm
+        self._fold_results = []
+        self._classifier = None
+        self._best_params = None
+        self._cv = None
+
+    def validate(self, y, n_folds=10, n_threads=15, splits_indices=None):
+
+        if splits_indices is None:
+            skf = StratifiedKFold(n_splits=n_folds, shuffle=True, )
+            self._cv = list(skf.split(np.zeros(len(y)), y))
+        else:
+            self._cv = splits_indices
+
+        async_pool = ThreadPool(n_threads)
+        async_result = {}
+
+        for i in range(n_folds):
+
+            train_index, test_index = self._cv[i]
+            async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate, (train_index, test_index))
+
+        async_pool.close()
+        async_pool.join()
+
+        for i in range(n_folds):
+            self._fold_results.append(async_result[i].get())
+
+        ## save the mean of the best models
+        self._classifier, self._best_params = self._ml_algorithm.apply_best_parameters(self._fold_results)
+
+        return self._classifier, self._best_params, self._fold_results
+
+    def save_results(self, output_dir):
+        if self._fold_results is None:
+            raise Exception("No results to save. Method validate() must be run before save_results().")
+
+        subjects_folds = []
+        results_folds = []
+        container_dir = os.path.join(output_dir, 'folds')
+
+        if not os.path.exists(container_dir):
+            os.makedirs(container_dir)
+
+        for i in range(len(self._fold_results)):
+            subjects_df = pd.DataFrame({'y': self._fold_results[i]['y'],
+                                        'y_hat': self._fold_results[i]['y_hat'],
+                                        'y_index': self._fold_results[i]['y_index']})
+            subjects_df.to_csv(os.path.join(container_dir, 'subjects_fold-' + str(i) + '.tsv'),
+                               index=False, sep='\t', encoding='utf-8')
+            subjects_folds.append(subjects_df)
+
+            results_df = pd.DataFrame({'balanced_accuracy': self._fold_results[i]['evaluation']['balanced_accuracy'],
+                                       'auc': self._fold_results[i]['auc'],
+                                       'accuracy': self._fold_results[i]['evaluation']['accuracy'],
+                                       'sensitivity': self._fold_results[i]['evaluation']['sensitivity'],
+                                       'specificity': self._fold_results[i]['evaluation']['specificity'],
+                                       'ppv': self._fold_results[i]['evaluation']['ppv'],
+                                       'npv': self._fold_results[i]['evaluation']['npv']}, index=['i', ])
+            results_df.to_csv(os.path.join(container_dir, 'results_fold-' + str(i) + '.tsv'),
+                              index=False, sep='\t', encoding='utf-8')
+            results_folds.append(results_df)
+
+        all_subjects = pd.concat(subjects_folds)
+        all_subjects.to_csv(os.path.join(output_dir, 'subjects.tsv'),
+                            index=False, sep='\t', encoding='utf-8')
+
+        all_results = pd.concat(results_folds)
+        all_results.to_csv(os.path.join(output_dir, 'results.tsv'),
+                           index=False, sep='\t', encoding='utf-8')
+
+        mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
+        mean_results.to_csv(os.path.join(output_dir, 'mean_results.tsv'),
+                            index=False, sep='\t', encoding='utf-8')
+        print("Mean results of the classification:")
+        print("Balanced accuracy: %s" %(mean_results['balanced_accuracy'].to_string(index = False)))
+        print("specificity: %s" % (mean_results['specificity'].to_string(index=False)))
+        print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
+        print("auc: %s" % (mean_results['auc'].to_string(index=False)))
 
 class RepeatedHoldOut(ClassificationValidation):
     """

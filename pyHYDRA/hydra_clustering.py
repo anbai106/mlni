@@ -1,5 +1,4 @@
-from .clustering import RB_RepeatedHoldOut_DualSVM_Subtype
-from .classification import RB_RepeatedHoldOut_DualSVM_Classification
+from .clustering import RB_DualSVM_Subtype
 from .base import RB_Input
 import os, pickle
 from .utils import make_cv_partition
@@ -13,11 +12,11 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=None, cv_strategy='hold_out',
-            classification=False, save_models=False, cluster_predefined_c=0.25, class_weight_balanced=True,
-            weight_initialization_type='DPP', num_iteration=50, num_consensus=20, tol=1e-8, n_threads=8, verbose=False):
+def clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=None, cv_strategy='hold_out', save_models=False,
+            cluster_predefined_c=0.25, class_weight_balanced=True, weight_initialization_type='DPP', num_iteration=50,
+            num_consensus=20, tol=1e-8, n_threads=8, verbose=False):
     """
-    pyhydra core function
+    pyhydra core function for clustering
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
@@ -29,10 +28,9 @@ def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=
         k_min: int, minimum k (number of clusters)
         k_max: int, maximum k (number of clusters)
         cv_repetition: int, number of repetitions for cross-validation (CV)
-        covariate_tsv: str, path to the tsv containing the covariates, eg., age or sex. The header (first 3 columns) of
+        covariate_tsv: str, path to the tsv containing the covaria`tes, eg., age or sex. The header (first 3 columns) of
                      the tsv file is the same as the feature_tsv, following the BIDS convention.
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
-        classification: Bool, if SVM classification should be performed, default is False
         save_models: Bool, if save all models during CV. Default is False to save space.
                       Set true only if you are going to apply the trained model to unseen data.
         cluster_predefined_c: Float, default is 0.25. The predefined best c if you do not want to perform a nested CV to
@@ -46,10 +44,10 @@ def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=
         n_threads: int, default is 8. The number of threads to run model in parallel.
         verbose: Bool, default is False. If the output message is verbose.
 
-    Returns: classification or clustering outputs.
+    Returns: clustering outputs.
 
     """
-    print('pyhydra for a binary classification or semi-supervised clustering...')
+    print('pyhydra for semi-supervised clustering...')
     if covariate_tsv == None:
         input_data = RB_Input(feature_tsv, covariate_tsv=None)
     else:
@@ -57,29 +55,29 @@ def pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=
 
     ## data split
     print('Data split was performed based on validation strategy: %s...\n' % cv_strategy)
-    ## check if data split has been done, if yes, the pickle file is there
-    if os.path.isfile(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl')):
-        split_index = pickle.load(open(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl'), 'rb'))
-    else:
-        split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition)
+    if cv_strategy == "hold_out":
+        ## check if data split has been done, if yes, the pickle file is there
+        if os.path.isfile(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl')):
+            split_index = pickle.load(open(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl'), 'rb'))
+        else:
+            split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition)
+    elif cv_strategy == "k_fold":
+        ## check if data split has been done, if yes, the pickle file is there
+        if os.path.isfile(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-fold.pkl')):
+            split_index = pickle.load(open(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-fold.pkl'), 'rb'))
+        else:
+            split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition)
+
     print('Data split has been done!\n')
 
-    ## Check if classification should be done with nested CV followed by this paper: 'Reproducible Evaluation of Diffusion MRI Features for Automatic Classification of Patients with Alzheimer’s Disease'
-    if classification:
-        print('Starts binary classification...')
-        ## Here, we perform a nested CV (outer CV with defined times repeated hold out, inner CV with 10-fold grid search) for global classification.
-        wf_classification = RB_RepeatedHoldOut_DualSVM_Classification(input_data, split_index, os.path.join(output_dir, 'classification'),
-                                        n_threads, cv_repetition, balanced=class_weight_balanced)
-        wf_classification.run()
-    else:
-        print('Starts semi-supervised clustering...')
-        ## Here, semi-supervised clustering
-        wf_clustering = RB_RepeatedHoldOut_DualSVM_Subtype(input_data, feature_tsv, split_index, cv_repetition, k_min, k_max,
-                                                           os.path.join(output_dir, 'clustering'), balanced=class_weight_balanced,
-                                                           num_consensus=num_consensus, num_iteration=num_iteration,
-                                                           tol=tol, predefined_c=cluster_predefined_c,
-                                                           weight_initialization_type=weight_initialization_type,
-                                                           save_models=save_models, verbose=verbose)
+    print('Starts semi-supervised clustering...')
+    ## Here, semi-supervised clustering
+    wf_clustering = RB_DualSVM_Subtype(input_data, feature_tsv, split_index, cv_repetition, k_min, k_max,
+                                                       os.path.join(output_dir, 'clustering'), balanced=class_weight_balanced,
+                                                       num_consensus=num_consensus, num_iteration=num_iteration,
+                                                       tol=tol, predefined_c=cluster_predefined_c,
+                                                       weight_initialization_type=weight_initialization_type,
+                                                       n_threads=n_threads, save_models=save_models, verbose=verbose)
 
-        wf_clustering.run()
-        print('Finish...')
+    wf_clustering.run()
+    print('Finish...')
