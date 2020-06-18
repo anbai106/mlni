@@ -72,38 +72,33 @@ We offer a toy dataset in the folder of **pyHYDRA/data**.
 
 ### Running pyHYDRA for clustering CN vs Subtype1 vs Subtype2 vs ...:
 ```
-from pyHYDRA.hydra import pyhydra
+from from pyHYDRA.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
 k_max=8
 cv_repetition=100
-classification=True
-pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition)
+clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition)
 ```
 Note that the above example assume that the input features have been corrected by covariate effects, such as age and sex, if not, one can run:
 ```
-from pyHYDRA.hydra import pyhydra
+from from pyHYDRA.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
 k_max=8
 cv_repetition=100
-classification=True
 covariate_tsv="pyHYDRA/data/test_covariate.tsv"
-pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=covariate_tsv)
+clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=covariate_tsv)
 ```
 
 ### Running pyHYDRA for binary classification CN vs PT:
 ```
-from pyHYDRA.hydra import pyhydra
+from pyHYDRA.adml_classification import classification
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
-k_min=2
-k_max=8
 cv_repetition=250
-classification=True
-pyhydra(feature_tsv, output_dir, k_min, k_max, cv_repetition, classification=classification)
+classification(feature_tsv, output_dir, cv_repetition)
 ```
 
 ## Citing this work

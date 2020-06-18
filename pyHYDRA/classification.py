@@ -120,155 +120,6 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
         self._algorithm.save_weights(classifier, x, classifier_dir)
         self._validation.save_results(self._output_dir)
 
-class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
-    '''
-    Linear SVM with input X, not with kernel method for regional features.
-    '''
-
-    def __init__(self, x, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
-        self._x = x
-        self._y = y
-        self._balanced = balanced
-        self._grid_search_folds = grid_search_folds
-        self._c_range = c_range
-        self._n_threads = n_threads
-
-    def _launch_svc(self, x_train, x_test, y_train, y_test, c):
-
-        if self._balanced:
-            svc = SVC(C=c, probability=False, tol=1e-6, class_weight='balanced', kernel='linear')
-        else:
-            svc = SVC(C=c, probability=False, tol=1e-6, kernel='linear')
-
-        svc.fit(x_train, y_train)
-        y_hat_train = svc.predict(x_train)
-        y_hat = svc.predict(x_test)
-        proba_test = svc.predict_proba(x_test)[:, 1]
-        auc = roc_auc_score(y_test, proba_test)
-
-        return svc, y_hat, auc, y_hat_train
-
-    def _grid_search(self, x_train, x_test, y_train, y_test, c):
-
-        _, y_hat, _, _ = self._launch_svc(x_train, x_test, y_train, y_test, c)
-        res = evaluate_prediction(y_test, y_hat)
-
-        return res['balanced_accuracy']
-
-    def _select_best_parameter(self, async_result):
-
-        c_values = []
-        accuracies = []
-        for fold in async_result.keys():
-            best_c = -1
-            best_acc = -1
-
-            for c, async_acc in async_result[fold].items():
-
-                acc = async_acc.get()
-                if acc > best_acc:
-                    best_c = c
-                    best_acc = acc
-            c_values.append(best_c)
-            accuracies.append(best_acc)
-
-        best_acc = np.mean(accuracies)
-        best_c = np.power(10, np.mean(np.log10(c_values)))
-
-        return {'c': best_c, 'balanced_accuracy': best_acc}
-
-    def evaluate(self, train_index, test_index):
-
-        inner_pool = ThreadPool(self._n_threads)
-        async_result = {}
-        for i in range(self._grid_search_folds):
-            async_result[i] = {}
-
-        outer_x = self._x[train_index, :]
-        y_train = self._y[train_index]
-
-        skf = StratifiedKFold(n_splits=self._grid_search_folds, shuffle=True)
-        inner_cv = list(skf.split(np.zeros(len(y_train)), y_train))
-
-        for i in range(len(inner_cv)):
-            inner_train_index, inner_test_index = inner_cv[i]
-
-            inner_x = outer_x[inner_train_index, :]
-            x_test_inner = outer_x[inner_test_index, :]
-            y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
-
-            for c in self._c_range:
-                async_result[i][c] = inner_pool.apply_async(self._grid_search,
-                                                            (inner_x, x_test_inner,
-                                                             y_train_inner, y_test_inner, c))
-        inner_pool.close()
-        inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
-
-        best_parameter = self._select_best_parameter(async_result)
-        x_test = self._x[test_index, :]
-        y_train, y_test = self._y[train_index], self._y[test_index]
-
-        _, y_hat, auc, y_hat_train = self._launch_svc(outer_x, x_test, y_train, y_test, best_parameter['c'])
-
-        result = dict()
-        result['best_parameter'] = best_parameter
-        result['evaluation'] = evaluate_prediction(y_test, y_hat)
-        result['evaluation_train'] = evaluate_prediction(y_train, y_hat_train)
-        result['y_hat'] = y_hat
-        result['y_hat_train'] = y_hat_train
-        result['y'] = y_test
-        result['y_train'] = y_train
-        result['y_index'] = test_index
-        result['x_index'] = train_index
-        result['auc'] = auc
-
-        return result
-
-    def apply_best_parameters(self, results_list):
-
-        best_c_list = []
-        bal_acc_list = []
-
-        for result in results_list:
-            best_c_list.append(result['best_parameter']['c'])
-            bal_acc_list.append(result['best_parameter']['balanced_accuracy'])
-
-        # 10^(mean of log10 of best Cs of each fold) is selected
-        best_c = np.power(10, np.mean(np.log10(best_c_list)))
-        # Mean balanced accuracy
-        mean_bal_acc = np.mean(bal_acc_list)
-
-        if self._balanced:
-            svc = SVC(C=best_c, probability=True, tol=1e-6, class_weight='balanced', kernel='linear')
-        else:
-            svc = SVC(C=best_c, probability=True, tol=1e-6, kernel='linear')
-
-        svc.fit(self._x, self._y)
-
-        return svc, {'c': best_c, 'balanced_accuracy': mean_bal_acc}
-
-    def save_classifier(self, classifier, output_dir):
-
-        np.savetxt(os.path.join(output_dir, 'dual_coefficients.txt'), classifier.dual_coef_)
-        np.savetxt(os.path.join(output_dir, 'support_vectors_indices.txt'), classifier.support_)
-        np.savetxt(os.path.join(output_dir, 'intersect.txt'), classifier.intercept_)
-
-    def save_weights(self, classifier, x, output_dir):
-
-        dual_coefficients = classifier.dual_coef_
-        sv_indices = classifier.support_
-
-        weighted_sv = dual_coefficients.transpose() * x[sv_indices]
-        weights = np.sum(weighted_sv, 0)
-
-        np.savetxt(os.path.join(output_dir, 'weights.txt'), weights)
-
-        return weights
-
-    def save_parameters(self, parameters_dict, output_dir):
-        with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
-            json.dump(parameters_dict, f)
-
 class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
     '''
     Dual SVM with precomputed linear kernel for regional features.
@@ -299,9 +150,9 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
     def _grid_search(self, kernel_train, x_test, y_train, y_test, c):
 
         _, y_hat, _, _ = self._launch_svc(kernel_train, x_test, y_train, y_test, c)
-        res = evaluate_prediction(y_test, y_hat)
+        ba = evaluate_prediction(y_test, y_hat)['balanced_accuracy']
 
-        return res['balanced_accuracy']
+        return ba
 
     def _select_best_parameter(self, async_result):
 
@@ -313,7 +164,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
 
             for c, async_acc in async_result[fold].items():
 
-                acc = async_acc.get()
+                acc = async_acc
                 if acc > best_acc:
                     best_c = c
                     best_acc = acc
@@ -346,9 +197,10 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
             y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
 
             for c in self._c_range:
-                async_result[i][c] = inner_pool.apply_async(self._grid_search,
-                                                            (inner_kernel, x_test_inner,
-                                                             y_train_inner, y_test_inner, c))
+                print("Inner CV for C=%f..." % c)
+                results = inner_pool.apply_async(self._grid_search, args=(inner_kernel, x_test_inner, y_train_inner,
+                                                                          y_test_inner, c))
+                async_result[i][c] = results.get()
         inner_pool.close()
         inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
 
@@ -440,15 +292,15 @@ class KFoldCV(ClassificationValidation):
         async_result = {}
 
         for i in range(n_folds):
-
+            print("Repetition %d during CV..." % i)
             train_index, test_index = self._cv[i]
-            async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate, (train_index, test_index))
-
+            results = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
+            async_result[i] = results.get()
         async_pool.close()
         async_pool.join()
 
         for i in range(n_folds):
-            self._fold_results.append(async_result[i].get())
+            self._fold_results.append(async_result[i])
 
         ## save the mean of the best models
         self._classifier, self._best_params = self._ml_algorithm.apply_best_parameters(self._fold_results)
@@ -531,18 +383,19 @@ class RepeatedHoldOut(ClassificationValidation):
         async_result = {}
 
         for i in range(self._n_iterations):
-
+            print("Repetition %d during CV..." % i)
             train_index, test_index = self._cv[i]
             if inner_cv:
-                async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate, (train_index, test_index))
+                results = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
+                async_result[i] = results.get()
             else:
-                async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate_no_cv, (train_index, test_index))
+                raise Exception("We always do nested CV")
 
         async_pool.close()
         async_pool.join()
 
         for i in range(self._n_iterations):
-            self._split_results.append(async_result[i].get())
+            self._split_results.append(async_result[i])
 
         self._classifier, self._best_params = self._ml_algorithm.apply_best_parameters(self._split_results)
         return self._classifier, self._best_params, self._split_results
@@ -675,3 +528,153 @@ class RepeatedHoldOut(ClassificationValidation):
     def _compute_average_test_accuracy(self, y_list, yhat_list):
 
         return evaluate_prediction(y_list, yhat_list)['balanced_accuracy']
+
+class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
+    '''
+    Linear SVM with input X, not with kernel method for regional features.
+    '''
+
+    def __init__(self, x, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
+        self._x = x
+        self._y = y
+        self._balanced = balanced
+        self._grid_search_folds = grid_search_folds
+        self._c_range = c_range
+        self._n_threads = n_threads
+
+    def _launch_svc(self, x_train, x_test, y_train, y_test, c):
+
+        if self._balanced:
+            svc = SVC(C=c, probability=True, tol=1e-6, class_weight='balanced', kernel='linear')
+        else:
+            svc = SVC(C=c, probability=True, tol=1e-6, kernel='linear')
+
+        svc.fit(x_train, y_train)
+        y_hat_train = svc.predict(x_train)
+        y_hat = svc.predict(x_test)
+        proba_test = svc.predict_proba(x_test)[:, 1]
+        auc = roc_auc_score(y_test, proba_test)
+
+        return svc, y_hat, auc, y_hat_train
+
+    def _grid_search(self, x_train, x_test, y_train, y_test, c):
+
+        _, y_hat, _, _ = self._launch_svc(x_train, x_test, y_train, y_test, c)
+        ba = evaluate_prediction(y_test, y_hat)['balanced_accuracy']
+
+        return ba
+
+    def _select_best_parameter(self, async_result):
+
+        c_values = []
+        accuracies = []
+        for fold in async_result.keys():
+            best_c = -1
+            best_acc = -1
+
+            for c, async_acc in async_result[fold].items():
+
+                acc = async_acc
+                if acc > best_acc:
+                    best_c = c
+                    best_acc = acc
+            c_values.append(best_c)
+            accuracies.append(best_acc)
+
+        best_acc = np.mean(accuracies)
+        best_c = np.power(10, np.mean(np.log10(c_values)))
+
+        return {'c': best_c, 'balanced_accuracy': best_acc}
+
+    def evaluate(self, train_index, test_index):
+
+        inner_pool = ThreadPool(self._n_threads)
+        async_result = {}
+        for i in range(self._grid_search_folds):
+            async_result[i] = {}
+
+        outer_x = self._x[train_index, :]
+        y_train = self._y[train_index]
+
+        skf = StratifiedKFold(n_splits=self._grid_search_folds, shuffle=True)
+        inner_cv = list(skf.split(np.zeros(len(y_train)), y_train))
+
+        for i in range(len(inner_cv)):
+            inner_train_index, inner_test_index = inner_cv[i]
+
+            inner_x = outer_x[inner_train_index, :]
+            x_test_inner = outer_x[inner_test_index, :]
+            y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
+
+            for c in self._c_range:
+                print("Inner CV for C=%f..." % c)
+                results = inner_pool.apply_async(self._grid_search, args=(inner_x, x_test_inner, y_train_inner,
+                                                                                     y_test_inner, c))
+                async_result[i][c] = results.get()
+        inner_pool.close()
+        inner_pool.join() ##
+
+        best_parameter = self._select_best_parameter(async_result)
+        x_test = self._x[test_index, :]
+        y_train, y_test = self._y[train_index], self._y[test_index]
+
+        _, y_hat, auc, y_hat_train = self._launch_svc(outer_x, x_test, y_train, y_test, best_parameter['c'])
+
+        result = dict()
+        result['best_parameter'] = best_parameter
+        result['evaluation'] = evaluate_prediction(y_test, y_hat)
+        result['evaluation_train'] = evaluate_prediction(y_train, y_hat_train)
+        result['y_hat'] = y_hat
+        result['y_hat_train'] = y_hat_train
+        result['y'] = y_test
+        result['y_train'] = y_train
+        result['y_index'] = test_index
+        result['x_index'] = train_index
+        result['auc'] = auc
+
+        return result
+
+    def apply_best_parameters(self, results_list):
+
+        best_c_list = []
+        bal_acc_list = []
+
+        for result in results_list:
+            best_c_list.append(result['best_parameter']['c'])
+            bal_acc_list.append(result['best_parameter']['balanced_accuracy'])
+
+        # 10^(mean of log10 of best Cs of each fold) is selected
+        best_c = np.power(10, np.mean(np.log10(best_c_list)))
+        # Mean balanced accuracy
+        mean_bal_acc = np.mean(bal_acc_list)
+
+        if self._balanced:
+            svc = SVC(C=best_c, probability=True, tol=1e-6, class_weight='balanced', kernel='linear')
+        else:
+            svc = SVC(C=best_c, probability=True, tol=1e-6, kernel='linear')
+
+        svc.fit(self._x, self._y)
+
+        return svc, {'c': best_c, 'balanced_accuracy': mean_bal_acc}
+
+    def save_classifier(self, classifier, output_dir):
+
+        np.savetxt(os.path.join(output_dir, 'dual_coefficients.txt'), classifier.dual_coef_)
+        np.savetxt(os.path.join(output_dir, 'support_vectors_indices.txt'), classifier.support_)
+        np.savetxt(os.path.join(output_dir, 'intersect.txt'), classifier.intercept_)
+
+    def save_weights(self, classifier, x, output_dir):
+
+        dual_coefficients = classifier.dual_coef_
+        sv_indices = classifier.support_
+
+        weighted_sv = dual_coefficients.transpose() * x[sv_indices]
+        weights = np.sum(weighted_sv, 0)
+
+        np.savetxt(os.path.join(output_dir, 'weights.txt'), weights)
+
+        return weights
+
+    def save_parameters(self, parameters_dict, output_dir):
+        with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
+            json.dump(parameters_dict, f)
