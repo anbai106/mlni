@@ -54,11 +54,12 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
                                                      balanced=self._balanced,
                                                      grid_search_folds=self._grid_search_folds,
                                                      c_range=self._c_range,
-                                                     n_threads=self._n_threads)
+                                                     n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = RepeatedHoldOut(self._algorithm, n_iterations=self._n_iterations, test_size=self._test_size)
 
-        classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads, splits_indices=self._split_index)
+        classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
+                                                                     splits_indices=self._split_index, verbose=self._verbose)
         classifier_dir = os.path.join(self._output_dir, 'classifier')
         if not os.path.exists(classifier_dir):
             os.makedirs(classifier_dir)
@@ -124,13 +125,15 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
     '''
     Dual SVM with precomputed linear kernel for regional features.
     '''
-    def __init__(self, kernel, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
+    def __init__(self, kernel, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15,
+                 verbose=False):
         self._kernel = kernel
         self._y = y
         self._balanced = balanced
         self._grid_search_folds = grid_search_folds
         self._c_range = c_range
         self._n_threads = n_threads
+        self._verbose = verbose
 
     def _launch_svc(self, kernel_train, x_test, y_train, y_test, c):
 
@@ -164,7 +167,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
 
             for c, async_acc in async_result[fold].items():
 
-                acc = async_acc
+                acc = async_acc.get()
                 if acc > best_acc:
                     best_c = c
                     best_acc = acc
@@ -197,10 +200,10 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
             y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
 
             for c in self._c_range:
-                print("Inner CV for C=%f..." % c)
-                results = inner_pool.apply_async(self._grid_search, args=(inner_kernel, x_test_inner, y_train_inner,
+                if self._verbose:
+                    print("Inner CV for C=%f..." % c)
+                async_result[i][c] = inner_pool.apply_async(self._grid_search, args=(inner_kernel, x_test_inner, y_train_inner,
                                                                           y_test_inner, c))
-                async_result[i][c] = results.get()
         inner_pool.close()
         inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
 
@@ -280,7 +283,7 @@ class KFoldCV(ClassificationValidation):
         self._best_params = None
         self._cv = None
 
-    def validate(self, y, n_folds=10, n_threads=15, splits_indices=None):
+    def validate(self, y, n_folds=10, n_threads=15, splits_indices=None, verbose=False):
 
         if splits_indices is None:
             skf = StratifiedKFold(n_splits=n_folds, shuffle=True, )
@@ -292,15 +295,15 @@ class KFoldCV(ClassificationValidation):
         async_result = {}
 
         for i in range(n_folds):
-            print("Repetition %d during CV..." % i)
+            if verbose:
+                print("Repetition %d of CV..." % i)
             train_index, test_index = self._cv[i]
-            results = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
-            async_result[i] = results.get()
+            async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
         async_pool.close()
         async_pool.join()
 
         for i in range(n_folds):
-            self._fold_results.append(async_result[i])
+            self._fold_results.append(async_result[i].get())
 
         ## save the mean of the best models
         self._classifier, self._best_params = self._ml_algorithm.apply_best_parameters(self._fold_results)
@@ -372,7 +375,7 @@ class RepeatedHoldOut(ClassificationValidation):
         self._bal_accuracy_resampled_t = None
         self._bal_accuracy_corrected_resampled_t = None
 
-    def validate(self, y, n_threads=15, splits_indices=None, inner_cv=True):
+    def validate(self, y, n_threads=15, splits_indices=None, inner_cv=True, verbose=False):
 
         if splits_indices is None:
             splits = StratifiedShuffleSplit(n_splits=self._n_iterations, test_size=self._test_size)
@@ -383,11 +386,11 @@ class RepeatedHoldOut(ClassificationValidation):
         async_result = {}
 
         for i in range(self._n_iterations):
-            print("Repetition %d during CV..." % i)
+            if verbose:
+                print("Repetition %d of CV..." % i)
             train_index, test_index = self._cv[i]
             if inner_cv:
-                results = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
-                async_result[i] = results.get()
+                async_result[i] = async_pool.apply_async(self._ml_algorithm.evaluate, args=(train_index, test_index))
             else:
                 raise Exception("We always do nested CV")
 
@@ -395,7 +398,7 @@ class RepeatedHoldOut(ClassificationValidation):
         async_pool.join()
 
         for i in range(self._n_iterations):
-            self._split_results.append(async_result[i])
+            self._split_results.append(async_result[i].get())
 
         self._classifier, self._best_params = self._ml_algorithm.apply_best_parameters(self._split_results)
         return self._classifier, self._best_params, self._split_results
@@ -534,13 +537,15 @@ class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
     Linear SVM with input X, not with kernel method for regional features.
     '''
 
-    def __init__(self, x, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15):
+    def __init__(self, x, y, balanced=True, grid_search_folds=10, c_range=np.logspace(-6, 2, 17), n_threads=15,
+                 verbose=False):
         self._x = x
         self._y = y
         self._balanced = balanced
         self._grid_search_folds = grid_search_folds
         self._c_range = c_range
         self._n_threads = n_threads
+        self._verbose = verbose
 
     def _launch_svc(self, x_train, x_test, y_train, y_test, c):
 
@@ -574,7 +579,7 @@ class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
 
             for c, async_acc in async_result[fold].items():
 
-                acc = async_acc
+                acc = async_acc.get()
                 if acc > best_acc:
                     best_c = c
                     best_acc = acc
@@ -607,10 +612,10 @@ class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
             y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
 
             for c in self._c_range:
-                print("Inner CV for C=%f..." % c)
-                results = inner_pool.apply_async(self._grid_search, args=(inner_x, x_test_inner, y_train_inner,
+                if self._verbose:
+                    print("Inner CV for C=%f..." % c)
+                async_result[i][c] = inner_pool.apply_async(self._grid_search, args=(inner_x, x_test_inner, y_train_inner,
                                                                                      y_test_inner, c))
-                async_result[i][c] = results.get()
         inner_pool.close()
         inner_pool.join() ##
 
