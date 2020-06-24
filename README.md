@@ -20,7 +20,7 @@ Activate the virtual environment:
 ```
 Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
-3) pip install -r requirements.txt
+3) ./install_requirements.sh
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```

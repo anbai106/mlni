@@ -1,7 +1,4 @@
-################  Requirements for installation  ######################
-##### Requirements with Version Specifiers ######
-
 numpy
-sklearn
+scikit-learn
 pandas
 nibabel
