@@ -24,7 +24,7 @@ Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```
-3) pip install pyHYDRA==1.0.0
+3) pip install pyHYDRA==1.0.1
 ```
 
 ### Use pyHYDRA from commandline:
