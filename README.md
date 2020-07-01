@@ -75,7 +75,7 @@ We offer a toy dataset in the folder of **pyHYDRA/data**.
 
 ### Running pyHYDRA for clustering CN vs Subtype1 vs Subtype2 vs ...:
 ```
-from from pyHYDRA.hydra_clustering import clustering
+from from pyhydra.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
