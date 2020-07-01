@@ -24,11 +24,14 @@ Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```
-3) pip install pyHYDRA==1.0.1
+3) pip install pyhydra==1.0.2
 ```
 
 ### Use pyHYDRA from commandline:
-To come soon.
+Go to the root folder of pyHYDRA where the **setup.py** locates:
+```
+pip install -e .
+```
 
 ### Use pyHYDRA as a developer version:
 ```
@@ -82,7 +85,7 @@ clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition)
 ```
 Note that the above example assume that the input features have been corrected by covariate effects, such as age and sex, if not, one can run:
 ```
-from from pyHYDRA.hydra_clustering import clustering
+from from pyhydra.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
@@ -91,11 +94,11 @@ cv_repetition=100
 covariate_tsv="pyHYDRA/data/test_covariate.tsv"
 clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=covariate_tsv)
 ```
-One more tip about clustering with pyHYDRA: Since HYDRA performs simultaneously clustering based on linear SVM classifiers, eventually constructing a non-linear polytope. The hyperparameter C by default equals 0.25 and not nested cross-validated. One would hope to embed the nested CV procedure inside the clustering framework. However, the major concern is the huge Computational burden due to the clustering nature. a compromise is to use the global binary classification in pyHYDRA (nested CV) to find the optimal C, based on the global population (i.e., healthy controls vs patients). This chosen C will be used for the consequently semi-supervised clustering in pyHYDRA. The essential key of HYDRA algorithm is built based on the idea of **weighted samples** in [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/#weights_for_data_instances). 
+One more tip about clustering with pyHYDRA: Since HYDRA performs simultaneously clustering based on linear SVM classifiers, eventually constructing a non-linear polytope. The hyperparameter C by default equals 0.25 and not nested cross-validated. One would hope to embed the nested CV procedure inside the clustering framework. However, the major concern is the huge Computational burden due to the clustering nature. a compromise is to use the global binary classification in pyHYDRA (nested CV) to find the optimal C, based on the global population (i.e., healthy controls vs patients). This chosen C will be used for the consequently semi-supervised clustering in pyHYDRA. The essential key of HYDRA algorithm is built based on the idea of **weighted samples** in [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/#weights_for_data_instances).
 
 ### Running pyHYDRA for binary classification CN vs PT:
 ```
-from pyHYDRA.adml_classification import classification
+from pyhydra.adml_classification import classification
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 cv_repetition=250

@@ -20,10 +20,10 @@ def clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_t
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
-                                 "ii) the first column is the participant_id;"
-                                 "iii) the second column should be the session_id;"
-                                 "iv) the third column should be the diagnosis;"
-                                 "v) the following column should be the extracted features. e.g., the ROI features"
+                                 "i) the first column is the participant_id;"
+                                 "ii) the second column should be the session_id;"
+                                 "iii) the third column should be the diagnosis;"
+                                 "The following column should be the extracted features. e.g., the ROI features"
         output_dir: str, path to store the clustering results
         k_min: int, minimum k (number of clusters)
         k_max: int, maximum k (number of clusters)

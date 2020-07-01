@@ -20,11 +20,11 @@ def classification(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
-                                 "ii) the first column is the participant_id;"
-                                 "iii) the second column should be the session_id;"
-                                 "iv) the third column should be the diagnosis;"
-                                 "v) the following column should be the extracted features. e.g., the ROI features"
-        output_dir: str, path to store the clustering results
+                                 "i) the first column is the participant_id;"
+                                 "ii) the second column should be the session_id;"
+                                 "iii) the third column should be the diagnosis;"
+                                 "The following column should be the extracted features. e.g., the ROI features"
+        output_dir: str, path to store the classification results.
         cv_repetition: int, number of repetitions for cross-validation (CV)
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
         class_weight_balanced: Bool, default is True. If the two groups are balanced.
