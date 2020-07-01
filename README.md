@@ -28,7 +28,7 @@ Finally, we need install pyHYDRA from PyPi:
 ```
 
 ### Use pyHYDRA from commandline:
-Go to the root folder of pyHYDRA where the **setup.py** locates:
+After installing all dependencies in the **requirements.txt** file, go to the root folder of pyHYDRA where the **setup.py** locates:
 ```
 pip install -e .
 ```
