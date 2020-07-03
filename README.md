@@ -107,7 +107,7 @@ classification(feature_tsv, output_dir, cv_repetition)
 
 ## Citing this work
 ### If you use this software for clustering:
-> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Poster in conference](./pyHYDRA/data/OHBM2020_poster_Junhao_Wen.pdf) 
+> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Poster](https://github.com/anbai106/pyHYDRA/blob/master/data/OHBM2020_poster_Junhao_Wen.pdf)
 
 > Varol, E., Sotiras, A., Davatzikos, C., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
 
