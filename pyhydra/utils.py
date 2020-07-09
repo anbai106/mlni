@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 import os, pickle
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.cluster import KMeans
@@ -206,6 +207,20 @@ def proportional_assign(l, d):
 
     return S
 
+def check_symmetric(a, rtol=1e-05, atol=1e-08):
+    """
+    Check if the numpy array is symmetric or not
+    Args:
+        a:
+        rtol:
+        atol:
+
+    Returns:
+
+    """
+    result = np.allclose(a, a.T, rtol=rtol, atol=atol)
+    return result
+
 def consensus_clustering(clustering_results, k):
     """
     This function performs consensus clustering on a co-occurence matrix
@@ -226,15 +241,23 @@ def consensus_clustering(clustering_results, k):
     ## here is to compute the Laplacian matrix
     Laplacian = np.subtract(np.diag(np.sum(cooccurence_matrix, axis=1)), cooccurence_matrix)
 
-    Laplancian_norm = np.subtract(np.eye(num_pt), np.matmul(np.matmul(np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1))), cooccurence_matrix), np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1)))))
+    Laplacian_norm = np.subtract(np.eye(num_pt), np.matmul(np.matmul(np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1))), cooccurence_matrix), np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1)))))
     ## replace the nan with 0
-    Laplancian_norm = np.nan_to_num(Laplancian_norm)
-    ## extract the eigen value and vector
-    evalue, evector = np.linalg.eig(Laplancian_norm)
+    Laplacian_norm = np.nan_to_num(Laplacian_norm)
+
+    ## check if the Laplacian norm is symmetric or not, because matlab eig function will automatically check this, but not in numpy or scipy
+    if check_symmetric(Laplacian_norm):
+        ## extract the eigen value and vector
+        ## matlab eig equivalence is eigh, not eig from numpy or scipy, see this post: https://stackoverflow.com/questions/8765310/scipy-linalg-eig-return-complex-eigenvalues-for-covariance-matrix
+        ## Note, the eigenvector is not unique, thus the matlab and python eigenvector may be different, but this will not affect the results.
+        evalue, evector = scipy.linalg.eigh(Laplacian_norm)
+    else:
+        # evalue, evector = np.linalg.eig(Laplacian_norm)
+        raise Exception("The Laplacian matrix should be symmetric here...")
 
     ## check if the eigen vector is complex
     if np.any(np.iscomplex(evector)):
-        evalue, evector = np.linalg.eig(Laplacian)
+        evalue, evector = scipy.linalg.eigh(Laplacian)
 
     ## create the kmean algorithm with sklearn
     kmeans = KMeans(n_clusters=k, n_init=20).fit(evector.real[:, 0: k])
