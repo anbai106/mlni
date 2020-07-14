@@ -2,7 +2,7 @@ import abc
 import pandas as pd
 from .utils import GLMcorrection
 import numpy as np
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -92,7 +92,7 @@ class RB_Input(Input):
     def get_x(self):
         ## get the ROI data
         data_feature = self._df_feature.iloc[:, 3:].to_numpy()
-        scaler = StandardScaler()
+        scaler = MinMaxScaler()
         data_feature = scaler.fit_transform(data_feature)
 
         if self._covariate_tsv == None:
@@ -121,12 +121,6 @@ class RB_Input(Input):
             ## correction for the covariate, only retain the pathodological correspondance
             self._x, _ = GLMcorrection(data_feature, np.asarray(self._diagnosis), data_covariate, data_feature, data_covariate)
             
-        return self._x
-
-    def get_x_raw(self):
-        "Get the raw input without correction with covariate for classification"
-        ## get the ROI data
-        self._x = self._df_feature.iloc[:, 3:].to_numpy()
         return self._x
 
     def get_y(self):

@@ -23,7 +23,7 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
-                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), verbose=False):
+                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 0, 17), verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -38,17 +38,16 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
         self._algorithm = None
 
     def run(self):
-        ## by default, we solve the problem using dual solver with a linear kernel. Without the kernel method, because feature dimension is relatively low.
-        x = self._input.get_x_raw()
+        x = self._input.get_x()
         y = self._input.get_y()
         kernel = self._input.get_kernel()
+
         if self._verbose:
             if y[0] == 0:
                 print('For classification, the negative coefficients in the weight map are more likely to be classified as the first label in the diagnose tsv')
             else:
                 print('For classification, the positive coefficients in the weight map are more likely to be classified as the second label in the diagnose tsv')
 
-        # for regional approach, we don't use kernel==precomputed, it seems with python3, precomputed is super slow with ROI-based features.
         self._algorithm = LinearSVMAlgorithmWithPrecomputedKernel(kernel,
                                                      y,
                                                      balanced=self._balanced,
@@ -89,8 +88,7 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
         self._algorithm = None
 
     def run(self):
-        ## by default, we solve the problem using dual solver with a linear kernel. Without the kernel method, because feature dimension is relatively low.
-        x = self._input.get_x_raw()
+        x = self._input.get_x()
         y = self._input.get_y()
         kernel = self._input.get_kernel()
         if self._verbose:
@@ -99,19 +97,15 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
             else:
                 print('For classification, the positive coefficients in the weight map are more likely to be classified as the second label in the diagnose tsv')
 
-        # for regional approach, we don't use kernel==precomputed, it seems with python3, precomputed is super slow with ROI-based features.
-        self._algorithm = LinearSVMAlgorithmWithPrecomputedKernel(kernel,
-                                                     y,
-                                                     balanced=self._balanced,
-                                                     grid_search_folds=self._grid_search_folds,
-                                                     c_range=self._c_range,
-                                                     n_threads=self._n_threads)
+        self._algorithm = LinearSVMAlgorithmWithPrecomputedKernel(kernel, y, balanced=self._balanced,
+                                                     grid_search_folds=self._grid_search_folds, c_range=self._c_range,
+                                                     n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = KFoldCV(self._algorithm)
 
         classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
                                                                      splits_indices=self._split_index,
-                                                                     n_folds=self._n_folds)
+                                                                     n_folds=self._n_folds, verbose=self._verbose)
         classifier_dir = os.path.join(self._output_dir, 'classifier')
         if not os.path.exists(classifier_dir):
             os.makedirs(classifier_dir)
@@ -205,7 +199,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
                 async_result[i][c] = inner_pool.apply_async(self._grid_search, args=(inner_kernel, x_test_inner, y_train_inner,
                                                                           y_test_inner, c))
         inner_pool.close()
-        inner_pool.join() ## TODO, for python3, it seems there is a bug and hang the process without exit here.
+        inner_pool.join()
 
         best_parameter = self._select_best_parameter(async_result)
         x_test = self._kernel[test_index, :][:, train_index]
