@@ -18,7 +18,7 @@ def classification_func(args):
     Returns:
 
     """
-    from adml_classification import classification
+    from .adml_classification import classification
     classification(
         args.feature_tsv,
         args.output_dir,
@@ -38,7 +38,7 @@ def clustering_func(args):
     Returns:
 
     """
-    from hydra_clustering import clustering
+    from .hydra_clustering import clustering
     clustering(
         args.feature_tsv,
         args.output_dir,
