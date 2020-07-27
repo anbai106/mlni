@@ -277,7 +277,7 @@ def cv_cluster_stability(result, k):
     num_pair = 0
     aris = []
     if k == 1:
-        adjusted_rand_index = 0  ## note, here, we manually set it to be 0, because it does not make sense when k==1. TODO, need to clarify if there is really heterogeneity in the data, i.e., k == 1 or k>1
+        adjusted_rand_index = 0  ## note, here, we manually set it to be 0, because it does not make sense when k==1.
     else:
         for i in range(result.shape[1] - 1):
             for j in range(i+1, result.shape[1]):
@@ -507,7 +507,7 @@ def hydra_init_weight(X, y, k, index_pt, index_cn, weight_initialization_type):
     Returns:
 
     """
-    if weight_initialization_type == "DPP":  ##TODO check if the intialization depending on dual or primal problem
+    if weight_initialization_type == "DPP":  ##
         num_subject = y.shape[0]
         W = np.zeros((num_subject, X.shape[1]))
         for j in range(num_subject):

@@ -23,7 +23,7 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
-                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 0, 17), verbose=False):
+                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
