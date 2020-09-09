@@ -75,7 +75,7 @@ We offer a toy dataset in the folder of **pyHYDRA/data**.
 
 ### Running pyHYDRA for clustering CN vs Subtype1 vs Subtype2 vs ...:
 ```
-from from pyhydra.hydra_clustering import clustering
+from pyhydra.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
@@ -85,7 +85,7 @@ clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition)
 ```
 Note that the above example assume that the input features have been corrected by covariate effects, such as age and sex, if not, one can run:
 ```
-from from pyhydra.hydra_clustering import clustering
+from pyhydra.hydra_clustering import clustering
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 k_min=2
