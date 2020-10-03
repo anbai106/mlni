@@ -24,7 +24,7 @@ Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```
-3) pip install pyhydra==1.0.4
+3) pip install pyhydra==1.0.5
 ```
 
 ### Use pyHYDRA from commandline:
@@ -43,7 +43,9 @@ pyHYDRA requires a specific input structure inspired by [BIDS](https://bids.neur
 Some conventions for the group label/diagnosis: -1 represents healthy control (**CN**) and 1 represents patient (**PT**); categorical variables, such as sex, should be encoded to numbers: Female for 0 and Male for 1, for instance.
 
 ### feature and covariate tsv
-The first 3 columns are **participant_id**, **session_id** and **diagnosis**.
+For clustering and classification with ROI features (by default, classification does not take covariate tsv as input), the first 3 columns are **participant_id**, **session_id** and **diagnosis**. 
+
+For classification with voxel-wise images, feature tsv requires an additional column for **path** after the column of **diagnosis**, and no need for other columns.
 
 Example for feature tsv:
 ```
@@ -68,6 +70,19 @@ sub-CLNC0005      ses-M00    1    74.5    1
 sub-CLNC0006      ses-M00    1    44.2    0
 sub-CLNC0007      ses-M00    -1    40.2    0
 sub-CLNC0008      ses-M00    1    43.2    1
+```
+
+Example for feature tsv for voxel-wise classification:
+```
+participant_id    session_id    diagnosis    path ...
+sub-CLNC0001      ses-M00    -1   path1
+sub-CLNC0002      ses-M00    1    path2
+sub-CLNC0003      ses-M00    -1    path3
+sub-CLNC0004      ses-M00    -1    path4
+sub-CLNC0005      ses-M00    1    path5
+sub-CLNC0006      ses-M00    1    path6
+sub-CLNC0007      ses-M00    -1    path7
+sub-CLNC0008      ses-M00    1    path8
 ```
 
 ## Example
@@ -97,11 +112,19 @@ clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_tsv=c
 
 ### Running pyHYDRA for binary classification CN vs PT:
 ```
-from pyhydra.adml_classification import classification
+from pyhydra.adml_classification import classification_roi
 feature_tsv="pyHYDRA/data/test_feature.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 cv_repetition=250
-classification(feature_tsv, output_dir, cv_repetition)
+classification_roi(feature_tsv, output_dir, cv_repetition)
+```
+or
+```
+from pyhydra.adml_classification import classification_voxel
+feature_tsv="pyHYDRA/data/test_feature_voxel.tsv"
+output_dir = "PATH_OUTPUT_DIR"
+cv_repetition=250
+classification_voxel(feature_tsv, output_dir, cv_repetition)
 ```
 
 ## Citing this work

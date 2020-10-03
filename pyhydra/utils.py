@@ -614,3 +614,19 @@ def load_data(image_list, mask=True):
         data = data[:, data_mask]
 
     return data, shape, data_mask
+
+def revert_mask(weights, mask, shape):
+    """
+    Args:
+        weights:
+        mask:
+        shape:
+    Returns:
+    """
+
+    z = np.zeros(np.prod(shape))
+    z[mask] = weights
+
+    new_weights = np.reshape(z, shape)
+
+    return new_weights

@@ -9,7 +9,7 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-def classification_func(args):
+def classification_roi_func(args):
     """
     The default function to run classificaiton.
     Args:
@@ -18,8 +18,28 @@ def classification_func(args):
     Returns:
 
     """
-    from .adml_classification import classification
-    classification(
+    from .adml_classification import classification_roi
+    classification_roi(
+        args.feature_tsv,
+        args.output_dir,
+        args.cv_repetition,
+        args.cv_strategy,
+        args.class_weight_balanced,
+        args.n_threads,
+        args.verbose
+    )
+
+def classification_voxel_func(args):
+    """
+    The default function to run classificaiton.
+    Args:
+        args: args from parser
+
+    Returns:
+
+    """
+    from .adml_classification import classification_voxel
+    classification_voxel(
         args.feature_tsv,
         args.output_dir,
         args.cv_repetition,
@@ -72,18 +92,20 @@ def parse_command_line():
     subparser = parser.add_subparsers(
         title='''Task to perform per needs:''',
         description='''What kind of task do you want to use with pyHYDRA?
-            (clustering, classification).''',
+            (clustering, classification_roi, classification_voxel).''',
         dest='task',
         help='''****** Tasks proposed by pyHYDRA ******''')
 
     subparser.required = True
 
-    ## Add arguments for pyHYDRA classification
-    classification_parser = subparser.add_parser(
-        'classify',
-        help='Perform binary classification following the state-of-the-art in AD-ML(clinica).')
+########################################################################################################################
 
-    classification_parser.add_argument(
+    ## Add arguments for pyHYDRA classification
+    classification_parser_roi = subparser.add_parser(
+        'classify_roi',
+        help='Perform binary classification for ROI features.')
+
+    classification_parser_roi.add_argument(
         'feature_tsv',
         help="Path to the tsv containing extracted feature, following the BIDS convention. The tsv contains the following first columns:"
              "i) the first column is the participant_id. "
@@ -93,45 +115,103 @@ def parse_command_line():
         default=None
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         'output_dir',
         help='Path to store the classification results.',
         default=None
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         'cv_repetition',
         help='Number of repetitions for the chosen cross-validation (CV).',
         default=None, type=int
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         '-cs', '--cv_strategy',
         help='Chosen CV strategy, default is hold_out. ',
         type=str, default='hold_out',
         choices=['k_fold', 'hold_out'],
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         '-cwb', '--class_weight_balanced',
         help='If group samples are balanced, default is True. ',
         default=False, action="store_true"
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         '-nt', '--n_threads',
         help='Number of cores used, default is 4',
         type=int, default=4
     )
 
-    classification_parser.add_argument(
+    classification_parser_roi.add_argument(
         '-v', '--verbose',
         help='Increase output verbosity',
         default=False, action="store_true"
     )
 
-    classification_parser.set_defaults(func=classification_func)
+    classification_parser_roi.set_defaults(func=classification_roi_func)
 
+########################################################################################################################
+
+    ## Add arguments for pyHYDRA classification
+    classification_parser_voxel = subparser.add_parser(
+        'classify_voxel',
+        help='Perform binary classification  for voxel-wise features.')
+
+    classification_parser_voxel.add_argument(
+        'feature_tsv',
+        help="Path to the tsv containing extracted feature, following the BIDS convention. The tsv contains the following first columns:"
+             "i) the first column is the participant_id. "
+             "ii) the second column should be the session_id. "
+             "iii) the third column should be the diagnosis. "
+             "iv) the third column should be the path. "
+             "Following columns are the extracted feature per column",
+        default=None
+    )
+
+    classification_parser_voxel.add_argument(
+        'output_dir',
+        help='Path to store the classification results.',
+        default=None
+    )
+
+    classification_parser_voxel.add_argument(
+        'cv_repetition',
+        help='Number of repetitions for the chosen cross-validation (CV).',
+        default=None, type=int
+    )
+
+    classification_parser_voxel.add_argument(
+        '-cs', '--cv_strategy',
+        help='Chosen CV strategy, default is hold_out. ',
+        type=str, default='hold_out',
+        choices=['k_fold', 'hold_out'],
+    )
+
+    classification_parser_voxel.add_argument(
+        '-cwb', '--class_weight_balanced',
+        help='If group samples are balanced, default is True. ',
+        default=False, action="store_true"
+    )
+
+    classification_parser_voxel.add_argument(
+        '-nt', '--n_threads',
+        help='Number of cores used, default is 4',
+        type=int, default=4
+    )
+
+    classification_parser_voxel.add_argument(
+        '-v', '--verbose',
+        help='Increase output verbosity',
+        default=False, action="store_true"
+    )
+
+    classification_parser_voxel.set_defaults(func=classification_voxel_func)
+
+########################################################################################################################
     ## Add arguments for pyHYDRA clustering
     clustering_parser = subparser.add_parser(
         'cluster',

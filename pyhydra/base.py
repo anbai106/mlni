@@ -1,8 +1,10 @@
 import abc
 import pandas as pd
-from .utils import GLMcorrection
+from .utils import GLMcorrection, load_data, revert_mask
 import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+import os
+import nibabel as nib
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -39,9 +41,6 @@ class Input:
     @abc.abstractmethod
     def get_kernel(self):
         pass
-    @abc.abstractmethod
-    def get_image(self):
-        pass
 
 class ClassificationAlgorithm:
     __metaclass__ = abc.ABCMeta
@@ -71,7 +70,6 @@ class RB_Input(Input):
     """
 
     def __init__(self, feature_tsv, covariate_tsv=None):
-        self._feature_tsv = feature_tsv
         self._covariate_tsv = covariate_tsv
         self._x = None
         self._y = None
@@ -157,3 +155,65 @@ class RB_Input(Input):
         self._kernel = np.matmul(self._x, self._x.transpose())
 
         return self._kernel
+
+class VB_Input(Input):
+
+    def __init__(self, feature_tsv):
+        self._x = None
+        self._y = None
+        self._kernel = None
+        self._images = None
+
+        self._df_feature = pd.read_csv(feature_tsv, sep='\t')
+        if ('participant_id' != list(self._df_feature.columns.values)[0]) or (
+                'session_id' != list(self._df_feature.columns.values)[1]) or \
+                ('diagnosis' != list(self._df_feature.columns.values)[2]) or \
+                ('path' != list(self._df_feature.columns.values)[3]):
+            raise Exception("the data file is not in the correct format."
+                            "Columns should include ['participant_id', 'session_id', 'diagnosis', 'path']")
+        self._subjects = list(self._df_feature['participant_id'])
+        self._sessions = list(self._df_feature['session_id'])
+        self._diagnosis = list(self._df_feature['diagnosis'])
+        self._images = list(self._df_feature['path'])
+
+    def get_x(self):
+
+        print('Loading %d images in total' % len(self._images))
+        self._x, self._orig_shape, self._data_mask = load_data(self._images, mask=True)
+
+        return self._x
+
+    def get_y(self):
+
+        if self._y is not None:
+            return self._y
+
+        unique = sorted(list(set(self._diagnosis)))
+        self._y = np.array([unique.index(x) for x in self._diagnosis])
+        return self._y
+
+    def get_kernel(self):
+        """
+        Calculate the linear kernel
+        :return:
+        """
+        if self._kernel is not None:
+            return self._kernel
+        if self._x is None:
+            self.get_x()
+
+        self._kernel = np.matmul(self._x, self._x.transpose())
+
+        return self._kernel
+    def save_weights_as_nifti(self, weights, output_dir):
+
+        output_filename = os.path.join(output_dir, 'weights.nii.gz')
+        data = revert_mask(weights, self._data_mask, self._orig_shape)
+
+        features = data / abs(data).max()
+
+        img = nib.load(self._images[0])
+
+        output_image = nib.Nifti1Image(features, img.affine)
+
+        nib.save(output_image, output_filename)
