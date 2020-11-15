@@ -233,14 +233,14 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
         svc.fit(kernel_train, y_train)
         y_hat_train = svc.predict(kernel_train)
         y_hat = svc.predict(x_test)
-        proba_test = svc.predict_proba(x_test)[:, 1]
-        auc = roc_auc_score(y_test, proba_test)
+        proba_test_index1 = svc.predict_proba(x_test)[:, 1]
+        auc = roc_auc_score(y_test, proba_test_index1)
 
-        return svc, y_hat, auc, y_hat_train
+        return svc, y_hat, auc, y_hat_train, proba_test_index1
 
     def _grid_search(self, kernel_train, x_test, y_train, y_test, c):
 
-        _, y_hat, _, _ = self._launch_svc(kernel_train, x_test, y_train, y_test, c)
+        _, y_hat, _, _, _ = self._launch_svc(kernel_train, x_test, y_train, y_test, c)
         ba = evaluate_prediction(y_test, y_hat)['balanced_accuracy']
 
         return ba
@@ -299,7 +299,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
         x_test = self._kernel[test_index, :][:, train_index]
         y_train, y_test = self._y[train_index], self._y[test_index]
 
-        _, y_hat, auc, y_hat_train = self._launch_svc(outer_kernel, x_test, y_train, y_test, best_parameter['c'])
+        _, y_hat, auc, y_hat_train, proba_test_index1 = self._launch_svc(outer_kernel, x_test, y_train, y_test, best_parameter['c'])
 
         result = dict()
         result['best_parameter'] = best_parameter
@@ -312,6 +312,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
         result['y_index'] = test_index
         result['x_index'] = train_index
         result['auc'] = auc
+        result['proba_test_index1'] = proba_test_index1
 
         return result
 
@@ -515,7 +516,8 @@ class RepeatedHoldOut(ClassificationValidation):
             iteration_test_subjects_df = pd.DataFrame({'iteration': iteration,
                                                        'y': self._split_results[iteration]['y'],
                                                        'y_hat': self._split_results[iteration]['y_hat'],
-                                                       'subject_index': self._split_results[iteration]['y_index']})
+                                                       'subject_index': self._split_results[iteration]['y_index'],
+                                                      'proba_test_index1': self._split_results[iteration]['proba_test_index1']})
             iteration_test_subjects_df.to_csv(os.path.join(iteration_dir, 'test_subjects.tsv'),
                                               index=False, sep='\t', encoding='utf-8')
             all_test_subjects_list.append(iteration_test_subjects_df)

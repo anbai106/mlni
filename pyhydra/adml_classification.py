@@ -1,7 +1,8 @@
 from .classification import RB_RepeatedHoldOut_DualSVM_Classification, RB_KFold_DualSVM_Classification, VB_RepeatedHoldOut_DualSVM_Classification, VB_KFold_DualSVM_Classification
 from .base import RB_Input, VB_Input
 import os, pickle
-from .utils import make_cv_partition
+from .utils import make_cv_partition, soft_majority_voting
+import pandas as pd
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -13,7 +14,7 @@ __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
 def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
-                           n_threads=8, verbose=False):
+                           n_threads=8, seed=None, verbose=False):
     """
     pyhydra core function for classification for ROI-based features
 
@@ -43,7 +44,7 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
     if os.path.isfile(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl')):
         split_index = pickle.load(open(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl'), 'rb'))
     else:
-        split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition)
+        split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition, seed=seed)
     print('Data split has been done!\n')
 
     print('Starts binary classification...')
@@ -62,7 +63,7 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
     print('Finish...')
 
 def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
-                           n_threads=8, verbose=False):
+                           n_threads=8, seed=None, verbose=False):
     """
     pyhydra core function for classification with voxel-wise features
 
@@ -92,7 +93,7 @@ def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='ho
     if os.path.isfile(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl')):
         split_index = pickle.load(open(os.path.join(output_dir, 'data_split_stratified_' + str(cv_repetition) + '-holdout.pkl'), 'rb'))
     else:
-        split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition)
+        split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition, seed=seed)
     print('Data split has been done!\n')
 
     print('Starts binary classification...')
@@ -108,4 +109,64 @@ def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='ho
     else:
         raise Exception("CV methods have not been implemented")
 
+    print('Finish...')
+
+def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_components_min, num_components_max, num_components_step, cv_repetition, cv_strategy='hold_out',
+            class_weight_balanced=True, n_threads=8, verbose=False):
+    """
+    classification based on the multi-scale feature extracted from opNMF
+    Args:
+    Returns: classification outputs.
+
+    """
+    ### For voxel approach
+    print('Multi-scale ensemble classification...')
+    print('Starts classification for each specific scale...')
+    ### Here, semi-supervised clustering with multi-scale feature reduction learning
+    if (num_components_max - num_components_min) % num_components_step != 0:
+        raise Exception('Number of componnets step should be divisible!')
+
+    ## read the participant tsv
+    df_participant = pd.read_csv(participant_tsv, sep='\t')
+
+    ## create a temp file in the output_dir to save the intermediate tsv files
+    if not os.path.exists(os.path.join(output_dir, 'intermediate')):
+        os.makedirs(os.path.join(output_dir, 'intermediate'))
+
+    ## make the final reuslts folder
+    if not os.path.exists(os.path.join(output_dir, 'ensemble')):
+        os.makedirs(os.path.join(output_dir, 'ensemble'))
+
+    ## C lists
+    C_list = list(range(num_components_min, num_components_max+num_components_step, num_components_step))
+    ## first loop on different initial C.
+    for i in range(len(C_list)):
+        ## create a temp file in the output_dir to save the intermediate tsv files
+        component_output_dir = os.path.join(output_dir, 'component_' + str(i))
+        if not os.path.exists(component_output_dir):
+            os.makedirs(component_output_dir)
+        ### grab the output tsv of each C from opNMF
+        opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'loading_coefficient.tsv')
+        df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
+        if df_participant.shape[0] != df_opnmf.shape[0]:
+            raise Exception("The dimension of the participant_tsv and opNMF are not consistent!")
+        ### make sure the row order is consistent with the participant_tsv
+        df_opnmf = df_opnmf.set_index('participant_id')
+        df_opnmf = df_opnmf.reindex(index=df_participant['participant_id'])
+        df_opnmf = df_opnmf.reset_index()
+        ## replace the path column in df_opnmf to be diagnosis, and save it to temp path for pyHYDRA classification
+        diagnosis_list = list(df_participant['diagnosis'])
+        df_opnmf["path"] = diagnosis_list
+        df_opnmf.rename(columns={'path': 'diagnosis'}, inplace=True)
+        ## save to tsv in a temporal folder
+        opnmf_component_tsv = os.path.join(output_dir, 'intermediate', 'opnmf_component_' + str(i) + '.tsv')
+        df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
+        ## run the classification for K features and set the seed of CV split to 0, so that the splits are the same for
+        ## different scales. Then finally, the ensemble voting can be done.
+        classification_roi(opnmf_component_tsv, component_output_dir, cv_repetition=cv_repetition, cv_strategy=cv_strategy,
+            class_weight_balanced=class_weight_balanced, n_threads=n_threads, verbose=verbose, seed=0)
+
+    ## ensemble soft voting to determine the final classification results
+    print('Computing the final classification with soft voting!\n')
+    soft_majority_voting(output_dir, C_list)
     print('Finish...')
