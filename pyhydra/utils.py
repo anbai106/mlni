@@ -631,6 +631,9 @@ def revert_mask(weights, mask, shape):
 
     return new_weights
 
+def gram_matrix_linear(data):
+    return np.dot(data, data.transpose())
+
 def soft_majority_voting(output_dir, C_list):
     """
     This is to perform soft majority voting for the final classification across different scales of opNMF
