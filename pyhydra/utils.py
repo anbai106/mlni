@@ -3,7 +3,8 @@ import scipy
 import os, pickle
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.cluster import KMeans
-from sklearn.metrics import adjusted_rand_score
+from sklearn.metrics import adjusted_rand_score, accuracy_score
+from sklearn.metrics.ranking import roc_auc_score
 from sklearn.svm import SVC
 from joblib import dump
 import pandas as pd
@@ -631,9 +632,10 @@ def revert_mask(weights, mask, shape):
 
     return new_weights
 
-def soft_majority_voting(output_dir, C_list):
+def soft_majority_voting(output_dir, C_list, cv_repetition):
     """
-    This is to perform soft majority voting for the final classification across different scales of opNMF
+    This is to perform soft majority voting for the final classification across different scales of opNMF.
+    Note that soft voting is only recommended if the classifiers are well-calibrated, though SVM is not in this case.
     Args:
         output_dir:
         C_list:
@@ -641,4 +643,238 @@ def soft_majority_voting(output_dir, C_list):
     Returns:
 
     """
+    ### take the mean results
+    resutls_repetitions = []
+    ### mkdir the iteration folder
+    for i in range(cv_repetition):
+        iteration_dir = os.path.join(output_dir, 'ensemble', 'iteration-' + str(i))
+        if not os.path.exists(iteration_dir):
+            os.makedirs(iteration_dir)
+        ## read the test_subjects.tsv from each component
+        for j in C_list:
+            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i), 'test_subjects.tsv')
+            df = pd.read_csv(test_results_tsv, sep='\t')
+            if j == C_list[0]:
+                df_final = df.copy()
+            else:
+                ### concatenate the new df to previous df
+                df_final = pd.concat([df_final, df['proba_test_index1']], axis=1)
+                ## rename the proba_test_index1
+            df_final.rename({'proba_test_index1': 'proba_test_index1_C' + str(j)}, axis=1, inplace=True)
+
+        ### perform soft voting to decide the final probability
+        columns_to_mean = ['proba_test_index1_C' + str(k) for k in C_list]
+        df_final['proba_test_index1'] = df_final[columns_to_mean].mean(axis=1)
+        df_final.drop(columns=columns_to_mean, inplace=True)
+        ## decide the finla y_hat
+        df_final['y_hat_ensemble'] = (df_final['proba_test_index1'] > 0.5).astype(int)
+        del df_final['y_hat']
+        columns_to_reorder = ['iteration', 'y', 'y_hat_ensemble', 'subject_index', 'proba_test_index1']
+        df_final = df_final[columns_to_reorder]
+        auc = roc_auc_score(df_final['y'].to_numpy(), df_final['proba_test_index1'].to_numpy())
+        results_dic = evaluate_prediction(list(df_final['y'].to_numpy()), list(df_final['y_hat_ensemble'].to_numpy()))
+        ## calculate the results.tsv
+        results_df = pd.DataFrame({'balanced_accuracy': results_dic['balanced_accuracy'],
+                                   'auc': auc,
+                                   'accuracy': results_dic['accuracy'],
+                                   'sensitivity': results_dic['sensitivity'],
+                                   'specificity': results_dic['specificity'],
+                                   'ppv': results_dic['ppv'],
+                                   'npv': results_dic['npv']}, index=['i', ])
+        results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+        resutls_repetitions.append(results_df)
+
+    all_results = pd.concat(resutls_repetitions)
+    all_results.to_csv(os.path.join(output_dir, 'ensemble', 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+    mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
+    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t', encoding='utf-8')
+
+    print("Mean results of the classification after voting:")
+    print("Balanced accuracy: %s" % (mean_results['balanced_accuracy'].to_string(index=False)))
+    print("specificity: %s" % (mean_results['specificity'].to_string(index=False)))
+    print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
+    print("auc: %s" % (mean_results['auc'].to_string(index=False)))
+
+    return None
+
+def hard_majority_voting(output_dir, C_list, cv_repetition):
+    """
+    This is to perform hard majority voting for the final classification across different scales of opNMF.
+    Args:
+        output_dir:
+        C_list:
+
+    Returns:
+
+    """
+    ### take the mean results
+    resutls_repetitions = []
+    ### mkdir the iteration folder
+    for i in range(cv_repetition):
+        iteration_dir = os.path.join(output_dir, 'ensemble', 'iteration-' + str(i))
+        if not os.path.exists(iteration_dir):
+            os.makedirs(iteration_dir)
+        ## read the test_subjects.tsv from each component
+        for j in C_list:
+            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i), 'test_subjects.tsv')
+            df = pd.read_csv(test_results_tsv, sep='\t')
+            if j == C_list[0]:
+                df_final = df.copy()
+            else:
+                ### concatenate the new df to previous df
+                df_final = pd.concat([df_final, df['y_hat']], axis=1)
+                ## rename the proba_test_index1
+            df_final.rename({'y_hat': 'y_hat_C' + str(j)}, axis=1, inplace=True)
+
+        ### perform hard voting to decide the final probability
+        columns_to_mode = ['y_hat_C' + str(k) for k in C_list]
+        df_final['y_hat_ensemble'] = df_final[columns_to_mode].mode(axis=1)
+        df_final.drop(columns=columns_to_mode, inplace=True)
+        columns_to_reorder = ['iteration', 'y', 'y_hat_ensemble', 'subject_index']
+        df_final = df_final[columns_to_reorder]
+        results_dic = evaluate_prediction(list(df_final['y'].to_numpy()), list(df_final['y_hat_ensemble'].to_numpy()))
+        ## calculate the results.tsv
+        results_df = pd.DataFrame({'balanced_accuracy': results_dic['balanced_accuracy'],
+                                   'accuracy': results_dic['accuracy'],
+                                   'sensitivity': results_dic['sensitivity'],
+                                   'specificity': results_dic['specificity'],
+                                   'ppv': results_dic['ppv'],
+                                   'npv': results_dic['npv']}, index=['i', ])
+        results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+        resutls_repetitions.append(results_df)
+
+    all_results = pd.concat(resutls_repetitions)
+    all_results.to_csv(os.path.join(output_dir, 'ensemble', 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+    mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
+    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t', encoding='utf-8')
+
+    print("Mean results of the classification after voting:")
+    print("Balanced accuracy: %s" % (mean_results['balanced_accuracy'].to_string(index=False)))
+    print("specificity: %s" % (mean_results['specificity'].to_string(index=False)))
+    print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
+
+    return None
+
+def consensus_classification(classification_results, k, ground_truth):
+    """
+    This function performs consensus classification based on a co-occurence matrix
+    :param classification_results: an array containing all the clustering results across different iterations, in order to
+    perform
+    :param k: number of clusters
+    :return:
+    """
+
+    num_pt = classification_results.shape[0]
+    cooccurence_matrix = np.zeros((num_pt, num_pt))
+
+    for i in range(num_pt - 1):
+        for j in range(i + 1, num_pt):
+            cooccurence_matrix[i, j] = sum(classification_results[i, :] == classification_results[j, :])
+
+    cooccurence_matrix = np.add(cooccurence_matrix, cooccurence_matrix.transpose())
+    ## here is to compute the Laplacian matrix
+    Laplacian = np.subtract(np.diag(np.sum(cooccurence_matrix, axis=1)), cooccurence_matrix)
+
+    Laplacian_norm = np.subtract(np.eye(num_pt), np.matmul(np.matmul(np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1))), cooccurence_matrix), np.diag(1 / np.sqrt(np.sum(cooccurence_matrix, axis=1)))))
+    ## replace the nan with 0
+    Laplacian_norm = np.nan_to_num(Laplacian_norm)
+
+    ## check if the Laplacian norm is symmetric or not, because matlab eig function will automatically check this, but not in numpy or scipy
+    if check_symmetric(Laplacian_norm):
+        ## extract the eigen value and vector
+        ## matlab eig equivalence is eigh, not eig from numpy or scipy, see this post: https://stackoverflow.com/questions/8765310/scipy-linalg-eig-return-complex-eigenvalues-for-covariance-matrix
+        ## Note, the eigenvector is not unique, thus the matlab and python eigenvector may be different, but this will not affect the results.
+        evalue, evector = scipy.linalg.eigh(Laplacian_norm)
+    else:
+        # evalue, evector = np.linalg.eig(Laplacian_norm)
+        raise Exception("The Laplacian matrix should be symmetric here...")
+
+    ## check if the eigen vector is complex
+    if np.any(np.iscomplex(evector)):
+        evalue, evector = scipy.linalg.eigh(Laplacian)
+
+    ## create the kmean algorithm with sklearn
+    kmeans = KMeans(n_clusters=k, n_init=20).fit(evector.real[:, 0: k])
+    final_predict = kmeans.labels_
+
+    ### since the order of the clustering does not make any sense, we will decide the final predict based on permutation of the final_predict.
+    ## WARN: we assume that the original classification perform bettern than random chance, i.e., accuracy > 0.5
+    acc_1 = accuracy_score(ground_truth, final_predict)
+    ## swap the cluster labels
+    final_predict_swapped = []
+    for i in list(final_predict):
+        if i == 0:
+            final_predict_swapped.append(1)
+        elif i ==1:
+            final_predict_swapped.append(0)
+        else:
+            raise Exception("Something wrong here!")
+
+    if acc_1 > 0.5:
+        pass
+    else:
+        final_predict = final_predict_swapped
+
+    return final_predict
+
+def consensus_voting(output_dir, C_list, cv_repetition):
+    """
+    This is to perform consensus voting based on Spectral clustering.
+    Args:
+        output_dir:
+        C_list:
+
+    Returns:
+
+    """
+    ### take the mean results
+    resutls_repetitions = []
+    ### mkdir the iteration folder
+    for i in range(cv_repetition):
+        iteration_dir = os.path.join(output_dir, 'ensemble', 'iteration-' + str(i))
+        if not os.path.exists(iteration_dir):
+            os.makedirs(iteration_dir)
+        ## read the test_subjects.tsv from each component
+        for j in C_list:
+            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i), 'test_subjects.tsv')
+            df = pd.read_csv(test_results_tsv, sep='\t')
+            if j == C_list[0]:
+                df_final = df.copy()
+            else:
+                ### concatenate the new df to previous df
+                df_final = pd.concat([df_final, df['y_hat']], axis=1)
+                ## rename the proba_test_index1
+            df_final.rename({'y_hat': 'y_hat_C' + str(j)}, axis=1, inplace=True)
+
+        ### perform consensus voting to decide the final probability
+        columns_to_consensus = ['y_hat_C' + str(k) for k in C_list]
+        classification_results = df_final[columns_to_consensus].to_numpy()
+        ground_truth = df_final['y'].to_numpy()
+        final_predict = consensus_classification(classification_results, 2, ground_truth)
+        df_final['y_hat_ensemble'] = final_predict
+
+        df_final.drop(columns=columns_to_consensus, inplace=True)
+        columns_to_reorder = ['iteration', 'y', 'y_hat_ensemble', 'subject_index']
+        df_final = df_final[columns_to_reorder]
+        results_dic = evaluate_prediction(list(df_final['y'].to_numpy()), list(df_final['y_hat_ensemble'].to_numpy()))
+        ## calculate the results.tsv
+        results_df = pd.DataFrame({'balanced_accuracy': results_dic['balanced_accuracy'],
+                                   'accuracy': results_dic['accuracy'],
+                                   'sensitivity': results_dic['sensitivity'],
+                                   'specificity': results_dic['specificity'],
+                                   'ppv': results_dic['ppv'],
+                                   'npv': results_dic['npv']}, index=['i', ])
+        results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+        resutls_repetitions.append(results_df)
+
+    all_results = pd.concat(resutls_repetitions)
+    all_results.to_csv(os.path.join(output_dir, 'ensemble', 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+    mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
+    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t', encoding='utf-8')
+
+    print("Mean results of the classification after voting:")
+    print("Balanced accuracy: %s" % (mean_results['balanced_accuracy'].to_string(index=False)))
+    print("specificity: %s" % (mean_results['specificity'].to_string(index=False)))
+    print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
+
     return None

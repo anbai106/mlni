@@ -42,12 +42,10 @@ python -m pip install git+https://github.com/anbai106/pyHYDRA.git
 pyHYDRA requires a specific input structure inspired by [BIDS](https://bids.neuroimaging.io/).
 Some conventions for the group label/diagnosis: -1 represents healthy control (**CN**) and 1 represents patient (**PT**); categorical variables, such as sex, should be encoded to numbers: Female for 0 and Male for 1, for instance.
 
-### feature and covariate tsv
-For clustering and classification with ROI features (by default, classification does not take covariate tsv as input), the first 3 columns are **participant_id**, **session_id** and **diagnosis**. 
-
-For classification with voxel-wise images, feature tsv requires an additional column for **path** after the column of **diagnosis**, and no need for other columns.
-
-Example for feature tsv:
+### Input data format
+#### Clustering
+pyHYDRA clusters with ROI features in **feature_tsv** (**covariate_tsv** is optionally provided).
+Example for **feature_tsv**:
 ```
 participant_id    session_id    diagnosis    ROI1    ROI2 ...
 sub-CLNC0001      ses-M00    -1   432.1    596.9
@@ -59,7 +57,7 @@ sub-CLNC0006      ses-M00    1    443.2    663.2
 sub-CLNC0007      ses-M00    -1    450.2    599.3
 sub-CLNC0008      ses-M00    1    443.2    509.4
 ```
-Example for covariate tsv:
+Example for **covariate_tsv**:
 ```
 participant_id    session_id    diagnosis    age    sex ...
 sub-CLNC0001      ses-M00    -1   56.1    0
@@ -71,8 +69,23 @@ sub-CLNC0006      ses-M00    1    44.2    0
 sub-CLNC0007      ses-M00    -1    40.2    0
 sub-CLNC0008      ses-M00    1    43.2    1
 ```
-
-Example for feature tsv for voxel-wise classification:
+#### Classification with ROIs
+Only **feature_tsv** is required.
+Example for **feature_tsv**:
+```
+participant_id    session_id    diagnosis    ROI1    ROI2 ...
+sub-CLNC0001      ses-M00    -1   432.1    596.9
+sub-CLNC0002      ses-M00    1    398.2    601.3
+sub-CLNC0003      ses-M00    -1    412.0    567.3
+sub-CLNC0004      ses-M00    -1    487.4    600.1
+sub-CLNC0005      ses-M00    1    346.5    529.5
+sub-CLNC0006      ses-M00    1    443.2    663.2
+sub-CLNC0007      ses-M00    -1    450.2    599.3
+sub-CLNC0008      ses-M00    1    443.2    509.4
+```
+#### Classification with images
+Only **participant_tsv** is required.
+Example for **participant_tsv** for voxel-wise classification:
 ```
 participant_id    session_id    diagnosis    path ...
 sub-CLNC0001      ses-M00    -1   path1
@@ -84,7 +97,20 @@ sub-CLNC0006      ses-M00    1    path6
 sub-CLNC0007      ses-M00    -1    path7
 sub-CLNC0008      ses-M00    1    path8
 ```
-
+#### Classification with multi-scale features extracted by opNMF.
+After running images with opNMF,  only **participant_tsv** is required as input.
+Example for **participant_tsv** for voxel-wise classification:
+```
+participant_id    session_id    diagnosis
+sub-CLNC0001      ses-M00    -1
+sub-CLNC0002      ses-M00    1
+sub-CLNC0003      ses-M00    -1
+sub-CLNC0004      ses-M00    -1
+sub-CLNC0005      ses-M00    1
+sub-CLNC0006      ses-M00    1
+sub-CLNC0007      ses-M00    -1
+sub-CLNC0008      ses-M00    1
+```
 ## Example
 We offer a toy dataset in the folder of **pyHYDRA/data**.
 

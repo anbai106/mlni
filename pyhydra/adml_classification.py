@@ -1,7 +1,7 @@
 from .classification import RB_RepeatedHoldOut_DualSVM_Classification, RB_KFold_DualSVM_Classification, VB_RepeatedHoldOut_DualSVM_Classification, VB_KFold_DualSVM_Classification
 from .base import RB_Input, VB_Input
 import os, pickle
-from .utils import make_cv_partition, soft_majority_voting
+from .utils import make_cv_partition, soft_majority_voting, hard_majority_voting, consensus_voting
 import pandas as pd
 
 __author__ = "Junhao Wen"
@@ -62,18 +62,18 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
 
     print('Finish...')
 
-def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
+def classification_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
                            n_threads=8, seed=None, verbose=False):
     """
     pyhydra core function for classification with voxel-wise features
 
     Args:
-        feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
+        participant_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
                                  "i) the first column is the participant_id;"
                                  "ii) the second column should be the session_id;"
                                  "iii) the third column should be the diagnosis;"
-                                 "The following column should be the extracted features. e.g., the ROI features"
+                                 "iv) the forth column should be the path to each image;"
         output_dir: str, path to store the classification results.
         cv_repetition: int, number of repetitions for cross-validation (CV)
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
@@ -85,7 +85,7 @@ def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='ho
 
     """
     print('pyhydra for a binary classification with nested CV...')
-    input_data =VB_Input(feature_tsv)
+    input_data =VB_Input(participant_tsv)
 
     ## data split
     print('Data split was performed based on validation strategy: %s...\n' % cv_strategy)
@@ -111,14 +111,35 @@ def classification_voxel(feature_tsv, output_dir, cv_repetition, cv_strategy='ho
 
     print('Finish...')
 
-def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_components_min, num_components_max, num_components_step, cv_repetition, cv_strategy='hold_out',
-            class_weight_balanced=True, n_threads=8, verbose=False):
+def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_components_min, num_components_max,
+                                num_components_step, cv_repetition, cv_strategy='hold_out', voting_method='hard_voting',
+                                class_weight_balanced=True, n_threads=8, verbose=False):
     """
-    classification based on the multi-scale feature extracted from opNMF
+    Classification based on the multi-scale feature extracted from opNMF
     Args:
-    Returns: classification outputs.
+        participant_tsv:
+             "i) the first column is the participant_id;"
+             "ii) the second column should be the session_id;"
+             "iii) the third column should be the diagnosis;"
+        opnmf_dir: str, path to the ouptu_dir of opNMF
+        output_dir: str, path to store the classification results.
+        num_components_min: int, min of number_of_components
+        num_components_max: int, max of number_of_components
+        num_components_step: int, step size
+        cv_repetition: int, number of repetitions for cross-validation (CV)
+        cv_strategy: str, cross validation strategy used. Currrently only support for hold_out. choices=['hold_out']
+        class_weight_balanced: Bool, default is True. If the two groups are balanced.
+        n_threads: int, default is 8. The number of threads to run model in parallel.
+        verbose: Bool, default is False. If the output message is verbose.
+        voting_method: str, method for the voting system. Choice: ['hard_voting', 'soft_voting', 'consensus_voting']
+            Note: soft voting works "correctly" when the classifier is calibrated;
+                  consensus voting assumes that the classifier performs better than change, i.e., accuracy > 0.5,
+                  since clustering labels order does not mean anything.
+    Returns:
 
     """
+    if cv_strategy != 'hold_out':
+        raise Exception("Only support repetaed hold-out CV currently!")
     ### For voxel approach
     print('Multi-scale ensemble classification...')
     print('Starts classification for each specific scale...')
@@ -140,7 +161,7 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
     ## C lists
     C_list = list(range(num_components_min, num_components_max+num_components_step, num_components_step))
     ## first loop on different initial C.
-    for i in range(len(C_list)):
+    for i in C_list:
         ## create a temp file in the output_dir to save the intermediate tsv files
         component_output_dir = os.path.join(output_dir, 'component_' + str(i))
         if not os.path.exists(component_output_dir):
@@ -148,6 +169,9 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
         ### grab the output tsv of each C from opNMF
         opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'loading_coefficient.tsv')
         df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
+        ### only take the rows in opnmf_tsv which are in common in participant_tsv
+        df_opnmf = df_opnmf.loc[df_opnmf['participant_id'].isin(df_participant['participant_id'])]
+        ## now check the dimensions
         if df_participant.shape[0] != df_opnmf.shape[0]:
             raise Exception("The dimension of the participant_tsv and opNMF are not consistent!")
         ### make sure the row order is consistent with the participant_tsv
@@ -163,10 +187,21 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
         df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
         ## run the classification for K features and set the seed of CV split to 0, so that the splits are the same for
         ## different scales. Then finally, the ensemble voting can be done.
+        print('For components == %d' % i)
         classification_roi(opnmf_component_tsv, component_output_dir, cv_repetition=cv_repetition, cv_strategy=cv_strategy,
             class_weight_balanced=class_weight_balanced, n_threads=n_threads, verbose=verbose, seed=0)
 
     ## ensemble soft voting to determine the final classification results
-    print('Computing the final classification with soft voting!\n')
-    soft_majority_voting(output_dir, C_list)
+    if voting_method == "soft_voting":
+        print('Computing the final classification with soft voting!\n')
+        soft_majority_voting(output_dir, C_list, cv_repetition)
+    elif voting_method == "hard_voting":
+        print('Computing the final classification with hard voting!\n')
+        hard_majority_voting(output_dir, C_list, cv_repetition)
+    elif voting_method == "consensus_voting":
+        print('Computing the final classification with consensus voting!\n')
+        consensus_voting(output_dir, C_list, cv_repetition)
+    else:
+        raise Exception("Method not implemented yet！")
+
     print('Finish...')
