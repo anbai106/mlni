@@ -632,6 +632,10 @@ def revert_mask(weights, mask, shape):
 
     return new_weights
 
+def gram_matrix_linear(data):
+    return np.dot(data, data.transpose())
+
+
 def soft_majority_voting(output_dir, C_list, cv_repetition):
     """
     This is to perform soft majority voting for the final classification across different scales of opNMF.
@@ -652,7 +656,8 @@ def soft_majority_voting(output_dir, C_list, cv_repetition):
             os.makedirs(iteration_dir)
         ## read the test_subjects.tsv from each component
         for j in C_list:
-            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i), 'test_subjects.tsv')
+            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i),
+                                            'test_subjects.tsv')
             df = pd.read_csv(test_results_tsv, sep='\t')
             if j == C_list[0]:
                 df_final = df.copy()
@@ -687,7 +692,8 @@ def soft_majority_voting(output_dir, C_list, cv_repetition):
     all_results = pd.concat(resutls_repetitions)
     all_results.to_csv(os.path.join(output_dir, 'ensemble', 'results.tsv'), index=False, sep='\t', encoding='utf-8')
     mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
-    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t', encoding='utf-8')
+    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t',
+                        encoding='utf-8')
 
     print("Mean results of the classification after voting:")
     print("Balanced accuracy: %s" % (mean_results['balanced_accuracy'].to_string(index=False)))
