@@ -70,6 +70,7 @@ sub-CLNC0007      ses-M00    -1    40.2    0
 sub-CLNC0008      ses-M00    1    43.2    1
 ```
 #### Classification with ROIs
+**Note**: For classification, nested feature selection has also been implemented for ROI-wise and voxel-wise features!
 Only **feature_tsv** is required.
 Example for **feature_tsv**:
 ```
@@ -111,6 +112,7 @@ sub-CLNC0006      ses-M00    1
 sub-CLNC0007      ses-M00    -1
 sub-CLNC0008      ses-M00    1
 ```
+
 ## Example
 We offer a toy dataset in the folder of **pyHYDRA/data**.
 
