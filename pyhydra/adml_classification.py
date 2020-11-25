@@ -269,7 +269,7 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
         if not os.path.exists(component_output_dir):
             os.makedirs(component_output_dir)
         ### grab the output tsv of each C from opNMF
-        opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'loading_coefficient.tsv')
+        opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'atlas_components_signal.tsv')
         df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
         ### only take the rows in opnmf_tsv which are in common in participant_tsv
         df_opnmf = df_opnmf.loc[df_opnmf['participant_id'].isin(df_participant['participant_id'])]
