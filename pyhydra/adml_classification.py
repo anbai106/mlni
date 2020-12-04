@@ -213,9 +213,9 @@ def classification_voxel_feature_selection(feature_tsv, output_dir, cv_repetitio
 
     print('Finish...')
 
-def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_components_min, num_components_max,
-                                num_components_step, cv_repetition, cv_strategy='hold_out', voting_method='hard_voting',
-                                class_weight_balanced=True, n_threads=8, verbose=False):
+def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, components_list, cv_repetition,
+                                    cv_strategy='hold_out', voting_method='hard_voting', class_weight_balanced=True,
+                                    n_threads=8, verbose=False):
     """
     Classification based on the multi-scale feature extracted from opNMF
     Args:
@@ -225,7 +225,7 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
              "iii) the third column should be the diagnosis;"
         opnmf_dir: str, path to the ouptu_dir of opNMF
         output_dir: str, path to store the classification results.
-        num_components_min: int, min of number_of_components
+        components_list: list, a list containing all the Cs (number of components)
         num_components_max: int, max of number_of_components
         num_components_step: int, step size
         cv_repetition: int, number of repetitions for cross-validation (CV)
@@ -245,9 +245,6 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
     ### For voxel approach
     print('Multi-scale ensemble classification...')
     print('Starts classification for each specific scale...')
-    ### Here, semi-supervised clustering with multi-scale feature reduction learning
-    if (num_components_max - num_components_min) % num_components_step != 0:
-        raise Exception('Number of componnets step should be divisible!')
 
     ## read the participant tsv
     df_participant = pd.read_csv(participant_tsv, sep='\t')
@@ -260,10 +257,8 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
     if not os.path.exists(os.path.join(output_dir, 'ensemble')):
         os.makedirs(os.path.join(output_dir, 'ensemble'))
 
-    ## C lists
-    C_list = list(range(num_components_min, num_components_max+num_components_step, num_components_step))
     ## first loop on different initial C.
-    for i in C_list:
+    for i in components_list:
         ## create a temp file in the output_dir to save the intermediate tsv files
         component_output_dir = os.path.join(output_dir, 'component_' + str(i))
         if not os.path.exists(component_output_dir):
@@ -296,13 +291,13 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, num_
     ## ensemble soft voting to determine the final classification results
     if voting_method == "soft_voting":
         print('Computing the final classification with soft voting!\n')
-        soft_majority_voting(output_dir, C_list, cv_repetition)
+        soft_majority_voting(output_dir, components_list, cv_repetition)
     elif voting_method == "hard_voting":
         print('Computing the final classification with hard voting!\n')
-        hard_majority_voting(output_dir, C_list, cv_repetition)
+        hard_majority_voting(output_dir, components_list, cv_repetition)
     elif voting_method == "consensus_voting":
         print('Computing the final classification with consensus voting!\n')
-        consensus_voting(output_dir, C_list, cv_repetition)
+        consensus_voting(output_dir, components_list, cv_repetition)
     else:
         raise Exception("Method not implemented yet！")
 
