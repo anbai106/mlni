@@ -26,7 +26,7 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
-                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), verbose=False):
+                 grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -39,11 +39,15 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
         self._test_size = test_size
         self._validation = None
         self._algorithm = None
+        self._kernel = kernel
 
     def run(self):
+        if self._kernel is None:
+            kernel = self._input.get_kernel()
+        else:
+            kernel = self._kernel
         x = self._input.get_x()
         y = self._input.get_y()
-        kernel = self._input.get_kernel()
 
         if self._verbose:
             if y[0] == 0:
@@ -219,7 +223,7 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
     """
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10, balanced=True,
-                 c_range=np.logspace(-6, 2, 17), verbose=False):
+                 c_range=np.logspace(-6, 2, 17), kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -231,11 +235,15 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
         self._n_folds = n_folds
         self._validation = None
         self._algorithm = None
+        self._kernel = kernel
 
     def run(self):
+        if self._kernel is None:
+            kernel = self._input.get_kernel()
+        else:
+            kernel = self._kernel
         x = self._input.get_x()
         y = self._input.get_y()
-        kernel = self._input.get_kernel()
         if self._verbose:
             if y[0] == 0:
                 print('For classification, the negative coefficients in the weight map are more likely to be classified as the first label in the diagnose tsv')

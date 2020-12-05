@@ -1,6 +1,6 @@
 import abc
 import pandas as pd
-from .utils import GLMcorrection, load_data, revert_mask
+import utils
 import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import os
@@ -117,7 +117,7 @@ class RB_Input(Input):
             data_covariate = ((data_covariate - data_covariate.mean()) / data_covariate.std()).values
 
             ## correction for the covariate, only retain the pathodological correspondance
-            self._x, _ = GLMcorrection(data_feature, np.asarray(self._diagnosis), data_covariate, data_feature, data_covariate)
+            self._x, _ = utils.GLMcorrection(data_feature, np.asarray(self._diagnosis), data_covariate, data_feature, data_covariate)
             
         return self._x
 
@@ -179,7 +179,7 @@ class VB_Input(Input):
     def get_x(self):
 
         print('Loading %d images in total' % len(self._images))
-        self._x, self._orig_shape, self._data_mask = load_data(self._images, mask=True)
+        self._x, self._orig_shape, self._data_mask = utils.load_data(self._images, mask=True)
 
         return self._x
 
@@ -208,7 +208,7 @@ class VB_Input(Input):
     def save_weights_as_nifti(self, weights, output_dir):
 
         output_filename = os.path.join(output_dir, 'weights.nii.gz')
-        data = revert_mask(weights, self._data_mask, self._orig_shape)
+        data = utils.revert_mask(weights, self._data_mask, self._orig_shape)
 
         features = data / abs(data).max()
 

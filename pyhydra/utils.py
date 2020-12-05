@@ -10,6 +10,7 @@ from joblib import dump
 import pandas as pd
 from multiprocessing.pool import ThreadPool
 import nibabel as nib
+import base
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -636,7 +637,7 @@ def gram_matrix_linear(data):
     return np.dot(data, data.transpose())
 
 
-def soft_majority_voting(output_dir, C_list, cv_repetition):
+def soft_voting(output_dir, C_list, cv_repetition):
     """
     This is to perform soft majority voting for the final classification across different scales of opNMF.
     Note that soft voting is only recommended if the classifiers are well-calibrated, though SVM is not in this case.
@@ -703,6 +704,92 @@ def soft_majority_voting(output_dir, C_list, cv_repetition):
 
     return None
 
+def weighted_soft_voting(output_dir, C_list, cv_repetition):
+    """
+    This is to perform weighted soft majority voting for the final classification across different scales of opNMF.
+    Note that soft voting is only recommended if the classifiers are well-calibrated, though SVM is not in this case.
+    Args:
+        output_dir:
+        C_list:
+
+    Returns:
+
+    """
+    ### take the mean results
+    resutls_repetitions = []
+
+    ### calculate the weighted based on the number of components
+    C_list_weight = [i / sum(C_list) for i in C_list]
+
+    ### mkdir the iteration folder
+    for i in range(cv_repetition):
+        iteration_dir = os.path.join(output_dir, 'ensemble', 'iteration-' + str(i))
+        if not os.path.exists(iteration_dir):
+            os.makedirs(iteration_dir)
+        ## read the test_subjects.tsv from each component
+        for j in C_list:
+            test_results_tsv = os.path.join(output_dir, 'component_' + str(j), 'classification', 'iteration-' + str(i),
+                                            'test_subjects.tsv')
+            df = pd.read_csv(test_results_tsv, sep='\t')
+            if j == C_list[0]:
+                df_final = df.copy()
+                ## calculate the proba for index 0
+                prob_test_index0 = 1 - df['proba_test_index1']
+                df_final['proba_test_index0'] = prob_test_index0
+            else:
+                ### concatenate the new df to previous df
+                df_final = pd.concat([df_final, df['proba_test_index1']], axis=1)
+                ## calculate the proba for index 0
+                prob_test_index0 = 1 - df['proba_test_index1']
+                df_final['proba_test_index0'] = prob_test_index0
+                ## rename the proba_test_index1
+            df_final.rename({'proba_test_index1': 'proba_test_index1_C' + str(j)}, axis=1, inplace=True)
+            df_final.rename({'proba_test_index0': 'proba_test_index0_C' + str(j)}, axis=1, inplace=True)
+
+        ### perform weighted soft voting to decide the final probability
+        columns_to_mean_pos = ['proba_test_index1_C' + str(k) for k in C_list]
+        for k in range(len(columns_to_mean_pos)):
+            df_final[columns_to_mean_pos[k]] = df_final[columns_to_mean_pos[k]] * C_list_weight[k]
+        df_final['proba_test_index1'] = df_final[columns_to_mean_pos].sum(axis=1)
+        df_final.drop(columns=columns_to_mean_pos, inplace=True)
+        columns_to_mean_neg = ['proba_test_index0_C' + str(k) for k in C_list]
+        for k in range(len(columns_to_mean_neg)):
+            df_final[columns_to_mean_neg[k]] = df_final[columns_to_mean_neg[k]] * C_list_weight[k]
+        df_final['proba_test_index0'] = df_final[columns_to_mean_neg].sum(axis=1)
+        df_final.drop(columns=columns_to_mean_neg, inplace=True)
+
+        ## decide the finla y_hat
+        df_final['y_hat_ensemble'] = (df_final['proba_test_index1'] > df_final['proba_test_index0']).astype(int)
+        del df_final['y_hat']
+        columns_to_reorder = ['iteration', 'y', 'y_hat_ensemble', 'subject_index', 'proba_test_index1']
+        df_final = df_final[columns_to_reorder]
+        auc = roc_auc_score(df_final['y'].to_numpy(), df_final['proba_test_index1'].to_numpy())
+        results_dic = evaluate_prediction(list(df_final['y'].to_numpy()), list(df_final['y_hat_ensemble'].to_numpy()))
+        ## calculate the results.tsv
+        results_df = pd.DataFrame({'balanced_accuracy': results_dic['balanced_accuracy'],
+                                   'auc': auc,
+                                   'accuracy': results_dic['accuracy'],
+                                   'sensitivity': results_dic['sensitivity'],
+                                   'specificity': results_dic['specificity'],
+                                   'ppv': results_dic['ppv'],
+                                   'npv': results_dic['npv']}, index=['i', ])
+        results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+        resutls_repetitions.append(results_df)
+
+    all_results = pd.concat(resutls_repetitions)
+    all_results.to_csv(os.path.join(output_dir, 'ensemble', 'results.tsv'), index=False, sep='\t', encoding='utf-8')
+    mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
+    mean_results.to_csv(os.path.join(output_dir, 'ensemble', 'mean_results.tsv'), index=False, sep='\t',
+                        encoding='utf-8')
+
+    print("Mean results of the classification after voting:")
+    print("Balanced accuracy: %s" % (mean_results['balanced_accuracy'].to_string(index=False)))
+    print("specificity: %s" % (mean_results['specificity'].to_string(index=False)))
+    print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
+    print("auc: %s" % (mean_results['auc'].to_string(index=False)))
+
+    return None
+
 def hard_majority_voting(output_dir, C_list, cv_repetition):
     """
     This is to perform hard majority voting for the final classification across different scales of opNMF.
@@ -734,7 +821,7 @@ def hard_majority_voting(output_dir, C_list, cv_repetition):
 
         ### perform hard voting to decide the final probability
         columns_to_mode = ['y_hat_C' + str(k) for k in C_list]
-        df_final['y_hat_ensemble'] = df_final[columns_to_mode].mode(axis=1)
+        df_final['y_hat_ensemble'] = df_final[columns_to_mode].mode(axis=1).iloc[:, 0]
         df_final.drop(columns=columns_to_mode, inplace=True)
         columns_to_reorder = ['iteration', 'y', 'y_hat_ensemble', 'subject_index']
         df_final = df_final[columns_to_reorder]
@@ -884,3 +971,122 @@ def consensus_voting(output_dir, C_list, cv_repetition):
     print("sensitivity: %s" % (mean_results['sensitivity'].to_string(index=False)))
 
     return None
+
+def prepare_opnmf_tsv_voting(output_dir, opnmf_dir, i, df_participant):
+    """
+    Prepare the tsv from opNMF for pyHYDRA classification voting.
+    Args:
+        output_dir:
+        opnmf_dir:
+        i:
+        df_participant:
+
+    Returns:
+
+    """
+    ## create a temp file in the output_dir to save the intermediate tsv files
+    component_output_dir = os.path.join(output_dir, 'component_' + str(i))
+    if not os.path.exists(component_output_dir):
+        os.makedirs(component_output_dir)
+    ### grab the output tsv of each C from opNMF
+    opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'atlas_components_signal.tsv')
+    df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
+    ### only take the rows in opnmf_tsv which are in common in participant_tsv
+    df_opnmf = df_opnmf.loc[df_opnmf['participant_id'].isin(df_participant['participant_id'])]
+    ## now check the dimensions
+    if df_participant.shape[0] != df_opnmf.shape[0]:
+        raise Exception("The dimension of the participant_tsv and opNMF are not consistent!")
+    ### make sure the row order is consistent with the participant_tsv
+    df_opnmf = df_opnmf.set_index('participant_id')
+    df_opnmf = df_opnmf.reindex(index=df_participant['participant_id'])
+    df_opnmf = df_opnmf.reset_index()
+    ## replace the path column in df_opnmf to be diagnosis, and save it to temp path for pyHYDRA classification
+    diagnosis_list = list(df_participant['diagnosis'])
+    df_opnmf["path"] = diagnosis_list
+    df_opnmf.rename(columns={'path': 'diagnosis'}, inplace=True)
+    ## save to tsv in a temporal folder
+    opnmf_component_tsv = os.path.join(output_dir, 'intermediate', 'opnmf_component_' + str(i) + '.tsv')
+    df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
+
+    return component_output_dir, opnmf_component_tsv
+
+def voting_system(voting_method, output_dir, components_list, cv_repetition):
+    """
+    Perform voting based on different methods
+    Args:
+        voting_method:
+        output_dir:
+        components_list:
+        cv_repetition:
+
+    Returns:
+
+    """
+    if voting_method == "soft_voting":
+        print('Computing the final classification with soft voting!\n')
+        soft_voting(output_dir, components_list, cv_repetition)
+    elif voting_method == "weighted_soft_voting":
+        print('Computing the final classification with weighted soft voting!\n')
+        weighted_soft_voting(output_dir, components_list, cv_repetition)
+    elif voting_method == "hard_voting":
+        print('Computing the final classification with hard voting!\n')
+        hard_majority_voting(output_dir, components_list, cv_repetition)
+    elif voting_method == "consensus_voting":
+        print('Computing the final classification with consensus voting!\n')
+        consensus_voting(output_dir, components_list, cv_repetition)
+    else:
+        raise Exception("Method not implemented yet！")
+
+def prepare_opnmf_tsv_multikernel(components_list, output_dir, opnmf_dir, df_participant):
+    """
+    This is the function to calculate the multi-kernel for classification.
+    Args:
+        components_list:
+        output_dir:
+        opnmf_dir:
+        df_participant:
+
+    Returns:
+
+    """
+    kernel_list = []
+    ## first loop on different initial C.
+    for i in components_list:
+        ## create a temp file in the output_dir to save the intermediate tsv files
+        component_output_dir = os.path.join(output_dir, 'component_' + str(i))
+        if not os.path.exists(component_output_dir):
+            os.makedirs(component_output_dir)
+        ### grab the output tsv of each C from opNMF
+        opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'atlas_components_signal.tsv')
+        df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
+        ### only take the rows in opnmf_tsv which are in common in participant_tsv
+        df_opnmf = df_opnmf.loc[df_opnmf['participant_id'].isin(df_participant['participant_id'])]
+        ## now check the dimensions
+        if df_participant.shape[0] != df_opnmf.shape[0]:
+            raise Exception("The dimension of the participant_tsv and opNMF are not consistent!")
+        ### make sure the row order is consistent with the participant_tsv
+        df_opnmf = df_opnmf.set_index('participant_id')
+        df_opnmf = df_opnmf.reindex(index=df_participant['participant_id'])
+        df_opnmf = df_opnmf.reset_index()
+        ## replace the path column in df_opnmf to be diagnosis, and save it to temp path for pyHYDRA classification
+        diagnosis_list = list(df_participant['diagnosis'])
+        df_opnmf["path"] = diagnosis_list
+        df_opnmf.rename(columns={'path': 'diagnosis'}, inplace=True)
+        ## save to tsv in a temporal folder
+        opnmf_component_tsv = os.path.join(output_dir, 'intermediate', 'opnmf_component_' + str(i) + '.tsv')
+        df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
+        ## Calculate the linear kernel for each C
+        input_data = base.RB_Input(opnmf_component_tsv)
+        kernel = input_data.get_kernel()
+        kernel_list.append(kernel)
+
+    ## merge the list of kernels based on the weights of number of components
+    components_list_weight = [i / sum(components_list) for i in components_list]
+    import numpy as np
+    kernel_final = np.zeros(kernel.shape)
+    for j in range(len(kernel_list)):
+        if j == 0:
+            kernel_final = kernel_list[j] * components_list_weight[j]
+        else:
+            kernel_final += kernel_list[j] * components_list_weight[j]
+    return kernel_final, input_data
