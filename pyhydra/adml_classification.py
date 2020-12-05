@@ -285,7 +285,10 @@ def classification_multiscale_opnmf(participant_tsv, opnmf_dir, output_dir, comp
         ## run the classification for K features and set the seed of CV split to 0, so that the splits are the same for
         ## different scales. Then finally, the ensemble voting can be done.
         print('For components == %d' % i)
-        classification_roi(opnmf_component_tsv, component_output_dir, cv_repetition=cv_repetition, cv_strategy=cv_strategy,
+        if os.path.exists(component_output_dir, 'classification', 'mean_results.tsv'):
+            pass
+        else:
+            classification_roi(opnmf_component_tsv, component_output_dir, cv_repetition=cv_repetition, cv_strategy=cv_strategy,
             class_weight_balanced=class_weight_balanced, n_threads=n_threads, verbose=verbose, seed=0)
 
     ## ensemble soft voting to determine the final classification results
