@@ -38,7 +38,7 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
 
     """
     print('pyhydra for a binary classification with nested CV...')
-    input_data = RB_Input(feature_tsv)
+    input_data = RB_Input(feature_tsv, standardization_method="minmax")
 
     ## data split
     print('Data split was performed based on validation strategy: %s...\n' % cv_strategy)
@@ -89,7 +89,7 @@ def classification_roi_feature_selection(feature_tsv, output_dir, cv_repetition,
 
     """
     print('pyhydra for a binary classification with nested CV and nested feature selection method...')
-    input_data = RB_Input(feature_tsv)
+    input_data = RB_Input(feature_tsv, standardization_method="minmax")
 
     ## data split
     print('Data split was performed based on validation strategy: %s...\n' % cv_strategy)

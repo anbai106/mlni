@@ -69,8 +69,9 @@ class RB_Input(Input):
     The main class to grab the input ROI-based features.
     """
 
-    def __init__(self, feature_tsv, covariate_tsv=None):
+    def __init__(self, feature_tsv, covariate_tsv=None, standardization_method="zscore"):
         self._covariate_tsv = covariate_tsv
+        self._standardization_method = standardization_method
         self._x = None
         self._y = None
         self._y_raw = None
@@ -90,7 +91,12 @@ class RB_Input(Input):
     def get_x(self):
         ## get the ROI data
         data_feature = self._df_feature.iloc[:, 3:].to_numpy()
-        scaler = MinMaxScaler()
+        if self._standardization_method == "zscore":
+            scaler = StandardScaler()
+        elif self._standardization_method == "minmax":
+            scaler = MinMaxScaler()
+        else:
+            raise Exception("Standardization method not implemented...")
         data_feature = scaler.fit_transform(data_feature)
 
         if self._covariate_tsv == None:

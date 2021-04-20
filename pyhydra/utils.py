@@ -1076,7 +1076,7 @@ def prepare_opnmf_tsv_multikernel(components_list, output_dir, opnmf_dir, df_par
         opnmf_component_tsv = os.path.join(output_dir, 'intermediate', 'opnmf_component_' + str(i) + '.tsv')
         df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
         ## Calculate the linear kernel for each C
-        input_data = base.RB_Input(opnmf_component_tsv)
+        input_data = base.RB_Input(opnmf_component_tsv, standardization_method="minmax")
         kernel = input_data.get_kernel()
         kernel_list.append(kernel)
 
