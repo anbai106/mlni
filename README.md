@@ -1,10 +1,12 @@
 # `pyHYDRA`
-**pyHYDRA** is the fast python implementation of the semi-supervised clustering method: [HYDRA](https://github.com/evarol/HYDRA). Moreover, pyHYDRA also allows binary classification tasks following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML).
+**pyHYDRA** is the fast python implementation for i) the state-of-the-art semi-supervised clustering method: [HYDRA](https://github.com/evarol/HYDRA), and ii) classification framework following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML). This software promotes the reproducibility and objectivity for machine learning practitioners in this field.
 
-Compared to the matlab implementation of HYDRA, pyHYDRA has the following advantages:
+![image info](./data/pyHYDRA.png)
+
+pyHYDRA has the following advantages:
 - Computationally faster with multi-threads implementation;
-- More complex cross-validation (CV) strategy, e.g., repeated hold-out CV for 100 repetitions;
-- Additional functionality for binary classification following [state-of-the-art](https://www.sciencedirect.com/science/article/abs/pii/S105381191630595X) cross-validation procedures.
+- More computationally heavier cross-validation (CV) strategy, e.g., repeated hold-out CV for 100 repetitions;
+- Combine classification and semi-supervised clustering for easy usage.
 
 ## Installation
 [Ananconda](https://www.anaconda.com/products/individual) allows you to install, run and update python package and their dependencies. We highly recommend the users to install **Anancond3** on your machine.
@@ -24,7 +26,7 @@ Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```
-3) pip install pyhydra==1.0.5
+3) pip install pyhydra==1.0.6
 ```
 
 ### Use pyHYDRA from commandline:
@@ -157,9 +159,9 @@ classification_voxel(feature_tsv, output_dir, cv_repetition)
 
 ## Citing this work
 ### If you use this software for clustering:
-> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Poster](https://github.com/anbai106/pyHYDRA/blob/master/data/OHBM2020_poster_Junhao_Wen.pdf)
-
 > Varol, E., Sotiras, A., Davatzikos, C., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
+
+> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Poster](https://github.com/anbai106/pyHYDRA/blob/master/data/OHBM2020_poster_Junhao_Wen.pdf)
 
 ### If you use this software for classification:
 > Wen, J., Samper-González, J., Bottani, S., Routier, A., Burgos, N., Jacquemont, T., Fontanella, S., Durrleman, S., Epelbaum, S., Bertrand, A. and Colliot, O., 2020. **Reproducible evaluation of diffusion MRI features for automatic classification of patients with Alzheimer’s disease**. Neuroinformatics, pp.1-22. [doi:10.1007/s12021-020-09469-5](https://link.springer.com/article/10.1007/s12021-020-09469-5) - [Paper in PDF](https://arxiv.org/abs/1812.11183)
