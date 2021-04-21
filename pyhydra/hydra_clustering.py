@@ -1,7 +1,7 @@
-from .clustering import RB_DualSVM_Subtype
-from .base import RB_Input
+from pyhydra.clustering import RB_DualSVM_Subtype
+from pyhydra.base import RB_Input
 import os, pickle
-from .utils import make_cv_partition
+from pyhydra.utils import make_cv_partition
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -28,7 +28,7 @@ def clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_t
         k_min: int, minimum k (number of clusters)
         k_max: int, maximum k (number of clusters)
         cv_repetition: int, number of repetitions for cross-validation (CV)
-        covariate_tsv: str, path to the tsv containing the covaria`tes, eg., age or sex. The header (first 3 columns) of
+        covariate_tsv: str, path to the tsv containing the covariates, eg., age or sex. The header (first 3 columns) of
                      the tsv file is the same as the feature_tsv, following the BIDS convention.
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
         save_models: Bool, if save all models during CV. Default is False to save space.

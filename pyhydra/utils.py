@@ -10,7 +10,6 @@ from joblib import dump
 import pandas as pd
 from multiprocessing.pool import ThreadPool
 import nibabel as nib
-import base
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -1036,57 +1035,3 @@ def voting_system(voting_method, output_dir, components_list, cv_repetition):
         consensus_voting(output_dir, components_list, cv_repetition)
     else:
         raise Exception("Method not implemented yet！")
-
-def prepare_opnmf_tsv_multikernel(components_list, output_dir, opnmf_dir, df_participant):
-    """
-    This is the function to calculate the multi-kernel for classification.
-    Args:
-        components_list:
-        output_dir:
-        opnmf_dir:
-        df_participant:
-
-    Returns:
-
-    """
-    kernel_list = []
-    ## first loop on different initial C.
-    for i in components_list:
-        ## create a temp file in the output_dir to save the intermediate tsv files
-        component_output_dir = os.path.join(output_dir, 'component_' + str(i))
-        if not os.path.exists(component_output_dir):
-            os.makedirs(component_output_dir)
-        ### grab the output tsv of each C from opNMF
-        opnmf_tsv = os.path.join(opnmf_dir, 'NMF', 'component_' + str(i), 'atlas_components_signal.tsv')
-        df_opnmf = pd.read_csv(opnmf_tsv, sep='\t')
-        ### only take the rows in opnmf_tsv which are in common in participant_tsv
-        df_opnmf = df_opnmf.loc[df_opnmf['participant_id'].isin(df_participant['participant_id'])]
-        ## now check the dimensions
-        if df_participant.shape[0] != df_opnmf.shape[0]:
-            raise Exception("The dimension of the participant_tsv and opNMF are not consistent!")
-        ### make sure the row order is consistent with the participant_tsv
-        df_opnmf = df_opnmf.set_index('participant_id')
-        df_opnmf = df_opnmf.reindex(index=df_participant['participant_id'])
-        df_opnmf = df_opnmf.reset_index()
-        ## replace the path column in df_opnmf to be diagnosis, and save it to temp path for pyHYDRA classification
-        diagnosis_list = list(df_participant['diagnosis'])
-        df_opnmf["path"] = diagnosis_list
-        df_opnmf.rename(columns={'path': 'diagnosis'}, inplace=True)
-        ## save to tsv in a temporal folder
-        opnmf_component_tsv = os.path.join(output_dir, 'intermediate', 'opnmf_component_' + str(i) + '.tsv')
-        df_opnmf.to_csv(opnmf_component_tsv, index=False, sep='\t', encoding='utf-8')
-        ## Calculate the linear kernel for each C
-        input_data = base.RB_Input(opnmf_component_tsv, standardization_method="minmax")
-        kernel = input_data.get_kernel()
-        kernel_list.append(kernel)
-
-    ## merge the list of kernels based on the weights of number of components
-    components_list_weight = [i / sum(components_list) for i in components_list]
-    import numpy as np
-    kernel_final = np.zeros(kernel.shape)
-    for j in range(len(kernel_list)):
-        if j == 0:
-            kernel_final = kernel_list[j] * components_list_weight[j]
-        else:
-            kernel_final += kernel_list[j] * components_list_weight[j]
-    return kernel_final, input_data
