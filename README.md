@@ -161,9 +161,10 @@ classification_voxel(feature_tsv, output_dir, cv_repetition)
 ### If you use this software for clustering:
 > Varol, E., Sotiras, A., Davatzikos, C., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
 
-> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Poster](https://github.com/anbai106/pyHYDRA/blob/master/data/OHBM2020_poster_Junhao_Wen.pdf)
-
 ### If you use this software for classification:
 > Wen, J., Samper-González, J., Bottani, S., Routier, A., Burgos, N., Jacquemont, T., Fontanella, S., Durrleman, S., Epelbaum, S., Bertrand, A. and Colliot, O., 2020. **Reproducible evaluation of diffusion MRI features for automatic classification of patients with Alzheimer’s disease**. Neuroinformatics, pp.1-22. [doi:10.1007/s12021-020-09469-5](https://link.springer.com/article/10.1007/s12021-020-09469-5) - [Paper in PDF](https://arxiv.org/abs/1812.11183)
 
 > J. Samper-Gonzalez, N. Burgos, S. Bottani, S. Fontanella, P. Lu, A. Marcoux, A. Routier, J. Guillon, M. Bacci, J. Wen, A. Bertrand, H. Bertin, M.-O. Habert, S. Durrleman, T. Evgeniou and O. Colliot, **Reproducible evaluation of classification methods in Alzheimer’s disease: Framework and application to MRI and PET data**. NeuroImage, 183:504–521, 2018 [doi:10.1016/j.neuroimage.2018.08.042](https://doi.org/10.1016/j.neuroimage.2018.08.042) - [Paper in PDF](https://hal.inria.fr/hal-01858384/document) - [Supplementary material](https://hal.inria.fr/hal-01858384/file/supplementary_data.xlsx)
+
+## Usage demonstration
+> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Link](https://www.researchgate.net/publication/346965816_Multi-scale_feature_reduction_and_semi-supervised_learning_for_parsing_neuroanatomical_heterogeneity)
