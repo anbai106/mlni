@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-from pyhydra.utils import consensus_clustering, cv_cluster_stability, hydra_solver_svm
+from pyhydra.utils import consensus_clustering, cv_cluster_stability, hydra_solver_svm, time_bar
 from pyhydra.base import WorkFlow
 
 __author__ = "Junhao Wen"
@@ -48,12 +48,14 @@ class RB_DualSVM_Subtype(WorkFlow):
         data_label_folds_ks = np.zeros((y.shape[0], self._cv_repetition, self._k_max - self._k_min + 1)).astype(int)
 
         for i in range(self._cv_repetition):
+            time_bar(i, self._cv_repetition)
+            print()
             for j in self._k_range_list:
-                print('Applying pyHRDRA for finding %d clusters. Repetition: %d / %d...\n' % (j, i+1, self._cv_repetition))
+                if self._verbose:
+                    print('Applying pyHRDRA for finding %d clusters. Repetition: %d / %d...\n' % (j, i+1, self._cv_repetition))
                 training_final_prediction = hydra_solver_svm(i, x[self._split_index[i][0]], y[self._split_index[i][0]], j, self._output_dir,
                                                          self._num_consensus, self._num_iteration, self._tol, self._balanced, self._predefined_c,
                                                          self._weight_initialization_type, self._n_threads, self._save_models, self._verbose)
-
 
                 # change the final prediction's label: test data to be 0, the rest training data will b e updated by the model's prediction
                 data_label_fold = y.copy()

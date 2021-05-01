@@ -9,7 +9,7 @@ pyHYDRA has the following advantages:
 - Combine classification and semi-supervised clustering for easy usage.
 
 ## License
-Copyright (c) 2016 University of Pennsylvania. All rights reserved. See https://www.cbica.upenn.edu/sbia/software/license.html or COPYING file.
+Copyright (c) 2016 University of Pennsylvania. All rights reserved. See https://www.cbica.upenn.edu/sbia/software/license.html.
 
 ## Installation
 [Ananconda](https://www.anaconda.com/products/individual) allows you to install, run and update python package and their dependencies. We highly recommend the users to install **Anancond3** on your machine.
@@ -29,7 +29,7 @@ Install other python package dependencies (go to the root folder of pyHYDRA):
 ```
 Finally, we need install pyHYDRA from PyPi:
 ```
-3) pip install pyhydra==1.0.7
+3) pip install pyhydra==1.0.8
 ```
 
 ### Use pyHYDRA from commandline:

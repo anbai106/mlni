@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyHYDRA",
-    version="1.0.7",
+    version="1.0.8",
     author="junhao.wen",
     author_email="junhao.wen89@email.com",
     description="A fast python implementation of HYDRA for classification and clustering",

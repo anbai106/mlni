@@ -10,6 +10,7 @@ from joblib import dump
 import pandas as pd
 from multiprocessing.pool import ThreadPool
 import nibabel as nib
+import sys
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -1035,3 +1036,10 @@ def voting_system(voting_method, output_dir, components_list, cv_repetition):
         consensus_voting(output_dir, components_list, cv_repetition)
     else:
         raise Exception("Method not implemented yet！")
+
+def time_bar(i,num):
+    sys.stdout.write('\r')
+    progress = (i+1)*1.0/num
+    prog_int = int(progress*50)
+    sys.stdout.write('\t\t[%s%s] %.2f%%' % ('='*prog_int,' '*(50-prog_int), progress*100))
+    sys.stdout.flush()
