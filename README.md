@@ -8,6 +8,9 @@ pyHYDRA has the following advantages:
 - More computationally heavier cross-validation (CV) strategy, e.g., repeated hold-out CV for 100 repetitions;
 - Combine classification and semi-supervised clustering for easy usage.
 
+## License
+Copyright (c) 2016 University of Pennsylvania. All rights reserved. See https://www.cbica.upenn.edu/sbia/software/license.html or COPYING file.
+
 ## Installation
 [Ananconda](https://www.anaconda.com/products/individual) allows you to install, run and update python package and their dependencies. We highly recommend the users to install **Anancond3** on your machine.
 After installing Anaconda3, there are three choices to use pyHYDRA.
