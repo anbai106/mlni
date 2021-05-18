@@ -11,14 +11,14 @@ __status__ = "Development"
 
 def classification_roi_func(args):
     """
-    The default function to run classificaiton.
+    The default function to run classification.
     Args:
         args: args from parser
 
     Returns:
 
     """
-    from .adml_classification import classification_roi
+    from mlni.adml_classification import classification_roi
     classification_roi(
         args.feature_tsv,
         args.output_dir,
@@ -29,16 +29,35 @@ def classification_roi_func(args):
         args.verbose
     )
 
-def classification_voxel_func(args):
+def regression_roi_func(args):
     """
-    The default function to run classificaiton.
+    The default function to run regression with ROI features.
     Args:
         args: args from parser
 
     Returns:
 
     """
-    from .adml_classification import classification_voxel
+    from mlni.adml_regression import regression_roi
+    regression_roi(
+        args.feature_tsv,
+        args.output_dir,
+        args.cv_repetition,
+        args.cv_strategy,
+        args.n_threads,
+        args.verbose
+    )
+
+def classification_voxel_func(args):
+    """
+    The default function to run classification.
+    Args:
+        args: args from parser
+
+    Returns:
+
+    """
+    from mlni.adml_classification import classification_voxel
     classification_voxel(
         args.feature_tsv,
         args.output_dir,
@@ -58,7 +77,7 @@ def clustering_func(args):
     Returns:
 
     """
-    from .hydra_clustering import clustering
+    from mlni.hydra_clustering import clustering
     clustering(
         args.feature_tsv,
         args.output_dir,
@@ -86,21 +105,21 @@ def parse_command_line():
     """
 
     parser = argparse.ArgumentParser(
-        prog='pyhydra',
-        description='pyHYDRA for semi-supervised clustering and supervised classification.')
+        prog='mlni',
+        description='Machine Learning in NeuroImaging for various tasks, e.g., regression, classification and clustering.')
 
     subparser = parser.add_subparsers(
         title='''Task to perform per needs:''',
-        description='''What kind of task do you want to use with pyHYDRA?
-            (clustering, classification_roi, classification_voxel).''',
+        description='''What kind of task do you want to use with mlni?
+            (clustering, classification_roi, classification_voxel, regress_roi).''',
         dest='task',
-        help='''****** Tasks proposed by pyHYDRA ******''')
+        help='''****** Tasks proposed by mlni ******''')
 
     subparser.required = True
 
 ########################################################################################################################
 
-    ## Add arguments for pyHYDRA classification
+    ## Add arguments for ADML ROI classification
     classification_parser_roi = subparser.add_parser(
         'classify_roi',
         help='Perform binary classification for ROI features.')
@@ -156,7 +175,7 @@ def parse_command_line():
 
 ########################################################################################################################
 
-    ## Add arguments for pyHYDRA classification
+    ## Add arguments for ADML voxel-wise classification
     classification_parser_voxel = subparser.add_parser(
         'classify_voxel',
         help='Perform binary classification  for voxel-wise features.')
@@ -211,8 +230,58 @@ def parse_command_line():
 
     classification_parser_voxel.set_defaults(func=classification_voxel_func)
 
+    ########################################################################################################################
+
+    ## Add arguments for ADML ROI regression
+    regression_parser_roi = subparser.add_parser(
+        'regress_roi',
+        help='Perform regression prediction for ROI features.')
+
+    regression_parser_roi.add_argument(
+        'feature_tsv',
+        help="Path to the tsv containing extracted feature, following the BIDS convention. The tsv contains the following first columns:"
+             "i) the first column is the participant_id. "
+             "ii) the second column should be the session_id. "
+             "iii) the third column should be the diagnosis. "
+             "Following columns are the extracted feature per column",
+        default=None
+    )
+
+    regression_parser_roi.add_argument(
+        'output_dir',
+        help='Path to store the classification results.',
+        default=None
+    )
+
+    regression_parser_roi.add_argument(
+        'cv_repetition',
+        help='Number of repetitions for the chosen cross-validation (CV).',
+        default=None, type=int
+    )
+
+    regression_parser_roi.add_argument(
+        '-cs', '--cv_strategy',
+        help='Chosen CV strategy, default is hold_out. ',
+        type=str, default='hold_out',
+        choices=['k_fold', 'hold_out'],
+    )
+
+    regression_parser_roi.add_argument(
+        '-nt', '--n_threads',
+        help='Number of cores used, default is 4',
+        type=int, default=4
+    )
+
+    regression_parser_roi.add_argument(
+        '-v', '--verbose',
+        help='Increase output verbosity',
+        default=False, action="store_true"
+    )
+
+    regression_parser_roi.set_defaults(func=regression_roi_func)
+
 ########################################################################################################################
-    ## Add arguments for pyHYDRA clustering
+    ## Add arguments for HYDRA clustering
     clustering_parser = subparser.add_parser(
         'cluster',
         help='Perform semi-supervised clustering via HYDRA.')
@@ -276,7 +345,7 @@ def parse_command_line():
         type=float,
         default=0.25,
         help="Predefined hyperparameter C of SVM. Default is 0.25. "
-             "Better choice may be guided by pyHYDRA global classification with nested CV for optimal C searching. "
+             "Better choice may be guided by HYDRA global classification with nested CV for optimal C searching. "
     )
 
     clustering_parser.add_argument(

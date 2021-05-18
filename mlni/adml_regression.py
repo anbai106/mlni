@@ -1,7 +1,7 @@
-from pyhydra.regression import RB_RepeatedHoldOut_DualSVM_Regression, RB_KFold_DualSVM_Regression
-from pyhydra.base import RB_Input
+from mlni.regression import RB_RepeatedHoldOut_DualSVM_Regression, RB_KFold_DualSVM_Regression
+from mlni.base import RB_Input
 import os, pickle
-from pyhydra.utils import make_cv_partition
+from mlni.utils import make_cv_partition
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -12,8 +12,7 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out',
-                           n_threads=8, seed=None, verbose=False):
+def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', n_threads=8, seed=None, verbose=False):
     """
     Core function for regression with ROI-based features
 
@@ -33,7 +32,7 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
     Returns: classification outputs.
 
     """
-    print('pyhydra for a binary classification with nested CV...')
+    print('MLNI for a binary classification with nested CV...')
     input_data = RB_Input(feature_tsv, standardization_method="minmax")
 
     ## data split

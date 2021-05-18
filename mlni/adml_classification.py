@@ -1,9 +1,9 @@
-from pyhydra.classification import RB_RepeatedHoldOut_DualSVM_Classification, RB_KFold_DualSVM_Classification, \
+from mlni.classification import RB_RepeatedHoldOut_DualSVM_Classification, RB_KFold_DualSVM_Classification, \
     VB_RepeatedHoldOut_DualSVM_Classification, VB_KFold_DualSVM_Classification, RB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection, \
     VB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection
-from pyhydra.base import RB_Input, VB_Input
+from mlni.base import RB_Input, VB_Input
 import os, pickle
-from pyhydra.utils import make_cv_partition, prepare_opnmf_tsv_voting, voting_system
+from mlni.utils import make_cv_partition, prepare_opnmf_tsv_voting, voting_system
 import pandas as pd
 
 __author__ = "Junhao Wen"
@@ -18,7 +18,7 @@ __status__ = "Development"
 def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
                            n_threads=8, seed=None, verbose=False):
     """
-    pyhydra core function for classification for ROI-based features
+    MLNI core function for classification for ROI-based features
 
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
@@ -37,7 +37,7 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
     Returns: classification outputs.
 
     """
-    print('pyhydra for a binary classification with nested CV...')
+    print('MLNI for a binary classification with nested CV...')
     input_data = RB_Input(feature_tsv, standardization_method="minmax")
 
     ## data split
@@ -67,7 +67,7 @@ def classification_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold
 def classification_roi_feature_selection(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out',
                            class_weight_balanced=True, feature_selection_method='RFE', top_k=50, n_threads=8, seed=None, verbose=False):
     """
-    pyhydra core function for classification for ROI-based features with nested feature selection
+    MLNI core function for classification for ROI-based features with nested feature selection
 
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
@@ -88,7 +88,7 @@ def classification_roi_feature_selection(feature_tsv, output_dir, cv_repetition,
     Returns: classification outputs.
 
     """
-    print('pyhydra for a binary classification with nested CV and nested feature selection method...')
+    print('MLNI for a binary classification with nested CV and nested feature selection method...')
     input_data = RB_Input(feature_tsv, standardization_method="minmax")
 
     ## data split
@@ -117,7 +117,7 @@ def classification_roi_feature_selection(feature_tsv, output_dir, cv_repetition,
 def classification_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True, n_threads=8, seed=None, verbose=False):
 
     """
-    pyhydra core function for classification with voxel-wise features
+    MLNI core function for classification with voxel-wise features
 
     Args:
         participant_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
@@ -136,7 +136,7 @@ def classification_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy
     Returns: classification outputs.
 
     """
-    print('pyhydra for a binary classification with nested CV...')
+    print('MLNI for a binary classification with nested CV...')
     input_data =VB_Input(participant_tsv)
 
     ## data split
@@ -166,7 +166,7 @@ def classification_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy
 def classification_voxel_feature_selection(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', class_weight_balanced=True,
                                            feature_selection_method='RFE', top_k=50, n_threads=8, seed=None, verbose=False):
     """
-    pyhydra core function for classification with voxel-wise features
+    MLNI core function for classification with voxel-wise features
 
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
@@ -187,7 +187,7 @@ def classification_voxel_feature_selection(feature_tsv, output_dir, cv_repetitio
     Returns: classification outputs.
 
     """
-    print('pyhydra for a binary classification with nested CV and nested feature selection method...')
+    print('MLNI for a binary classification with nested CV and nested feature selection method...')
     input_data =VB_Input(feature_tsv)
 
     ## data split

@@ -1,4 +1,4 @@
-from pyhydra.base import WorkFlow, RegressionAlgorithm, RegressionValidation
+from mlni.base import WorkFlow, RegressionAlgorithm, RegressionValidation
 import numpy as np
 import pandas as pd
 import os, json
@@ -6,7 +6,7 @@ from sklearn.svm import SVR
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import KFold, ShuffleSplit
 from multiprocessing.pool import ThreadPool
-from pyhydra.utils import time_bar
+from mlni.utils import time_bar
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -19,7 +19,7 @@ __status__ = "Development"
 
 class RB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
     """
-    The main class to run pyhydra with repeated holdout CV for regression.
+    The main class to run MLNI with repeated holdout CV for regression.
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
@@ -303,7 +303,7 @@ class RepeatedHoldOut(RegressionValidation):
 
 class RB_KFold_DualSVM_Regression(WorkFlow):
     """
-    The main class to run pyhydra with stritified KFold CV for regression with ROI features.
+    The main class to run MLNI with stritified KFold CV for regression with ROI features.
     """
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10,

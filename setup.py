@@ -4,18 +4,18 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyHYDRA",
-    version="1.0.8",
+    name="mlni",
+    version="0.0.1",
     author="junhao.wen",
     author_email="junhao.wen89@email.com",
-    description="A fast python implementation of HYDRA for classification and clustering",
+    description="Machine Learning in NeuroImaging for various tasks, e.g., regression, classification and clustering.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/anbai106/pyhydra",
+    url="https://github.com/anbai106/mlni",
     packages=setuptools.find_packages(),
     entry_points={
         'console_scripts': [
-            'pyhydra = pyhydra.main:main',
+            'mlni = mlni.main:main',
         ],
     },
     classifiers=(

@@ -1,4 +1,4 @@
-from . import cli
+from mlni import cli
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"

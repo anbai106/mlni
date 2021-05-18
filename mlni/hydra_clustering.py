@@ -1,7 +1,7 @@
-from pyhydra.clustering import RB_DualSVM_Subtype
-from pyhydra.base import RB_Input
+from mlni.clustering import RB_DualSVM_Subtype
+from mlni.base import RB_Input
 import os, pickle
-from pyhydra.utils import make_cv_partition
+from mlni.utils import make_cv_partition
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -16,7 +16,7 @@ def clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_t
             cluster_predefined_c=0.25, class_weight_balanced=True, weight_initialization_type='DPP', num_iteration=50,
             num_consensus=20, tol=1e-8, n_threads=8, verbose=False):
     """
-    pyhydra core function for clustering
+    MLNI core function for clustering
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
@@ -47,7 +47,7 @@ def clustering(feature_tsv, output_dir, k_min, k_max, cv_repetition, covariate_t
     Returns: clustering outputs.
 
     """
-    print('pyhydra for semi-supervised clustering...')
+    print('MLNI for semi-supervised clustering...')
     if covariate_tsv == None:
         input_data = RB_Input(feature_tsv, covariate_tsv=None)
     else:

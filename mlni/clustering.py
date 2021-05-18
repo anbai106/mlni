@@ -1,8 +1,8 @@
 import os
 import numpy as np
 import pandas as pd
-from pyhydra.utils import consensus_clustering, cv_cluster_stability, hydra_solver_svm, time_bar
-from pyhydra.base import WorkFlow
+from mlni.utils import consensus_clustering, cv_cluster_stability, hydra_solver_svm, time_bar
+from mlni.base import WorkFlow
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -15,7 +15,7 @@ __status__ = "Development"
 
 class RB_DualSVM_Subtype(WorkFlow):
     """
-    The main class to run pyhydra with repeated holdout CV for clustering.
+    The main class to run MLNI with repeated holdout CV for clustering.
     """
 
     def __init__(self, input, feature_tsv, split_index, cv_repetition, k_min, k_max, output_dir, balanced=True,

@@ -1,4 +1,4 @@
-from pyhydra.base import WorkFlow, ClassificationAlgorithm, ClassificationValidation
+from mlni.base import WorkFlow, ClassificationAlgorithm, ClassificationValidation
 import numpy as np
 import pandas as pd
 import os, json
@@ -6,7 +6,7 @@ from sklearn.svm import SVC, SVR
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from multiprocessing.pool import ThreadPool
-from pyhydra.utils import evaluate_prediction, gram_matrix_linear, time_bar
+from mlni.utils import evaluate_prediction, gram_matrix_linear, time_bar
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import f_classif, RFE, SelectPercentile, SelectFromModel
@@ -22,7 +22,7 @@ __status__ = "Development"
 
 class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     """
-    The main class to run pyhydra with repeated holdout CV for classification.
+    The main class to run classification with repeated holdout CV for classification.
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
@@ -77,7 +77,7 @@ class RB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
 
 class RB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection(WorkFlow):
     """
-    The main class to run pyhydra with stritified KFold CV for classification with roi features and nested feature selection.
+    The main class to run classification with stritified KFold CV for classification with roi features and nested feature selection.
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2, grid_search_folds=10,
@@ -126,7 +126,7 @@ class RB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection(WorkFlo
 
 class VB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
     """
-    The main class to run pyhydra with repeated holdout CV for classification with voxel-wise features.
+    The main class to run MLNI with repeated holdout CV for classification with voxel-wise features.
     """
     def __init__(self, input, split_index, output_dir,  n_threads=8, n_iterations=100, test_size=0.2,
                  grid_search_folds=10, balanced=True, c_range=np.logspace(-6, 2, 17), verbose=False):
@@ -174,7 +174,7 @@ class VB_RepeatedHoldOut_DualSVM_Classification(WorkFlow):
 
 class VB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection(WorkFlow):
     """
-    The main class to run pyhydra with repeated holdout CV for classification with voxel-wise features and nested feature selection.
+    The main class to run MLNI with repeated holdout CV for classification with voxel-wise features and nested feature selection.
     """
     def __init__(self, input, split_index, output_dir,  n_threads=8, n_iterations=100, test_size=0.2, grid_search_folds=10,
                  balanced=True, c_range=np.logspace(-6, 2, 17), feature_selection_method='RFE', top_k=50, verbose=False ):
@@ -219,7 +219,7 @@ class VB_RepeatedHoldOut_DualSVM_Classification_Nested_Feature_Selection(WorkFlo
 
 class RB_KFold_DualSVM_Classification(WorkFlow):
     """
-    The main class to run pyhydra with stritified KFold CV for classification with ROI features.
+    The main class to run MLNI with stritified KFold CV for classification with ROI features.
     """
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10, balanced=True,
@@ -270,7 +270,7 @@ class RB_KFold_DualSVM_Classification(WorkFlow):
 
 class VB_KFold_DualSVM_Classification(WorkFlow):
     """
-    The main class to run pyhydra with stritified KFold CV for classification with voxel features.
+    The main class to run MLNI with stritified KFold CV for classification with voxel features.
     """
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10, balanced=True,

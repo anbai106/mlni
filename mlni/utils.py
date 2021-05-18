@@ -517,7 +517,7 @@ def hydra_solver_svm(num_repetition, X, y, k, output_dir, num_consensus, num_ite
 
 def hydra_init_weight(X, y, k, index_pt, index_cn, weight_initialization_type):
     """
-    Function performs initialization for the polytope of pyhydra
+    Function performs initialization for the polytope of mlni
     Args:
         X: the input features
         y: the label
