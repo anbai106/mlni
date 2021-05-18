@@ -6,7 +6,7 @@ from sklearn.svm import SVC, SVR
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from multiprocessing.pool import ThreadPool
-from pyhydra.utils import evaluate_prediction, gram_matrix_linear
+from pyhydra.utils import evaluate_prediction, gram_matrix_linear, time_bar
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import f_classif, RFE, SelectPercentile, SelectFromModel
@@ -667,6 +667,8 @@ class KFoldCV(ClassificationValidation):
         async_result = {}
 
         for i in range(n_folds):
+            time_bar(i, n_folds)
+            print()
             if verbose:
                 print("Repetition %d of CV..." % i)
             train_index, test_index = self._cv[i]
@@ -758,6 +760,8 @@ class RepeatedHoldOut(ClassificationValidation):
         async_result = {}
 
         for i in range(self._n_iterations):
+            time_bar(i, self._n_iterations)
+            print()
             if verbose:
                 print("Repetition %d of CV..." % i)
             train_index, test_index = self._cv[i]

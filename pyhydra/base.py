@@ -57,7 +57,29 @@ class ClassificationAlgorithm:
     def save_parameters(self, parameters, output_dir):
         pass
 
+class RegressionAlgorithm:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def evaluate(self, train_index, test_index):
+        pass
+
+    @abc.abstractmethod
+    def save_classifier(self, classifier, output_dir):
+        pass
+
+    @abc.abstractmethod
+    def save_parameters(self, parameters, output_dir):
+        pass
+
 class ClassificationValidation:
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def validate(self, y):
+        pass
+
+class RegressionValidation:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
