@@ -172,7 +172,7 @@ classification_voxel(feature_tsv, output_dir, cv_repetition)
 
 ### Running MLNI for regression tasks:
 ```
-from mlni.adml_classification import regression_roi
+from mlni.adml_regression import regression_roi
 feature_tsv="mlni/data/test_feature_regression_age.tsv"
 output_dir = "PATH_OUTPUT_DIR"
 cv_repetition=250
