@@ -24,7 +24,7 @@ Install other python package dependencies (go to the root folder of MLNI):
 ```
 Finally, we need install mlni from PyPi:
 ```
-3) pip install mlni==0.0.1
+4) pip install mlni==0.0.1
 ```
 
 ### Use MLNI from commandline:
@@ -190,3 +190,5 @@ regression_roi(feature_tsv, output_dir, cv_repetition)
 
 ## Usage demonstration
 > Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Link](https://www.researchgate.net/publication/346965816_Multi-scale_feature_reduction_and_semi-supervised_learning_for_parsing_neuroanatomical_heterogeneity)
+
+> Wen, J., Varol, E., Davatzikos, C., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. Submitted to MedIA. - [Link](https://www.biorxiv.org/content/10.1101/2021.04.19.440501v1)
