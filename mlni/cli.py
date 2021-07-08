@@ -48,6 +48,25 @@ def regression_roi_func(args):
         args.verbose
     )
 
+def regression_voxel_func(args):
+    """
+    The default function to run regression with voxel-wise images.
+    Args:
+        args: args from parser
+
+    Returns:
+
+    """
+    from mlni.adml_regression import regression_voxel
+    regression_voxel(
+        args.participant_tsv,
+        args.output_dir,
+        args.cv_repetition,
+        args.cv_strategy,
+        args.n_threads,
+        args.verbose
+    )
+
 def classification_voxel_func(args):
     """
     The default function to run classification.
@@ -279,6 +298,56 @@ def parse_command_line():
     )
 
     regression_parser_roi.set_defaults(func=regression_roi_func)
+
+    ########################################################################################################################
+
+    ## Add arguments for ADML voxel regression
+    regression_parser_roi = subparser.add_parser(
+        'regress_voxel',
+        help='Perform regression prediction for voxel features.')
+
+    regression_parser_roi.add_argument(
+        'participant_tsv',
+        help="Path to the tsv containing participant information, following the BIDS convention. The tsv contains the following first columns:"
+             "i) the first column is the participant_id. "
+             "ii) the second column should be the session_id. "
+             "iii) the third column should be the diagnosis. "
+             "iv) the forth column should be the path to each image",
+        default=None
+    )
+
+    regression_parser_roi.add_argument(
+        'output_dir',
+        help='Path to store the classification results.',
+        default=None
+    )
+
+    regression_parser_roi.add_argument(
+        'cv_repetition',
+        help='Number of repetitions for the chosen cross-validation (CV).',
+        default=None, type=int
+    )
+
+    regression_parser_roi.add_argument(
+        '-cs', '--cv_strategy',
+        help='Chosen CV strategy, default is hold_out. ',
+        type=str, default='hold_out',
+        choices=['k_fold', 'hold_out'],
+    )
+
+    regression_parser_roi.add_argument(
+        '-nt', '--n_threads',
+        help='Number of cores used, default is 4',
+        type=int, default=4
+    )
+
+    regression_parser_roi.add_argument(
+        '-v', '--verbose',
+        help='Increase output verbosity',
+        default=False, action="store_true"
+    )
+
+    regression_parser_roi.set_defaults(func=regression_voxel_func)
 
 ########################################################################################################################
     ## Add arguments for HYDRA clustering

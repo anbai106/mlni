@@ -64,6 +64,54 @@ class RB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
         self._algorithm.save_weights(classifier, x, classifier_dir)
         self._validation.save_results(self._output_dir)
 
+class VB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
+    """
+    The main class to run MLNI with repeated holdout CV for regression.
+    """
+
+    def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
+                 grid_search_folds=10, c_range=np.logspace(-6, 2, 17), kernel=None, verbose=False):
+        self._input = input
+        self._split_index = split_index
+        self._output_dir = output_dir
+        self._n_threads = n_threads
+        self._n_iterations = n_iterations
+        self._grid_search_folds = grid_search_folds
+        self._c_range = c_range
+        self._verbose = verbose
+        self._test_size = test_size
+        self._validation = None
+        self._algorithm = None
+        self._kernel = kernel
+
+    def run(self):
+        if self._kernel is None:
+            kernel = self._input.get_kernel()
+        else:
+            kernel = self._kernel
+        x = self._input.get_x()
+        y = self._input.get_y_raw()
+
+        self._algorithm = LinearSVRAlgorithmWithPrecomputedKernel(kernel,
+                                                     y,
+                                                     grid_search_folds=self._grid_search_folds,
+                                                     c_range=self._c_range,
+                                                     n_threads=self._n_threads, verbose=self._verbose)
+
+        self._validation = RepeatedHoldOut(self._algorithm, n_iterations=self._n_iterations, test_size=self._test_size)
+
+        classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
+                                                                     splits_indices=self._split_index, verbose=self._verbose)
+        classifier_dir = os.path.join(self._output_dir, 'regressor')
+        if not os.path.exists(classifier_dir):
+            os.makedirs(classifier_dir)
+
+        self._algorithm.save_classifier(classifier, classifier_dir)
+        self._algorithm.save_parameters(best_params, classifier_dir)
+        weights = self._algorithm.save_weights(classifier, x, classifier_dir)
+        self._input.save_weights_as_nifti(weights, classifier_dir)
+        self._validation.save_results(self._output_dir)
+
 class LinearSVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
     '''
     SVR with precomputed linear kernel.
@@ -337,13 +385,59 @@ class RB_KFold_DualSVM_Regression(WorkFlow):
         classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
                                                                      splits_indices=self._split_index,
                                                                      n_folds=self._n_folds, verbose=self._verbose)
-        classifier_dir = os.path.join(self._output_dir, 'classifier')
+        classifier_dir = os.path.join(self._output_dir, 'regressor')
         if not os.path.exists(classifier_dir):
             os.makedirs(classifier_dir)
 
         self._algorithm.save_classifier(classifier, classifier_dir)
         self._algorithm.save_parameters(best_params, classifier_dir)
         self._algorithm.save_weights(classifier, x, classifier_dir)
+        self._validation.save_results(self._output_dir)
+
+class VB_KFold_DualSVM_Regression(WorkFlow):
+    """
+    The main class to run MLNI with stritified KFold CV for regression with voxel-wise images.
+    """
+
+    def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10,
+                 c_range=np.logspace(-6, 2, 17), kernel=None, verbose=False):
+        self._input = input
+        self._split_index = split_index
+        self._output_dir = output_dir
+        self._n_threads = n_threads
+        self._grid_search_folds = grid_search_folds
+        self._c_range = c_range
+        self._verbose = verbose
+        self._n_folds = n_folds
+        self._validation = None
+        self._algorithm = None
+        self._kernel = kernel
+
+    def run(self):
+        if self._kernel is None:
+            kernel = self._input.get_kernel()
+        else:
+            kernel = self._kernel
+        x = self._input.get_x()
+        y = self._input.get_y_raw()
+
+        self._algorithm = LinearSVRAlgorithmWithPrecomputedKernel(kernel, y,
+                                                     grid_search_folds=self._grid_search_folds, c_range=self._c_range,
+                                                     n_threads=self._n_threads, verbose=self._verbose)
+
+        self._validation = KFoldCV(self._algorithm)
+
+        classifier, best_params, results = self._validation.validate(y, n_threads=self._n_threads,
+                                                                     splits_indices=self._split_index,
+                                                                     n_folds=self._n_folds, verbose=self._verbose)
+        classifier_dir = os.path.join(self._output_dir, 'regressor')
+        if not os.path.exists(classifier_dir):
+            os.makedirs(classifier_dir)
+
+        self._algorithm.save_classifier(classifier, classifier_dir)
+        self._algorithm.save_parameters(best_params, classifier_dir)
+        weights = self._algorithm.save_weights(classifier, x, classifier_dir)
+        self._input.save_weights_as_nifti(weights, classifier_dir)
         self._validation.save_results(self._output_dir)
 
 class KFoldCV(RegressionValidation):

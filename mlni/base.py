@@ -189,6 +189,7 @@ class VB_Input(Input):
     def __init__(self, feature_tsv):
         self._x = None
         self._y = None
+        self._y_raw = None
         self._kernel = None
         self._images = None
 
@@ -219,6 +220,18 @@ class VB_Input(Input):
         unique = sorted(list(set(self._diagnosis)))
         self._y = np.array([unique.index(x) for x in self._diagnosis])
         return self._y
+
+    def get_y_raw(self):
+        """
+        Do not change the label's representation for clustering
+        :return:
+        """
+
+        if self._y_raw is not None:
+            return self._y_raw
+
+        self._y_raw = np.array(self._diagnosis)
+        return self._y_raw
 
     def get_kernel(self):
         """
