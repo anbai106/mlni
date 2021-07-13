@@ -184,6 +184,22 @@ class RB_Input(Input):
 
         return self._kernel
 
+    def get_kernel_rbf(self, gamma):
+        """
+        Calculate the rbf kernel
+        :return:
+        """
+
+        if self._kernel is not None:
+            return self._kernel
+        if self._x is None:
+            self.get_x()
+
+        from sklearn.metrics.pairwise import rbf_kernel
+        self._kernel = rbf_kernel(self._x, Y=self._x, gamma=gamma)
+
+        return self._kernel
+
 class VB_Input(Input):
 
     def __init__(self, feature_tsv):
@@ -246,6 +262,22 @@ class VB_Input(Input):
         self._kernel = np.matmul(self._x, self._x.transpose())
 
         return self._kernel
+
+    def get_kernel_rbf(self, gamma):
+        """
+        Calculate the rbf kernel
+        :return:
+        """
+        if self._kernel is not None:
+            return self._kernel
+        if self._x is None:
+            self.get_x()
+
+        from sklearn.metrics.pairwise import rbf_kernel
+        self._kernel = rbf_kernel(self._x, Y=self._x, gamma=gamma)
+
+        return self._kernel
+
     def save_weights_as_nifti(self, weights, output_dir):
 
         output_filename = os.path.join(output_dir, 'weights.nii.gz')

@@ -1,4 +1,4 @@
-from mlni.regression import RB_RepeatedHoldOut_DualSVM_Regression, RB_KFold_DualSVM_Regression, \
+from mlni.regression_precomputed_rbf import RB_RepeatedHoldOut_DualSVM_Regression, RB_KFold_DualSVM_Regression, \
     VB_RepeatedHoldOut_DualSVM_Regression, VB_KFold_DualSVM_Regression
 from mlni.base import RB_Input, VB_Input
 import os, pickle
@@ -16,6 +16,7 @@ __status__ = "Development"
 def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', n_threads=8, seed=None, verbose=False):
     """
     Core function for regression with ROI-based features
+
     Args:
         feature_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
@@ -28,10 +29,12 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
         n_threads: int, default is 8. The number of threads to run model in parallel.
         verbose: Bool, default is False. If the output message is verbose.
+
     Returns: regression outputs.
+
     """
     print('MLNI for a regression with nested CV...')
-    input_data = RB_Input(feature_tsv, standardization_method="minmax")
+    input_data = RB_Input(feature_tsv, standardization_method="zscore")
 
     ## data split
     print('Data split was performed based on validation strategy: %s...\n' % cv_strategy)
@@ -60,6 +63,7 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
 def regression_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy='hold_out', n_threads=8, seed=None, verbose=False):
     """
     Core function for regression with voxel-wise images
+
     Args:
         participant_tsv:str, path to the tsv containing extracted feature, following the BIDS convention. The tsv contains
         the following headers: "
@@ -72,7 +76,9 @@ def regression_voxel(participant_tsv, output_dir, cv_repetition, cv_strategy='ho
         cv_strategy: str, cross validation strategy used. Default is hold_out. choices=['k_fold', 'hold_out']
         n_threads: int, default is 8. The number of threads to run model in parallel.
         verbose: Bool, default is False. If the output message is verbose.
+
     Returns: regression outputs.
+
     """
     print('MLNI for a regression with nested CV...')
     input_data = VB_Input(participant_tsv)
