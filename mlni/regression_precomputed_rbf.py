@@ -163,7 +163,7 @@ class SVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
 
     def evaluate(self, train_index, test_index):
 
-        inner_pool = ThreadPool(self._n_threads)
+        inner_pool = ThreadPool(processes=self._n_threads)
         y_train = self._y[train_index]
 
         async_result = {}
@@ -272,7 +272,7 @@ class RepeatedHoldOut(RegressionValidation):
             self._cv = list(splits.split(np.zeros(len(y)), y))
         else:
             self._cv = splits_indices
-        async_pool = ThreadPool(n_threads)
+        async_pool = ThreadPool(processes=n_threads)
         async_result = {}
 
         for i in range(self._n_iterations):
@@ -459,7 +459,7 @@ class KFoldCV(RegressionValidation):
         else:
             self._cv = splits_indices
 
-        async_pool = ThreadPool(n_threads)
+        async_pool = ThreadPool(processes=n_threads)
         async_result = {}
 
         for i in range(n_folds):

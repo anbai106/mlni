@@ -376,7 +376,7 @@ class LinearSVMAlgorithmWithPrecomputedKernel(ClassificationAlgorithm):
 
     def evaluate(self, train_index, test_index):
 
-        inner_pool = ThreadPool(self._n_threads)
+        inner_pool = ThreadPool(processes=self._n_threads)
         async_result = {}
         for i in range(self._grid_search_folds):
             async_result[i] = {}
@@ -530,7 +530,7 @@ class LinearSVMAlgorithmWithPrecomputedKernelNestedFeatureSelection(Classificati
 
     def evaluate(self, train_index, test_index):
 
-        inner_pool = ThreadPool(self._n_threads)
+        inner_pool = ThreadPool(processes=self._n_threads)
         async_result = {}
         for i in range(self._grid_search_folds):
             async_result[i] = {}
@@ -663,7 +663,7 @@ class KFoldCV(ClassificationValidation):
         else:
             self._cv = splits_indices
 
-        async_pool = ThreadPool(n_threads)
+        async_pool = ThreadPool(processes=n_threads)
         async_result = {}
 
         for i in range(n_folds):
@@ -756,7 +756,7 @@ class RepeatedHoldOut(ClassificationValidation):
             self._cv = list(splits.split(np.zeros(len(y)), y))
         else:
             self._cv = splits_indices
-        async_pool = ThreadPool(n_threads)
+        async_pool = ThreadPool(processes=n_threads)
         async_result = {}
 
         for i in range(self._n_iterations):
@@ -970,7 +970,7 @@ class LinearSVMAlgorithmWithoutPrecomputedKernel(ClassificationAlgorithm):
 
     def evaluate(self, train_index, test_index):
 
-        inner_pool = ThreadPool(self._n_threads)
+        inner_pool = ThreadPool(processes=self._n_threads)
         async_result = {}
         for i in range(self._grid_search_folds):
             async_result[i] = {}

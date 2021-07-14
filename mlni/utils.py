@@ -418,7 +418,7 @@ def hydra_solver_svm(num_repetition, X, y, k, output_dir, num_consensus, num_ite
         weight_sample[index_pt] = weight_sample_pt  ## only replace the sample weight of the PT group
         ## cluster assignment is based on this svm scores across different SVM/hyperplanes
         svm_scores = np.zeros((weight_sample.shape[0], weight_sample.shape[1]))
-        update_weights_pool = ThreadPool(n_threads)
+        update_weights_pool = ThreadPool(processes=n_threads)
 
         for j in range(num_iteration):
             for m in range(k):
@@ -470,7 +470,7 @@ def hydra_solver_svm(num_repetition, X, y, k, output_dir, num_consensus, num_ite
         weight_sample_final[index_pt[n], final_predict[n]] = 1
 
     weight_sample_final[index_cn] = 1 / k
-    update_weights_pool_final = ThreadPool(n_threads)
+    update_weights_pool_final = ThreadPool(processes=n_threads)
     ## create the final polytope by applying all weighted subjects
     for o in range(k):
         sample_weight = np.ascontiguousarray(weight_sample_final[:, o])
