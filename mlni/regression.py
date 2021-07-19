@@ -7,6 +7,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import KFold, ShuffleSplit
 from multiprocessing.pool import ThreadPool
 from mlni.utils import time_bar
+from joblib import dump
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
@@ -231,6 +232,8 @@ class LinearSVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
         np.savetxt(os.path.join(output_dir, 'dual_coefficients.txt'), classifier.dual_coef_)
         np.savetxt(os.path.join(output_dir, 'support_vectors_indices.txt'), classifier.support_)
         np.savetxt(os.path.join(output_dir, 'intersect.txt'), classifier.intercept_)
+        ## save the svr instance to apply external test data
+        dump(classifier, os.path.join(output_dir, 'svr.joblib'))
 
     def save_weights(self, classifier, x, output_dir):
 
