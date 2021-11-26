@@ -191,4 +191,6 @@ regression_roi(feature_tsv, output_dir, cv_repetition)
 ## Usage demonstration
 > Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Link](https://www.researchgate.net/publication/346965816_Multi-scale_feature_reduction_and_semi-supervised_learning_for_parsing_neuroanatomical_heterogeneity)
 
-> Wen, J., Varol, E., Davatzikos, C., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. Submitted to MedIA. - [Link](https://www.biorxiv.org/content/10.1101/2021.04.19.440501v1)
+> Wen, J., Varol, E., Davatzikos, C., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. MedIA. - [Link](https://www.sciencedirect.com/science/article/abs/pii/S1361841521003492)
+
+> Wen, J., Fu, C.H., Tosun, Davatzikos, C. 2021. **Multidimensional representations in late-life depression: convergence in neuroimaging, cognition, clinical symptomatology and genetics**. In press -  [arxiv](https://arxiv.org/abs/2110.11347)
