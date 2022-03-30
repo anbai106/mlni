@@ -6,14 +6,14 @@
   MLNI
 </h1>
 
-<p align="center"><strong>Stochastic orthogonally projective non-negative matrix factorization</strong></p>
+<p align="center"><strong>Machine Learning in NeuroImaging</strong></p>
 
 <p align="center">
   <a href="http://www.junhaowen.com/mlni/">Documentation</a> |
 </p>
 
 ## `MLNI`
-**Machine Learning in NeuroImaging (MLNI)** is a python package that performs various tasks using neuroimaging data: i) binary classification for disease diagnosis, following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML); ii) regression prediction, such as age prediction; and iii) semi-supervised clustering with [HYDRA](https://github.com/evarol/HYDRA).
+MLNI is a python package that performs various tasks using neuroimaging data: i) binary classification for disease diagnosis, following good practice proposed in [AD-ML](https://github.com/aramis-lab/AD-ML); ii) regression prediction, such as age prediction; and iii) semi-supervised clustering with [HYDRA](https://github.com/evarol/HYDRA).
 
 > :warning: **The documentation of this software is currently under development**
 
