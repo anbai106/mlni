@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="http://www.junhaowen.com/mlni/">
-    <img src="http://www.junhaowen.com/mlni/images/mlni.png" alt="mlni Logo" width="120" height="30">
+    <img src="http://www.junhaowen.com/mlni/images/mlni.png" alt="mlni Logo">
   </a>
   <br/>
   MLNI
