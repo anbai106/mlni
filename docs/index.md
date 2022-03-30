@@ -3,8 +3,8 @@
 
 ![image info](data/mlni.png)
 
-## License
-Copyright (c) 2016 University of Pennsylvania. All rights reserved. See https://www.cbica.upenn.edu/sbia/software/license.html.
+## !!!
+> :warning: **The documentation of this software is currently under development**
 
 ## Installation
 [Ananconda](https://www.anaconda.com/products/individual) allows you to install, run and update python package and their dependencies. We highly recommend the users to install **Anancond3** on your machine.
