@@ -9,7 +9,7 @@
 <p align="center"><strong>Machine Learning in NeuroImaging</strong></p>
 
 <p align="center">
-  <a href="http://www.junhaowen.com/mlni/">Documentation</a> |
+  <a href="http://www.junhaowen.com/mlni/">Documentation</a>
 </p>
 
 ## `MLNI`
