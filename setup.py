@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mlni",
-    version="0.0.6",
+    version="0.0.7",
     author="junhao.wen",
     author_email="junhao.wen89@email.com",
     description="Machine Learning in NeuroImaging for various tasks, e.g., regression, classification and clustering.",
