@@ -27,7 +27,7 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 > J. Samper-Gonzalez, N. Burgos, S. Bottani, S. Fontanella, P. Lu, A. Marcoux, A. Routier, J. Guillon, M. Bacci, J. Wen, A. Bertrand, H. Bertin, M.-O. Habert, S. Durrleman, T. Evgeniou and O. Colliot, **Reproducible evaluation of classification methods in Alzheimer’s disease: Framework and application to MRI and PET data**. NeuroImage, 183:504–521, 2018 [doi:10.1016/j.neuroimage.2018.08.042](https://doi.org/10.1016/j.neuroimage.2018.08.042) - [Paper in PDF](https://hal.inria.fr/hal-01858384/document) - [Supplementary material](https://hal.inria.fr/hal-01858384/file/supplementary_data.xlsx)
 
 ## Publication using MLNI
-> Lalousis et al., 2022. **Neurobiologically Based Stratification of Recent Onset Depression and Psychosis: Identification of Two Distinct Transdiagnostic Phenotypes**. Biological Psychiatry -  [Link](https://www.sciencedirect.com/science/article/pii/S0006322322011568)
+> Wen, J., Varol, E., Davatzikos, C., 2020. **Multi-scale feature reduction and semi-supervised learning for parsing neuroanatomical heterogeneity**. Organization for Human Brain Mapping. - [Link](https://www.researchgate.net/publication/346965816_Multi-scale_feature_reduction_and_semi-supervised_learning_for_parsing_neuroanatomical_heterogeneity)
 
 > Wen, J., Varol, E., Davatzikos, C., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. MedIA. - [Link](https://www.sciencedirect.com/science/article/abs/pii/S1361841521003492)
 
