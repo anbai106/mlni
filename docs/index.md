@@ -198,3 +198,5 @@ regression_roi(feature_tsv, output_dir, cv_repetition)
 > Wen, J., Varol, E., Davatzikos, C., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. MedIA. - [Link](https://www.sciencedirect.com/science/article/abs/pii/S1361841521003492)
 
 > Wen, J., Fu, C.H., Tosun, Davatzikos, C. 2022. **Characterizing Heterogeneity in Neuroimaging, Cognition, Clinical Symptoms, and Genetics Among Patients With Late-Life Depression**. JAMA Psychiatry -  [Link](https://jamanetwork.com/journals/jamapsychiatry/article-abstract/2789902)
+
+> Lalousis, P.A., Schmaal, L., Wood, S.J., Reniers, R.L., Barnes, N.M., Chisholm, K., Griffiths, S.L., Stainton, A., Wen, J., Hwang, G. and Davatzikos, C., 2022. Neurobiologically Based Stratification of Recent Onset Depression and Psychosis: Identification of Two Distinct Transdiagnostic Phenotypes. Biological Psychiatry. -  [Link](https://www.sciencedirect.com/science/article/pii/S0006322322011568#bib50)
