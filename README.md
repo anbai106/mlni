@@ -1,6 +1,6 @@
 <h1 align="center">
-  <a href="http://www.junhaowen.com/mlni/">
-    <img src="http://www.junhaowen.com/mlni/images/mlni.png" alt="mlni Logo">
+  <a href="https://anbai106.github.io/mlni/">
+    <img src="https://anbai106.github.io/mlni/images/mlni.png" alt="mlni Logo">
   </a>
   <br/>
   MLNI
@@ -9,7 +9,7 @@
 <p align="center"><strong>Machine Learning in NeuroImaging</strong></p>
 
 <p align="center">
-  <a href="http://www.junhaowen.com/mlni/">Documentation</a>
+  <a href="https://anbai106.github.io/mlni/">Documentation</a>
 </p>
 
 ## `MLNI`
