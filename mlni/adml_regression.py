@@ -42,7 +42,7 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
         split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition, seed=seed)
     print('Data split has been done!\n')
 
-    print('Starts regression with SVR...')
+    print('Starts regression with linear SVR...')
     ## Here, we perform a nested CV (outer CV with defined CV method, inner CV with 10-fold grid search) for regression.
     if cv_strategy == 'hold_out':
         wf_regression = RB_RepeatedHoldOut_DualSVM_Regression(input_data, split_index, os.path.join(output_dir, 'regression'),

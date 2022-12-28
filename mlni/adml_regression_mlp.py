@@ -1,4 +1,4 @@
-from mlni.regression_lasso import RB_RepeatedHoldOut_Lasso_Regression
+from mlni.regression_mlp import RB_RepeatedHoldOut_MLP_Regression
 from mlni.base import RB_Input, VB_Input
 import os, pickle
 from mlni.utils import make_cv_partition
@@ -41,10 +41,10 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
         split_index, _ = make_cv_partition(input_data.get_y(), cv_strategy, output_dir, cv_repetition, seed=seed)
     print('Data split has been done!\n')
 
-    print('Starts regression with Lasso...')
+    print('Starts regression with MLP...')
     ## Here, we perform a nested CV (outer CV with defined CV method, inner CV with 10-fold grid search) for regression.
     if cv_strategy == 'hold_out':
-        wf_regression = RB_RepeatedHoldOut_Lasso_Regression(input_data, split_index, os.path.join(output_dir, 'regression'),
+        wf_regression = RB_RepeatedHoldOut_MLP_Regression(input_data, split_index, os.path.join(output_dir, 'regression'),
                                         n_threads=n_threads, n_iterations=cv_repetition, verbose=verbose)
         wf_regression.run()
     else:
