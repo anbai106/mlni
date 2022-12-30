@@ -105,9 +105,12 @@ class MLPRegressionAlgorithm(RegressionAlgorithm):
             maes.append(best_mae)
 
         best_mae_avg = np.mean(maes)
-        best_size = np.power(10, np.mean(np.log10(size_values)))
+        best_size_mean = np.power(10, np.mean(np.log10(size_values)))
 
-        return {'size': best_size, 'mae': best_mae_avg}
+        best_mae_single = min(maes)
+        best_size_single = size_values[maes.index(min(maes))]
+
+        return {'size_mean': best_size_mean, 'size_single': best_size_single, 'mae_mean': best_mae_avg, 'mae_single': best_mae_single}
 
     def evaluate(self, train_index, test_index):
         inner_pool = ThreadPool(processes=self._n_threads)
@@ -139,7 +142,8 @@ class MLPRegressionAlgorithm(RegressionAlgorithm):
         x_test = self._x[test_index]
         y_train, y_test = self._y[train_index], self._y[test_index]
 
-        _, y_hat, y_hat_train, mae = self._lauch_mlp(x_train, x_test, y_train, y_test, best_parameter['size'])
+        _, y_hat, y_hat_train, mae_mean = self._lauch_mlp(x_train, x_test, y_train, y_test, best_parameter['size_mean'])
+        _, _, _, mae_single = self._lauch_mlp(x_train, x_test, y_train, y_test, best_parameter['size_single'])
 
         result = dict()
         result['best_parameter'] = best_parameter
@@ -149,31 +153,47 @@ class MLPRegressionAlgorithm(RegressionAlgorithm):
         result['y_train'] = y_train
         result['y_index'] = test_index
         result['x_index'] = train_index
-        result['mae'] = mae
+        result['mae_mean'] = mae_mean
+        result['mae_single'] = mae_single
 
         return result
 
     def apply_best_parameters(self, results_list):
 
-        best_size_list = []
-        bal_mae_list = []
+        best_size_list_mean = []
+        bal_mae_list_mean = []
+
+        best_size_list_single = []
+        bal_mae_list_single = []
 
         for result in results_list:
-            best_size_list.append(result['best_parameter']['size'])
-            bal_mae_list.append(result['best_parameter']['mae'])
+            best_size_list_mean.append(result['best_parameter']['size_mean'])
+            bal_mae_list_mean.append(result['best_parameter']['mae_mean'])
+            best_size_list_single.append(result['best_parameter']['size_single'])
+            bal_mae_list_single.append(result['best_parameter']['mae_single'])
 
         # 10^(mean of log10 of best Cs of each fold) is selected
-        best_size = np.power(10, np.mean(np.log10(best_size_list)))
+        best_size_mean = np.power(10, np.mean(np.log10(best_size_list_mean)))
         # MAE
-        mean_mae = np.mean(bal_mae_list)
-        mlp = MLPRegressor(hidden_layer_sizes=int(best_size), tol=1e-6, max_iter=500)
-        mlp.fit(self._x, self._y)
+        mean_mae = np.mean(bal_mae_list_mean)
+        mlp_mean = MLPRegressor(hidden_layer_sizes=int(best_size_mean), tol=1e-6, max_iter=500)
+        mlp_mean.fit(self._x, self._y)
 
-        return mlp, {'size': int(best_size), 'mae': mean_mae}
+        ### also save the single model with the lowest MAE
+        single_mae = min(bal_mae_list_single)
+        min_mae_index = bal_mae_list_single.index(min(bal_mae_list_single))
+        best_size_single = best_size_list_single[min_mae_index]
+        mlp_single = MLPRegressor(hidden_layer_sizes=int(best_size_single), tol=1e-6, max_iter=500)
+        mlp_single.fit(self._x, self._y)
+
+        mlp = [mlp_mean, mlp_single]
+
+        return mlp, {'size_mean': int(best_size_mean), 'size_single': int(best_size_single), 'mae_mean': mean_mae,  'mae_single': single_mae}
 
     def save_regressor(self, regressor, output_dir):
         ## save the svr instance to apply external test data
-        dump(regressor, os.path.join(output_dir, 'mlp.joblib'))
+        dump(regressor[0], os.path.join(output_dir, 'mlp_mean.joblib'))
+        dump(regressor[1], os.path.join(output_dir, 'mlp_single.joblib'))
 
     def save_parameters(self, parameters_dict, output_dir):
         with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
@@ -253,7 +273,8 @@ class RepeatedHoldOut(RegressionValidation):
             all_test_subjects_list.append(iteration_test_subjects_df)
 
             iteration_results_df = pd.DataFrame(
-                    {'mae': self._split_results[iteration]['mae'],
+                    {'mae_mean': self._split_results[iteration]['mae_mean'],
+                     'mae_single': self._split_results[iteration]['mae_single'],
                      }, index=['i', ])
             iteration_results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'),
                                         index=False, sep='\t', encoding='utf-8')
@@ -278,4 +299,5 @@ class RepeatedHoldOut(RegressionValidation):
                                index=False, sep='\t', encoding='utf-8')
 
         print("Mean results of the regression:")
-        print("Mean absolute error: %s" % (mean_results_df['mae'].to_string(index=False)))
+        print("Mean absolute error for the average model: %s" % (mean_results_df['mae_mean'].to_string(index=False)))
+        print("Mean absolute error for the single model: %s" % (mean_results_df['mae_single'].to_string(index=False)))

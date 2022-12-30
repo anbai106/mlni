@@ -104,9 +104,12 @@ class LassoRegressionAlgorithm(RegressionAlgorithm):
             maes.append(best_mae)
 
         best_mae_avg = np.mean(maes)
-        best_alpha = np.power(10, np.mean(np.log10(alpha_values)))
+        best_alpha_mean = np.power(10, np.mean(np.log10(alpha_values)))
 
-        return {'alpha': best_alpha, 'mae': best_mae_avg}
+        best_mae_single = min(maes)
+        best_alpha_single = alpha_values[maes.index(min(maes))]
+
+        return {'alpha_mean': best_alpha_mean, 'mae_mean': best_mae_avg, 'alpha_single': best_alpha_single, 'mae_single': best_mae_single}
 
     def evaluate(self, train_index, test_index):
         inner_pool = ThreadPool(processes=self._n_threads)
@@ -138,7 +141,8 @@ class LassoRegressionAlgorithm(RegressionAlgorithm):
         x_test = self._x[test_index]
         y_train, y_test = self._y[train_index], self._y[test_index]
 
-        _, y_hat, y_hat_train, mae = self._lauch_lasso(x_train, x_test, y_train, y_test, best_parameter['alpha'])
+        _, y_hat, y_hat_train, mae_mean = self._lauch_lasso(x_train, x_test, y_train, y_test, best_parameter['alpha_mean'])
+        _, _, _, mae_single = self._lauch_lasso(x_train, x_test, y_train, y_test, best_parameter['alpha_single'])
 
         result = dict()
         result['best_parameter'] = best_parameter
@@ -148,34 +152,51 @@ class LassoRegressionAlgorithm(RegressionAlgorithm):
         result['y_train'] = y_train
         result['y_index'] = test_index
         result['x_index'] = train_index
-        result['mae'] = mae
+        result['mae_mean'] = mae_mean
+        result['mae_single'] = mae_single
 
         return result
 
     def apply_best_parameters(self, results_list):
 
-        best_alpha_list = []
-        bal_mae_list = []
+        best_alpha_list_mean = []
+        bal_mae_list_mean = []
+        best_alpha_list_single = []
+        bal_mae_list_single = []
 
         for result in results_list:
-            best_alpha_list.append(result['best_parameter']['alpha'])
-            bal_mae_list.append(result['best_parameter']['mae'])
+            best_alpha_list_mean.append(result['best_parameter']['alpha_mean'])
+            bal_mae_list_mean.append(result['best_parameter']['mae_mean'])
+            best_alpha_list_single.append(result['best_parameter']['alpha_single'])
+            bal_mae_list_single.append(result['best_parameter']['mae_single'])
 
         # 10^(mean of log10 of best Cs of each fold) is selected
-        best_alpha = np.power(10, np.mean(np.log10(best_alpha_list)))
+        best_alpha = np.power(10, np.mean(np.log10(best_alpha_list_mean)))
         # MAE
-        mean_mae = np.mean(bal_mae_list)
-        lasso = Lasso(alpha=best_alpha, tol=1e-6)
-        lasso.fit(self._x, self._y)
+        mean_mae = np.mean(bal_mae_list_mean)
+        lasso_mean = Lasso(alpha=best_alpha, tol=1e-6)
+        lasso_mean.fit(self._x, self._y)
 
-        return lasso, {'alpha': best_alpha, 'mae': mean_mae}
+        ### also save the single model with the lowest MAE
+        single_mae = min(bal_mae_list_single)
+        min_mae_index = bal_mae_list_single.index(min(bal_mae_list_single))
+        best_alpha_single = best_alpha_list_single[min_mae_index]
+        lasso_single = Lasso(alpha=best_alpha_single, tol=1e-6)
+        lasso_single.fit(self._x, self._y)
+
+        lasso = [lasso_mean, lasso_single]
+
+        return lasso, {'alpha_mean': best_alpha, 'alpha_single': best_alpha_single, 'mae_mean': mean_mae, 'mae_single': single_mae}
 
     def save_regressor(self, regressor, output_dir):
 
-        np.savetxt(os.path.join(output_dir, 'coefficients.txt'), regressor.coef_)
-        np.savetxt(os.path.join(output_dir, 'intercept.txt'),  np.array([regressor.intercept_]))
+        np.savetxt(os.path.join(output_dir, 'coefficients_mean.txt'), regressor[0].coef_)
+        np.savetxt(os.path.join(output_dir, 'coefficients_single.txt'), regressor[1].coef_)
+        np.savetxt(os.path.join(output_dir, 'intercept_mean.txt'),  np.array([regressor[0].intercept_]))
+        np.savetxt(os.path.join(output_dir, 'intercept_single.txt'),  np.array([regressor[1].intercept_]))
         ## save the svr instance to apply external test data
-        dump(regressor, os.path.join(output_dir, 'lasso.joblib'))
+        dump(regressor[0], os.path.join(output_dir, 'lasso_mean.joblib'))
+        dump(regressor[1], os.path.join(output_dir, 'lasso_single.joblib'))
 
     def save_parameters(self, parameters_dict, output_dir):
         with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:
@@ -189,7 +210,7 @@ class RepeatedHoldOut(RegressionValidation):
     def __init__(self, ml_algorithm, n_iterations=100, test_size=0.3):
         self._ml_algorithm = ml_algorithm
         self._split_results = []
-        self._regressor = None
+        self._regressor = None ## this should be a list of two sklearn models
         self._best_params = None
         self._cv = None
         self._n_iterations = n_iterations
@@ -255,7 +276,8 @@ class RepeatedHoldOut(RegressionValidation):
             all_test_subjects_list.append(iteration_test_subjects_df)
 
             iteration_results_df = pd.DataFrame(
-                    {'mae': self._split_results[iteration]['mae'],
+                    {'mae_mean': self._split_results[iteration]['mae_mean'],
+                     'mae_single': self._split_results[iteration]['mae_single'],
                      }, index=['i', ])
             iteration_results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'),
                                         index=False, sep='\t', encoding='utf-8')
@@ -280,4 +302,5 @@ class RepeatedHoldOut(RegressionValidation):
                                index=False, sep='\t', encoding='utf-8')
 
         print("Mean results of the regression:")
-        print("Mean absolute error: %s" % (mean_results_df['mae'].to_string(index=False)))
+        print("Mean absolute error for the average model: %s" % (mean_results_df['mae_mean'].to_string(index=False)))
+        print("Mean absolute error for the single model: %s" % (mean_results_df['mae_single'].to_string(index=False)))

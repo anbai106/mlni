@@ -26,7 +26,7 @@ class RB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
                  grid_search_folds=5,
                  c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
-                 gamma_range=['auto', 'scale'],
+                 gamma_range=[j * 10**k for k in range(-8, -6) for j in [1, 4, 7]],
                  kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
@@ -46,8 +46,12 @@ class RB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
         x = self._input.get_x()
         y = self._input.get_y_raw()
 
-        self._algorithm = SVRAlgorithmWithRBFKernel(x, y, grid_search_folds=self._grid_search_folds, c_range=self._c_range,
-                                                     gamma_range=self._gamma_range, n_threads=self._n_threads, verbose=self._verbose)
+        self._algorithm = SVRAlgorithmWithPrecomputedKernel(self._input,
+                                                     y,
+                                                     grid_search_folds=self._grid_search_folds,
+                                                     c_range=self._c_range,
+                                                     gamma_range=self._gamma_range,
+                                                     n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = RepeatedHoldOut(self._algorithm, n_iterations=self._n_iterations, test_size=self._test_size)
 
@@ -59,7 +63,7 @@ class RB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
 
         self._algorithm.save_classifier(classifier, classifier_dir)
         self._algorithm.save_parameters(best_params, classifier_dir)
-        self._algorithm.save_weights(classifier, x, classifier_dir)
+        # self._algorithm.save_weights(classifier, x, classifier_dir)
         self._validation.save_results(self._output_dir)
 
 class VB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
@@ -69,7 +73,7 @@ class VB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
                  grid_search_folds=5, c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
-                 gamma_range=['auto', 'scale'],
+                 gamma_range=[j * 10**k for k in range(-8, -6) for j in [1, 4, 7]],
                  kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
@@ -89,8 +93,10 @@ class VB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
         x = self._input.get_x()
         y = self._input.get_y_raw()
 
-        self._algorithm = SVRAlgorithmWithRBFKernel(x, y, grid_search_folds=self._grid_search_folds,
-                                                     c_range=self._c_range, gamma_range=self._gamma_range,
+        self._algorithm = SVRAlgorithmWithPrecomputedKernel(self._input, y,
+                                                     grid_search_folds=self._grid_search_folds,
+                                                     c_range=self._c_range,
+                                                     gamma_range=self._gamma_range,
                                                      n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = RepeatedHoldOut(self._algorithm, n_iterations=self._n_iterations, test_size=self._test_size)
@@ -107,13 +113,14 @@ class VB_RepeatedHoldOut_DualSVM_Regression(WorkFlow):
         self._input.save_weights_as_nifti(weights, classifier_dir)
         self._validation.save_results(self._output_dir)
 
-class SVRAlgorithmWithRBFKernel(RegressionAlgorithm):
+class SVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
     '''
     SVR with precomputed linear kernel.
     '''
-    def __init__(self, x, y, grid_search_folds=10, c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
-                 gamma_range=['auto', 'scale'], n_threads=15, verbose=False):
-        self._x = x
+    def __init__(self, input, y, grid_search_folds=10, c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
+                 gamma_range=[j * 10**k for k in range(-8, -6) for j in [1, 4, 7]],
+                 n_threads=15, verbose=False):
+        self._input = input
         self._y = y
         self._grid_search_folds = grid_search_folds
         self._c_range = c_range
@@ -121,19 +128,19 @@ class SVRAlgorithmWithRBFKernel(RegressionAlgorithm):
         self._n_threads = n_threads
         self._verbose = verbose
 
-    def _launch_svr(self, x_train, x_test, y_train, y_test, c, gamma):
-        svr = SVR(C=c, kernel='rbf', gamma=gamma)
-        svr.fit(x_train, y_train)
-        y_hat_train = svr.predict(x_train)
+    def _launch_svr(self, kernel_train, x_test, y_train, y_test, c):
+        svr = SVR(C=c, kernel='precomputed', max_iter=1e6, tol=1e-2)
+        svr.fit(kernel_train, y_train)
+        y_hat_train = svr.predict(kernel_train)
         y_hat = svr.predict(x_test)
         ## compute the mae
         mae = mean_absolute_error(y_test, y_hat)
 
         return svr, y_hat, y_hat_train, mae
 
-    def _grid_search(self, x_train, x_test, y_train, y_test, c, gamma):
+    def _grid_search(self, kernel_train, x_test, y_train, y_test, c):
 
-        _, _, _, mae = self._launch_svr(x_train, x_test, y_train, y_test, c, gamma)
+        _, _, _, mae = self._launch_svr(kernel_train, x_test, y_train, y_test, c)
 
         return mae
 
@@ -152,7 +159,7 @@ class SVRAlgorithmWithRBFKernel(RegressionAlgorithm):
         best_mae = results_array[index_fold[0], index_gamma_opt[0], index_c_opt[0]]
         best_gamma = self._gamma_range[index_gamma_opt[0]]
         best_c = self._c_range[index_c_opt[0]]
-        
+
         return {'gamma': best_gamma, 'c': best_c, 'mae': best_mae}
 
     def evaluate(self, train_index, test_index):
@@ -163,28 +170,31 @@ class SVRAlgorithmWithRBFKernel(RegressionAlgorithm):
         async_result = {}
 
         for j in range(len(self._gamma_range)):
-            x_train = self._x[train_index]
+            ## calculate the RBF kernel
+            kernel_rbf = self._input.get_kernel_rbf(self._gamma_range[j])
+            outer_kernel = kernel_rbf[train_index, :][:, train_index]
             skf = KFold(n_splits=self._grid_search_folds, shuffle=True)
             inner_cv = list(skf.split(np.zeros(len(y_train)), y_train))
             for k in range(len(inner_cv)):
                 inner_train_index, inner_test_index = inner_cv[k]
-                x_train_inner = x_train[inner_train_index]
-                x_test_inner = x_train[inner_test_index]
+                inner_kernel = outer_kernel[inner_train_index, :][:, inner_train_index]
+                x_test_inner = outer_kernel[inner_test_index, :][:, inner_train_index]
                 y_train_inner, y_test_inner = y_train[inner_train_index], y_train[inner_test_index]
                 for l in range(len(self._c_range)):
                     if self._verbose:
-                        print("Inner CV for c=%f and gamma=%s..." % (self._c_range[l], self._gamma_range[j]))
+                        print("Inner CV for c=%f and gamma=%f..." % (self._c_range[l], self._gamma_range[j]))
                     async_result[self._gamma_range[j], self._c_range[l], k] = inner_pool.apply_async(self._grid_search,
-                                    args=(x_train_inner, x_test_inner, y_train_inner, y_test_inner, self._c_range[l], self._gamma_range[j]))
+                                    args=(inner_kernel, x_test_inner, y_train_inner, y_test_inner, self._c_range[l]))
         inner_pool.close()
         inner_pool.join()
 
         best_parameter = self._select_best_parameter(async_result)
-        x_train = self._x[train_index]
-        x_test = self._x[test_index]
+        kernel_rbf_best = self._input.get_kernel_rbf(best_parameter['gamma'])
+        outer_kernel_best = kernel_rbf_best[train_index, :][:, train_index]
+        x_test = kernel_rbf_best[test_index, :][:, train_index]
         y_train, y_test = self._y[train_index], self._y[test_index]
 
-        _, y_hat, y_hat_train, mae = self._launch_svr(x_train, x_test, y_train, y_test, best_parameter['c'], best_parameter['gamma'])
+        _, y_hat, y_hat_train, mae = self._launch_svr(outer_kernel_best, x_test, y_train, y_test, best_parameter['c'])
 
         result = dict()
         result['best_parameter'] = best_parameter
@@ -208,23 +218,36 @@ class SVRAlgorithmWithRBFKernel(RegressionAlgorithm):
             best_c_list.append(result['best_parameter']['c'])
             best_gamma_list.append(result['best_parameter']['gamma'])
             bal_mae_list.append(result['best_parameter']['mae'])
-        best_c = np.power(10, np.mean(np.log10(best_c_list)))
-        best_gamma = max(best_gamma_list, key = best_gamma_list.count)
+
+        # 10^(mean of log10 of best Cs of each fold) is selected
+        best_c_mean = np.power(10, np.mean(np.log10(best_c_list)))
+        best_gamma_mean = np.power(10, np.mean(np.log10(best_gamma_list)))
         # MAE
         mean_mae = np.mean(bal_mae_list)
-        svr = SVR(C=best_c, kernel='rbf', gamma=best_gamma)
-        svr.fit(self._x, self._y)
+        svr_mean = SVR(C=best_c_mean, kernel='precomputed', tol=1e-6)
+        kernel_rbf_mean = self._input.get_kernel_rbf(best_gamma_mean)
+        svr_mean.fit(kernel_rbf_mean[:, :len(self._y)], self._y)
 
-        return svr, {'gamma': best_gamma, 'c': best_c, 'mae': mean_mae}
+
+        ### also save the single model with the lowest MAE
+        min_mae_index = bal_mae_list.index(min(bal_mae_list))
+        single_mae = min(bal_mae_list)
+        best_c_single = best_c_list[min_mae_index]
+        best_gamma_single = np.power(10, np.mean(np.log10(best_gamma_list)))
+        svr_single = SVR(C=best_c_single, kernel='precomputed', tol=1e-6)
+        kernel_rbf_single = self._input.get_kernel_rbf(best_gamma_single)
+        svr_single.fit(kernel_rbf_single[:, :len(self._y)], self._y)
+
+        svr = [svr_mean, svr_single]
+
+        return svr, {'gamma_mean': best_gamma_mean, 'c_mean': best_c_mean, 'mae_mean': mean_mae,
+                     'gamma_single': best_gamma_single, 'c_single': best_c_mean, 'mae_single': single_mae}
 
     def save_classifier(self, classifier, output_dir):
 
-        np.savetxt(os.path.join(output_dir, 'dual_coefficients.txt'), classifier.dual_coef_)
-        np.savetxt(os.path.join(output_dir, 'support_vectors_indices.txt'), classifier.support_)
-        np.savetxt(os.path.join(output_dir, 'intersect.txt'), classifier.intercept_)
-
         ## save the svr instance to apply external test data
-        dump(classifier, os.path.join(output_dir, 'svr.joblib'))
+        dump(classifier[0], os.path.join(output_dir, 'svr_mean.joblib'))
+        dump(classifier[1], os.path.join(output_dir, 'svr_single.joblib'))
 
     def save_weights(self, classifier, x, output_dir):
 
@@ -350,8 +373,7 @@ class RB_KFold_DualSVM_Regression(WorkFlow):
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10,
                  c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
-                 gamma_range=['auto', 'scale'],
-                 kernel=None, verbose=False):
+                 gamma_range=[j * 10 ** k for k in range(-8, -6) for j in [1, 4, 7]], kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -369,9 +391,9 @@ class RB_KFold_DualSVM_Regression(WorkFlow):
         x = self._input.get_x()
         y = self._input.get_y_raw()
 
-        self._algorithm = SVRAlgorithmWithRBFKernel(x, y,
+        self._algorithm = SVRAlgorithmWithPrecomputedKernel(self._input, y,
                                                      grid_search_folds=self._grid_search_folds, c_range=self._c_range,
-                                                    gamma_range=self._gamma_range,
+                                                     gamma_range=self._gamma_range,
                                                      n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = KFoldCV(self._algorithm)
@@ -395,7 +417,7 @@ class VB_KFold_DualSVM_Regression(WorkFlow):
 
     def __init__(self, input, split_index, output_dir, n_folds, n_threads=8, grid_search_folds=10,
                  c_range=[j * 10 ** k for k in range(1, 4) for j in [1, 2, 4, 7]],
-                 gamma_range=['auto', 'scale'], kernel=None, verbose=False):
+                 gamma_range=[j * 10 ** k for k in range(-8, -6) for j in [1, 4, 7]], kernel=None, verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -413,8 +435,10 @@ class VB_KFold_DualSVM_Regression(WorkFlow):
         x = self._input.get_x()
         y = self._input.get_y_raw()
 
-        self._algorithm = SVRAlgorithmWithRBFKernel(x, y, grid_search_folds=self._grid_search_folds, c_range=self._c_range,
-                                                    gamma_range=self._gamma_range, n_threads=self._n_threads, verbose=self._verbose)
+        self._algorithm = SVRAlgorithmWithPrecomputedKernel(self._input, y,
+                                                     grid_search_folds=self._grid_search_folds, c_range=self._c_range,
+                                                     gamma_range=self._gamma_range,
+                                                     n_threads=self._n_threads, verbose=self._verbose)
 
         self._validation = KFoldCV(self._algorithm)
 

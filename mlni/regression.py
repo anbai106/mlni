@@ -159,9 +159,12 @@ class LinearSVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
             maes.append(best_mae)
 
         best_mae_avg = np.mean(maes)
-        best_c = np.power(10, np.mean(np.log10(c_values)))
+        best_c_mean = np.power(10, np.mean(np.log10(c_values)))
 
-        return {'c': best_c, 'mae': best_mae_avg}
+        best_mae_single = min(maes)
+        best_c_single = c_values[maes.index(min(maes))]
+
+        return {'c_mean': best_c_mean, 'c_single': best_c_single, 'mae_mean': best_mae_avg, 'mae_single': best_mae_single}
 
     def evaluate(self, train_index, test_index):
 
@@ -195,7 +198,8 @@ class LinearSVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
         x_test = self._kernel[test_index, :][:, train_index]
         y_train, y_test = self._y[train_index], self._y[test_index]
 
-        _, y_hat, y_hat_train, mae = self._launch_svr(outer_kernel, x_test, y_train, y_test, best_parameter['c'])
+        _, y_hat, y_hat_train, mae_mean = self._launch_svr(outer_kernel, x_test, y_train, y_test, best_parameter['c_mean'])
+        _, _, _, mae_single = self._launch_svr(outer_kernel, x_test, y_train, y_test, best_parameter['c_single'])
 
         result = dict()
         result['best_parameter'] = best_parameter
@@ -205,45 +209,68 @@ class LinearSVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
         result['y_train'] = y_train
         result['y_index'] = test_index
         result['x_index'] = train_index
-        result['mae'] = mae
+        result['mae_mean'] = mae_mean
+        result['mae_single'] = mae_single
 
         return result
 
     def apply_best_parameters(self, results_list):
 
-        best_c_list = []
-        bal_mae_list = []
+        best_c_list_mean = []
+        bal_mae_list_mean = []
+        best_c_list_single = []
+        bal_mae_list_single = []
 
         for result in results_list:
-            best_c_list.append(result['best_parameter']['c'])
-            bal_mae_list.append(result['best_parameter']['mae'])
+            best_c_list_mean.append(result['best_parameter']['c_mean'])
+            bal_mae_list_mean.append(result['best_parameter']['mae_mean'])
+            best_c_list_single.append(result['best_parameter']['c_single'])
+            bal_mae_list_single.append(result['best_parameter']['mae_single'])
+
 
         # 10^(mean of log10 of best Cs of each fold) is selected
-        best_c = np.power(10, np.mean(np.log10(best_c_list)))
+        best_c_mean = np.power(10, np.mean(np.log10(best_c_list_mean)))
         # MAE
-        mean_mae = np.mean(bal_mae_list)
-        svr = SVR(C=best_c, kernel='precomputed', tol=1e-6)
-        svr.fit(self._kernel, self._y)
+        mean_mae = np.mean(bal_mae_list_mean)
+        svr_mean = SVR(C=best_c_mean, kernel='precomputed', tol=1e-6)
+        svr_mean.fit(self._kernel, self._y)
 
-        return svr, {'c': best_c, 'mae': mean_mae}
+        ### also save the single model with the lowest MAE
+        single_mae = min(bal_mae_list_single)
+        min_mae_index = bal_mae_list_single.index(min(bal_mae_list_single))
+        best_c_single = best_c_list_single[min_mae_index]
+        svr_single = SVR(C=best_c_single, kernel='precomputed', tol=1e-6)
+        svr_single.fit(self._kernel, self._y)
+
+        svr = [svr_mean, svr_single]
+
+        return svr, {'c_mean': best_c_mean, 'c_single': best_c_single, 'mae_mean': mean_mae,  'mae_single': single_mae}
 
     def save_classifier(self, classifier, output_dir):
 
-        np.savetxt(os.path.join(output_dir, 'dual_coefficients.txt'), classifier.dual_coef_)
-        np.savetxt(os.path.join(output_dir, 'support_vectors_indices.txt'), classifier.support_)
-        np.savetxt(os.path.join(output_dir, 'intersect.txt'), classifier.intercept_)
+        np.savetxt(os.path.join(output_dir, 'dual_coefficients_mean.txt'), classifier[0].dual_coef_)
+        np.savetxt(os.path.join(output_dir, 'dual_coefficients_single.txt'), classifier[1].dual_coef_)
+        np.savetxt(os.path.join(output_dir, 'support_vectors_indices_mean.txt'), classifier[0].support_)
+        np.savetxt(os.path.join(output_dir, 'support_vectors_indices_single.txt'), classifier[1].support_)
+        np.savetxt(os.path.join(output_dir, 'intersect_mean.txt'), classifier[0].intercept_)
+        np.savetxt(os.path.join(output_dir, 'intersect_single.txt'), classifier[1].intercept_)
         ## save the svr instance to apply external test data
-        dump(classifier, os.path.join(output_dir, 'svr.joblib'))
+        dump(classifier[0], os.path.join(output_dir, 'svr_mean.joblib'))
+        dump(classifier[1], os.path.join(output_dir, 'svr_single.joblib'))
 
     def save_weights(self, classifier, x, output_dir):
 
-        dual_coefficients = classifier.dual_coef_
-        sv_indices = classifier.support_
-
+        dual_coefficients = classifier[0].dual_coef_
+        sv_indices = classifier[0].support_
         weighted_sv = dual_coefficients.transpose() * x[sv_indices]
         weights = np.sum(weighted_sv, 0)
+        np.savetxt(os.path.join(output_dir, 'weights_mean.txt'), weights)
 
-        np.savetxt(os.path.join(output_dir, 'weights.txt'), weights)
+        dual_coefficients = classifier[1].dual_coef_
+        sv_indices = classifier[1].support_
+        weighted_sv = dual_coefficients.transpose() * x[sv_indices]
+        weights = np.sum(weighted_sv, 0)
+        np.savetxt(os.path.join(output_dir, 'weights_single.txt'), weights)
 
         return weights
 
@@ -325,7 +352,8 @@ class RepeatedHoldOut(RegressionValidation):
             all_test_subjects_list.append(iteration_test_subjects_df)
 
             iteration_results_df = pd.DataFrame(
-                    {'mae': self._split_results[iteration]['mae'],
+                    {'mae_mean': self._split_results[iteration]['mae_mean'],
+                     'mae_single': self._split_results[iteration]['mae_single'],
                      }, index=['i', ])
             iteration_results_df.to_csv(os.path.join(iteration_dir, 'results.tsv'),
                                         index=False, sep='\t', encoding='utf-8')
@@ -349,8 +377,8 @@ class RepeatedHoldOut(RegressionValidation):
         mean_results_df.to_csv(os.path.join(output_dir, 'mean_results.tsv'),
                                index=False, sep='\t', encoding='utf-8')
 
-        print("Mean results of the regression:")
-        print("Mean absolute error: %s" % (mean_results_df['mae'].to_string(index=False)))
+        print("Mean absolute error for the average model: %s" % (mean_results_df['mae_mean'].to_string(index=False)))
+        print("Mean absolute error for the single model: %s" % (mean_results_df['mae_single'].to_string(index=False)))
 
 class RB_KFold_DualSVM_Regression(WorkFlow):
     """
