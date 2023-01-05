@@ -149,6 +149,10 @@ class RB_Input(Input):
             
         return self._x
 
+    def get_participant_session_id(self):
+        "Get the participant_id and session_id as a dataframe"
+        return self._df_feature[['participant_id', 'session_id']]
+
     def get_y(self):
         "Get the lable converted from -1 to 0, 1 to 1 for classification"
         if self._y is not None:

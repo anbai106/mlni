@@ -3,7 +3,12 @@ import numpy as np
 import pandas as pd
 import os, json
 from sklearn.svm import SVC, SVR
-from sklearn.metrics import roc_auc_score
+from packaging import version
+import sklearn
+if version.parse(sklearn.__version__) < version.parse("0.22.0"):
+    from sklearn.metrics.ranking import roc_auc_score
+else:
+    from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from multiprocessing.pool import ThreadPool
 from mlni.utils import evaluate_prediction, gram_matrix_linear, time_bar

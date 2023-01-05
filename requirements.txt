@@ -3,3 +3,7 @@ scikit-learn>=0.21.3
 pandas
 nibabel
 matplotlib
+tensorboardX
+pytorch
+torchvision
+torchaudio
