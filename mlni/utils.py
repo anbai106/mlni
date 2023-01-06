@@ -1077,9 +1077,9 @@ def time_bar(i,num):
     sys.stdout.flush()
 
 ###### Neural Network for Regression, e.g., age prediction
-class neural_network_regression(nn.Module):
+class neural_network_regression_3LinerLayers(nn.Module):
     def __init__(self, input_dim):
-        super(neural_network_regression, self).__init__()
+        super(neural_network_regression_3LinerLayers, self).__init__()
         self.input_layer = nn.Linear(input_dim, 128)
         self.hidden_layer1 = nn.Linear(128, 64)
         self.output_layer = nn.Linear(64, 1)
@@ -1089,6 +1089,35 @@ class neural_network_regression(nn.Module):
         out = self.relu(self.input_layer(x))
         out = self.relu(self.hidden_layer1(out))
         out = self.output_layer(out)
+        return out
+
+class neural_network_regression_5LinerLayers(nn.Module):
+    def __init__(self, input_dim):
+        super(neural_network_regression_5LinerLayers, self).__init__()
+
+        self.features = nn.Sequential(
+            nn.Linear(input_dim, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+
+            nn.Linear(64, 32),
+            nn.BatchNorm1d(32),
+            nn.ReLU(),
+
+            nn.Linear(32, 16),
+            nn.BatchNorm1d(16),
+            nn.ReLU(),
+
+            nn.Linear(16, 1),
+            nn.ReLU(),
+        )
+
+    def forward(self, x):
+        out = self.features(x)
         return out
 
 
@@ -1133,7 +1162,7 @@ class DatasetShuffler(Dataset):
 
         return sample
 
-def train(model, data_loader, use_cuda, loss_func, optimizer, writer, epoch, batch_size, model_mode="train"):
+def train(model, data_loader, use_cuda, loss_func, optimizer, writer, epoch, model_mode="train"):
     """
     This is the function to train, validate or test the model, depending on the model_mode parameter.
     :param model:
@@ -1168,7 +1197,7 @@ def train(model, data_loader, use_cuda, loss_func, optimizer, writer, epoch, bat
             predicted = torch.squeeze(model(imgs))
             batch_loss = loss_func(predicted, labels)
             total_loss += batch_loss.item()
-            writer.add_scalar('loss', batch_loss.item()/batch_size, global_step)
+            writer.add_scalar('loss', batch_loss.item(), global_step)
 
             optimizer.zero_grad()
             batch_loss.backward()
@@ -1191,13 +1220,13 @@ def train(model, data_loader, use_cuda, loss_func, optimizer, writer, epoch, bat
     elif model_mode == "valid":
         results_df, total_loss = test(model, data_loader, use_cuda, loss_func)
         loss_batch_mean = total_loss / len(data_loader)
-        writer.add_scalar('loss', loss_batch_mean/batch_size, epoch)
+        writer.add_scalar('loss', loss_batch_mean, epoch)
         torch.cuda.empty_cache()
 
     else:
         raise ValueError('This mode %s was not implemented. Please choose between train and valid' % model_mode)
 
-    return results_df, loss_batch_mean/batch_size, global_step
+    return results_df, loss_batch_mean, global_step
 
 def test(model, data_loader, use_cuda, loss_func):
     """
@@ -1282,7 +1311,7 @@ def to_tsvs(output_dir, results_df, result, fold, dataset='train'):
 
     :param output_dir: (str) path to the output directory.
     :param results_df: (DataFrame) the individual results per slice.
-    :param result: (float) MSE per batch.
+    :param result: (float) mae per batch.
     :param fold: (int) the fold for which the performances were obtained.
     :param selection: (str) the metrics on which the model was selected (best_acc, best_loss)
     :param dataset: (str) the dataset on which the evaluation was performed.
@@ -1294,7 +1323,7 @@ def to_tsvs(output_dir, results_df, result, fold, dataset='train'):
         os.makedirs(performance_dir)
 
     results_df.to_csv(os.path.join(performance_dir, dataset + '.tsv'), index=False, sep='\t')
-    pd.DataFrame([result], index=[0]).to_csv(os.path.join(performance_dir, dataset + '_mse.tsv'), index=False, sep='\t')
+    pd.DataFrame([result], index=[0]).to_csv(os.path.join(performance_dir, dataset + '_mae.tsv'), index=False, sep='\t')
 
 def train_network(model, output_dir, fi, X_train, y_train, X_test, y_test, num_epochs,
                   batch_size, init_state, df_header, gpu, lr, weight_decay, opt):
@@ -1325,7 +1354,7 @@ def train_network(model, output_dir, fi, X_train, y_train, X_test, y_test, num_e
     # Define Optimizer and Loss Function
     optimizer = eval("torch.optim." + opt)(filter(lambda x: x.requires_grad, model.parameters()),
                                                         lr=lr, weight_decay=weight_decay)
-    loss = torch.nn.MSELoss()
+    loss = torch.nn.L1Loss()
 
     model.load_state_dict(init_state)
 
@@ -1336,25 +1365,25 @@ def train_network(model, output_dir, fi, X_train, y_train, X_test, y_test, num_e
         print("At %i-th epoch." % epoch)
 
         # train the model
-        train_df, mean_mse_train, global_step = train(model, train_loader, gpu, loss, optimizer, writer_train_batch, epoch, batch_size, model_mode='train')
-        print("For training, mean MSE loss: %f during each epoch using batch data %d" % (mean_mse_train, epoch))
+        train_df, mean_mae_train, global_step = train(model, train_loader, gpu, loss, optimizer, writer_train_batch, epoch, model_mode='train')
+        print("For training, mean MAE loss: %f during each epoch using batch data %d" % (mean_mae_train, epoch))
 
         # calculate the accuracy with the whole training data for subject level balanced accuracy
-        train_all_df, mean_mse_train_all, _ = train(model, train_loader, gpu, loss, optimizer, writer_train_all_data, epoch, batch_size, model_mode='valid')
-        print("For training, mean MSE loss: %f at the end of epoch by applying all training data %d" % (mean_mse_train_all, epoch))
+        train_all_df, mean_mae_train_all, _ = train(model, train_loader, gpu, loss, optimizer, writer_train_all_data, epoch, model_mode='valid')
+        print("For training, mean MAE loss: %f at the end of epoch by applying all training data %d" % (mean_mae_train_all, epoch))
 
         # at then end of each epoch, we validate one time for the model with the validation data
-        valid_df, mean_mse_valid, _ = train(model, valid_loader, gpu, loss, optimizer, writer_valid, epoch, batch_size, model_mode='valid')
-        print("For validation, mean MSE loss: %f at the end of epoch %d" % (mean_mse_valid, epoch))
+        valid_df, mean_mae_valid, _ = train(model, valid_loader, gpu, loss, optimizer, writer_valid, epoch, model_mode='valid')
+        print("For validation, mean MAE loss: %f at the end of epoch %d" % (mean_mae_valid, epoch))
 
         # save the best model based on the best loss
-        loss_is_best = mean_mse_valid < best_loss_valid
-        best_loss_valid = min(mean_mse_valid, best_loss_valid)
+        loss_is_best = mean_mae_valid < best_loss_valid
+        best_loss_valid = min(mean_mae_valid, best_loss_valid)
 
         save_checkpoint({
             'epoch': epoch + 1,
             'model': model.state_dict(),
-            'loss': mean_mse_valid,
+            'loss': mean_mae_valid,
             'optimizer': optimizer.state_dict(),
             'global_step': global_step},
             loss_is_best,
@@ -1365,15 +1394,14 @@ def train_network(model, output_dir, fi, X_train, y_train, X_test, y_test, num_e
     model, best_epoch = load_model(model, os.path.join(output_dir, 'best_model_dir', 'fold_%i' % fi, 'NN', 'best_loss'),
                                    gpu=gpu, filename='model_best.pth.tar')
 
-    train_df, mse_train = test(model, train_loader, gpu, loss)
-    valid_df, mse_valid = test(model, valid_loader, gpu, loss)
+    train_df, mae_train = test(model, train_loader, gpu, loss)
+    valid_df, mae_valid = test(model, valid_loader, gpu, loss)
 
     # write the information of subjects and performances into tsv files.
-    to_tsvs(output_dir, train_df, mse_train/batch_size/len(train_loader), fi, dataset='train')
-    to_tsvs(output_dir, valid_df, mse_valid/batch_size/len(valid_loader), fi, dataset='validation')
+    to_tsvs(output_dir, train_df, mae_train/len(train_loader), fi, dataset='train')
+    to_tsvs(output_dir, valid_df, mae_valid/len(valid_loader), fi, dataset='validation')
 
     del optimizer, writer_train_batch, writer_train_all_data, writer_valid
     torch.cuda.empty_cache()
-    global_step = 0
 
 

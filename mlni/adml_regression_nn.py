@@ -12,7 +12,7 @@ __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', batch_size=64, epochs=100, lr=0.0001, weight_decay=1e-4, optimizer='Adam', n_threads=8, gpu=True, seed=None, verbose=False):
+def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', batch_size=64, epochs=1500, lr=0.0001, weight_decay=1e-4, optimizer='Adam', n_threads=8, gpu=True, seed=None, verbose=False):
     """
     Core function for regression with ROI-based features using Lasso regression
     Args:

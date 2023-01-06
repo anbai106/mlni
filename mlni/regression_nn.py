@@ -1,7 +1,7 @@
 from mlni.base import WorkFlow, RegressionAlgorithm, RegressionValidation
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
-from mlni.utils import time_bar, neural_network_regression, train_network
+from mlni.utils import time_bar, neural_network_regression_3LinerLayers, neural_network_regression_5LinerLayers, train_network
 import torch
 import copy
 
@@ -80,7 +80,8 @@ class NNRegressionAlgorithm(RegressionAlgorithm):
         self._verbose = verbose
 
     def _lauch_nn(self, input_dim, x_train, x_test, y_train, y_test, fi):
-        model = neural_network_regression(input_dim)
+        model = neural_network_regression_3LinerLayers(input_dim)
+        # model = neural_network_regression_5LinerLayers(input_dim)
         if self._gpu:
             model.cuda()
         else:
