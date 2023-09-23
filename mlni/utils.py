@@ -1076,6 +1076,49 @@ def time_bar(i,num):
     sys.stdout.write('\t\t[%s%s] %.2f%%' % ('='*prog_int,' '*(50-prog_int), progress*100))
     sys.stdout.flush()
 
+###### Neural Network for classification, e.g., age prediction
+class neural_network_classification_3LinerLayers(nn.Module):
+    def __init__(self, input_dim):
+        super(neural_network_classification_3LinerLayers, self).__init__()
+        self.input_layer = nn.Linear(input_dim, 128)
+        self.hidden_layer1 = nn.Linear(128, 64)
+        self.output_layer = nn.Linear(64, 2)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        out = self.relu(self.input_layer(x))
+        out = self.relu(self.hidden_layer1(out))
+        out = self.output_layer(out)
+        return out
+
+class neural_network_classification_5LinerLayers(nn.Module):
+    def __init__(self, input_dim):
+        super(neural_network_classification_5LinerLayers, self).__init__()
+
+        self.features = nn.Sequential(
+            nn.Linear(input_dim, 64),
+            nn.BatchNorm1d(64),
+            nn.Dropout2d(p=0.5),
+            nn.ReLU(),
+
+            nn.Linear(64, 32),
+            nn.BatchNorm1d(32),
+            nn.Dropout2d(p=0.5),
+            nn.ReLU(),
+
+            nn.Linear(32, 16),
+            nn.BatchNorm1d(16),
+            nn.Dropout2d(p=0.5),
+            nn.ReLU(),
+
+            nn.Linear(16, 2),
+            nn.ReLU(),
+        )
+
+    def forward(self, x):
+        out = self.features(x)
+        return out
+
 ###### Neural Network for Regression, e.g., age prediction
 class neural_network_regression_3LinerLayers(nn.Module):
     def __init__(self, input_dim):
@@ -1282,6 +1325,28 @@ def save_checkpoint(state, loss_is_best, checkpoint_dir, filename='checkpoint.pt
     if loss_is_best:
         torch.save(state, os.path.join(checkpoint_dir, filename))
 
+def save_checkpoint_calssification(state, accuracy_is_best, loss_is_best, checkpoint_dir, filename='checkpoint.pth.tar',
+                    best_accuracy='best_acc', best_loss='best_loss'):
+    import torch
+    import os
+    import shutil
+
+    if not os.path.exists(checkpoint_dir):
+        os.makedirs(checkpoint_dir)
+
+    torch.save(state, os.path.join(checkpoint_dir, filename))
+    if accuracy_is_best:
+        best_accuracy_path = os.path.join(checkpoint_dir, best_accuracy)
+        if not os.path.exists(best_accuracy_path):
+            os.makedirs(best_accuracy_path)
+        shutil.copyfile(os.path.join(checkpoint_dir, filename),  os.path.join(best_accuracy_path, 'model_best.pth.tar'))
+
+    if loss_is_best:
+        best_loss_path = os.path.join(checkpoint_dir, best_loss)
+        if not os.path.exists(best_loss_path):
+            os.makedirs(best_loss_path)
+        shutil.copyfile(os.path.join(checkpoint_dir, filename), os.path.join(best_loss_path, 'model_best.pth.tar'))
+
 def load_model(model, checkpoint_dir, gpu, filename='model_best.pth.tar'):
     """
     Load the weights written in checkpoint_dir in the model object.
@@ -1404,4 +1469,246 @@ def train_network(model, output_dir, fi, X_train, y_train, X_test, y_test, num_e
     del optimizer, writer_train_batch, writer_train_all_data, writer_valid
     torch.cuda.empty_cache()
 
+def train_network_classification(model, output_dir, fi, X_train, y_train, X_test, y_test, num_epochs,
+                  batch_size, init_state, df_header, gpu, lr, weight_decay, opt):
 
+    print("Running for the %d-th repetition of the repeated holdout CV" % fi)
+    writer_train_batch = SummaryWriter(log_dir=(os.path.join(output_dir, "log_dir", "fold_%i" % fi,
+                                                             "train_batch")))
+    writer_train_all_data = SummaryWriter(log_dir=(os.path.join(output_dir, "log_dir", "fold_%i" % fi,
+                                                                "train_all_data")))
+    writer_valid = SummaryWriter(log_dir=(os.path.join(output_dir, "log_dir", "fold_%i" % fi, "valid")))
+
+    data_train = DatasetShuffler(X_train, y_train, df_header)
+    data_valid = DatasetShuffler(X_test, y_test, df_header)
+
+    # Use argument load to distinguish training and testing
+    train_loader = DataLoader(data_train,
+                              batch_size=batch_size,
+                              shuffle=True,
+                              num_workers=4,
+                              pin_memory=True)
+
+    valid_loader = DataLoader(data_valid,
+                              batch_size=batch_size,
+                              shuffle=False,
+                              num_workers=4,
+                              pin_memory=True)
+
+    # Define Optimizer and Loss Function
+    optimizer = eval("torch.optim." + opt)(filter(lambda x: x.requires_grad, model.parameters()),
+                                                        lr=lr, weight_decay=weight_decay)
+    loss = torch.nn.CrossEntropyLoss()
+
+    model.load_state_dict(init_state)
+
+    # parameters used in training
+    best_loss_valid = np.inf
+    best_accuracy = 0.0
+
+    for epoch in range(num_epochs):
+        print("At %i-th epoch." % epoch)
+
+        # train the model
+        train_df, mean_loss_train, batch_accuracy_train, global_step = train_classification(model, train_loader, gpu, loss, optimizer, writer_train_batch, epoch, model_mode='train')
+        print("For training, mean loss loss: %f during each epoch using batch data %d" % (mean_loss_train, epoch))
+
+        # calculate the accuracy with the whole training data for subject level balanced accuracy
+        train_all_df, mean_loss_train_all, batch_accuracy_train_all, _ = train_classification(model, train_loader, gpu, loss, optimizer, writer_train_all_data, epoch, model_mode='valid')
+        print("For training, mean loss loss: %f at the end of epoch by applying all training data %d" % (mean_loss_train_all, epoch))
+
+        # at then end of each epoch, we validate one time for the model with the validation data
+        valid_df, mean_loss_valid, batch_accuracy_valid, _ = train_classification(model, valid_loader, gpu, loss, optimizer, writer_valid, epoch, model_mode='valid')
+        print("For validation, mean loss loss: %f at the end of epoch %d" % (mean_loss_valid, epoch))
+
+        # save the best model based on the best loss
+        acc_is_best = batch_accuracy_valid > best_accuracy
+        best_accuracy = max(best_accuracy, batch_accuracy_valid)
+        loss_is_best = mean_loss_valid < best_loss_valid
+        best_loss_valid = min(mean_loss_valid, best_loss_valid)
+
+        save_checkpoint_calssification({
+            'epoch': epoch + 1,
+            'model': model.state_dict(),
+            'loss': mean_loss_valid,
+            'accuracy': batch_accuracy_valid,
+            'optimizer': optimizer.state_dict(),
+            'global_step': global_step},
+            acc_is_best, loss_is_best,
+            os.path.join(output_dir, "best_model_dir", "fold_" + str(fi), "NN"),
+            filename="model_best.pth.tar")
+
+    # Final evaluation for all criteria
+    model, best_epoch = load_model(model, os.path.join(output_dir, 'best_model_dir', 'fold_%i' % fi, 'NN', 'best_acc'),
+                                   gpu=gpu, filename='model_best.pth.tar')
+
+    train_df, results_train = test_classification(model, train_loader, gpu, loss)
+    valid_df, results_valid = test_classification(model, valid_loader, gpu, loss)
+
+    ### change the participand_id column
+    valid_df['participant_id'] = valid_df['participant_id'].astype(str)
+    valid_df['participant_id'] = valid_df['participant_id'].str.split('tensor').str[1].str.split(')').str[0].str.split('(').str[1]
+    valid_df['participant_id'] = valid_df['participant_id'].astype(int)
+
+    train_df['participant_id'] = train_df['participant_id'].astype(str)
+    train_df['participant_id'] = train_df['participant_id'].str.split('tensor').str[1].str.split(')').str[0].str.split('(').str[1]
+    train_df['participant_id'] = train_df['participant_id'].astype(int)
+
+    # write the information of subjects and performances into tsv files.
+    to_tsvs_classification(output_dir, train_df, results_train, fi, dataset='train')
+    to_tsvs_classification(output_dir, valid_df, results_valid, fi, dataset='validation')
+
+    del optimizer, writer_train_batch, writer_train_all_data, writer_valid
+    torch.cuda.empty_cache()
+
+def test_classification(model, data_loader, use_cuda, loss_func):
+    """
+    The function to evaluate the testing data for the trained classifiers
+    :param model:
+    :param data_loader:
+    :param use_cuda:
+    :return:
+    """
+
+    columns = ['participant_id', 'session_id', 'true_label', 'predicted_label']
+    results_df = pd.DataFrame(columns=columns)
+    total_loss = 0
+    softmax = torch.nn.Softmax(dim=1)
+
+    if use_cuda:
+        model.cuda()
+
+    model.eval()  # set the model to evaluation mode
+    torch.cuda.empty_cache()
+    with torch.no_grad():
+        for i, data in enumerate(data_loader):
+            if use_cuda:
+                imgs, labels = data['x'].cuda(), data['y'].cuda()
+            else:
+                imgs, labels = data['x'], data['y']
+
+            output = model(imgs)
+            normalized_output = softmax(output)
+            loss = loss_func(output, labels)
+            total_loss += loss.item()
+            _, predicted = torch.max(output.data, 1)
+
+            # Generate detailed DataFrame
+            for idx, sub in enumerate(data['participant_id']):
+                row = [sub, data['session_id'][idx],
+                       labels[idx].item(), predicted[idx].item()]
+
+                row_df = pd.DataFrame(np.array(row).reshape(1, -1), columns=columns)
+                results_df = pd.concat([results_df, row_df])
+
+            del imgs, labels
+            torch.cuda.empty_cache()
+
+
+        # calculate the balanced accuracy
+        results = evaluate_prediction(results_df.true_label.values.astype(int),
+                                      results_df.predicted_label.values.astype(int))
+        results_df.reset_index(inplace=True, drop=True)
+        results['total_loss'] = total_loss
+        torch.cuda.empty_cache()
+
+    return results_df, results
+
+def train_classification(model, data_loader, use_cuda, loss_func, optimizer, writer, epoch, model_mode="train"):
+    """
+    This is the function to train, validate or test the model, depending on the model_mode parameter.
+    :param model:
+    :param data_loader:
+    :param use_cuda:
+    :param loss_func:
+    :param optimizer:
+    :param writer:
+    :param epoch:
+    :return:
+    """
+    global_step = None
+    softmax = torch.nn.Softmax(dim=1)
+    if model_mode == "train":
+        columns = ['participant_id', 'session_id', 'true_label', 'predicted_label']
+        results_df = pd.DataFrame(columns=columns)
+        total_loss = 0.0
+
+        model.train()  # set the model to training mode
+        print('The number of batches in this sampler based on the batch size: %s' % str(len(data_loader)))
+
+        for i, data in enumerate(data_loader):
+            # update the global step
+            global_step = i + epoch * len(data_loader)
+
+            if use_cuda:
+                imgs, labels = data['x'].cuda(), data['y'].cuda()
+            else:
+                imgs, labels = data['x'], data['y']
+
+            gound_truth_list = labels.data.cpu().numpy().tolist()
+            output = model(imgs)
+            normalized_output = softmax(output)
+            _, predicted = torch.max(output.data, 1)
+            predict_list = predicted.data.cpu().numpy().tolist()
+            batch_loss = loss_func(output, labels)
+            total_loss += batch_loss.item()
+
+            # calculate the batch balanced accuracy and loss
+            batch_metrics = evaluate_prediction(gound_truth_list, predict_list)
+            batch_accuracy = batch_metrics['balanced_accuracy']
+
+            writer.add_scalar('classification accuracy', batch_accuracy, global_step)
+            writer.add_scalar('loss', batch_loss.item(), global_step)
+
+            optimizer.zero_grad()
+            batch_loss.backward()
+            optimizer.step()
+
+            # Generate detailed DataFrame
+            for idx, sub in enumerate(data['participant_id']):
+                row = [sub, data['session_id'][idx],
+                       labels[idx].item(), predicted[idx].item()]
+                row_df = pd.DataFrame(np.array(row).reshape(1, -1), columns=columns)
+                results_df = pd.concat([results_df, row_df])
+
+            # delete the temporary variables taking the GPU memory
+            del imgs, labels, predicted, batch_loss
+            torch.cuda.empty_cache()
+
+        loss_batch_mean = total_loss / len(data_loader)
+        torch.cuda.empty_cache()
+
+    elif model_mode == "valid":
+        results_df, results_val = test_classification(model, data_loader, use_cuda, loss_func)
+        batch_accuracy = results_val['balanced_accuracy']
+        total_loss = results_val['total_loss']
+        loss_batch_mean = total_loss / len(data_loader)
+        writer.add_scalar('classification accuracy', batch_accuracy, epoch)
+        writer.add_scalar('loss', loss_batch_mean, epoch)
+
+        torch.cuda.empty_cache()
+
+    else:
+        raise ValueError('This mode %s was not implemented. Please choose between train and valid' % model_mode)
+
+    return results_df, loss_batch_mean, batch_accuracy, global_step
+
+def to_tsvs_classification(output_dir, results_df, result, fold, dataset='train'):
+    """
+    Allows to save the outputs of the test function.
+
+    :param output_dir: (str) path to the output directory.
+    :param results_df: (DataFrame) the individual results per slice.
+    :param result: (float) mae per batch.
+    :param fold: (int) the fold for which the performances were obtained.
+    :param selection: (str) the metrics on which the model was selected (best_acc, best_loss)
+    :param dataset: (str) the dataset on which the evaluation was performed.
+    :return:
+    """
+    performance_dir = os.path.join(output_dir, 'performances', 'fold_%i' % fold)
+
+    if not os.path.exists(performance_dir):
+        os.makedirs(performance_dir)
+
+    results_df.to_csv(os.path.join(performance_dir, dataset + '.tsv'), index=False, sep='\t')
+    pd.DataFrame([result], index=[0]).to_csv(os.path.join(performance_dir, dataset + '_metrics.tsv'), index=False, sep='\t')

@@ -233,7 +233,7 @@ class SVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
         min_mae_index = bal_mae_list.index(min(bal_mae_list))
         single_mae = min(bal_mae_list)
         best_c_single = best_c_list[min_mae_index]
-        best_gamma_single = np.power(10, np.mean(np.log10(best_gamma_list)))
+        best_gamma_single = best_gamma_list[min_mae_index]
         svr_single = SVR(C=best_c_single, kernel='precomputed', tol=1e-6)
         kernel_rbf_single = self._input.get_kernel_rbf(best_gamma_single)
         svr_single.fit(kernel_rbf_single[:, :len(self._y)], self._y)
