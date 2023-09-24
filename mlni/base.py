@@ -7,10 +7,10 @@ import os
 import nibabel as nib
 
 __author__ = "Junhao Wen"
-__copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
+__copyright__ = "Copyright 2019-2020"
 __credits__ = ["Junhao Wen, Jorge Samper-González"]
 __license__ = "See LICENSE file"
-__version__ = "0.1.0"
+__version__ = "0.1.4"
 __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"

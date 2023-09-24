@@ -7,10 +7,10 @@ from mlni.utils import make_cv_partition, prepare_opnmf_tsv_voting, voting_syste
 import pandas as pd
 
 __author__ = "Junhao Wen"
-__copyright__ = "Copyright 2019-2020 The CBICA & SBIA Lab"
+__copyright__ = "Copyright 2019-2020"
 __credits__ = ["Junhao Wen"]
 __license__ = "See LICENSE file"
-__version__ = "0.1.0"
+__version__ = "0.1.4"
 __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
