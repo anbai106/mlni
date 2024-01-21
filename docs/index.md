@@ -184,6 +184,10 @@ regression_roi(feature_tsv, output_dir, cv_repetition)
 ```
 
 ## Citing this work
+> :warning: Please let me know if you use this package for your publication; I will update your papers in the section of **Publication using MLNI**...
+
+> :warning: Please cite the software using the **Cite this repository** button on the right sidebar menu, as well as the original papers below for different tasks...
+
 #### If you use this software for clustering:
 > Varol, E., Sotiras, A., Davatzikos, C., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
 
