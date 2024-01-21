@@ -17,6 +17,7 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 
 ## Citing this work
 > :warning: Please let me know if you use this package for your publication; I will update your papers in the section of **Publication using MLNI**...
+
 > :warning: Please cite the software using the **Cite this repository** button above, as well as the original papers below for different tasks...
 
 ### If you use this software for clustering:
