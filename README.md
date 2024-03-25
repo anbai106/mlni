@@ -24,11 +24,10 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 > Wen, J., 2020. **Reproducible evaluation of diffusion MRI features for automatic classification of patients with Alzheimer’s disease**. Neuroinformatics, pp.1-22. [doi:10.1007/s12021-020-09469-5](https://link.springer.com/article/10.1007/s12021-020-09469-5) - [Paper in PDF](https://arxiv.org/abs/1812.11183)
 
 ### If you use this software for regression:
-> Wen, J., 2024. **The Genetic Architecture of Multimodal Human Brain Age**. Nature Communications, TBD. 
+> Wen, J., 2024. **The Genetic Architecture of Multimodal Human Brain Age**. Neuroinformatics, pp.1-22. [10.1038/s41467-024-46796-6](https://www.nature.com/articles/s41467-024-46796-6) - [Paper in PDF](https://www.nature.com/articles/s41467-024-46796-6)
 
 ### If you use this software for clustering:
 > Varol, E., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
-
 
 ## Publication using MLNI
 > Wen, J., 2021. **Multi-scale semi-supervised clustering of brain images: deriving disease subtypes**. MedIA. - [Link](https://www.sciencedirect.com/science/article/abs/pii/S1361841521003492)
