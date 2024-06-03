@@ -1712,3 +1712,36 @@ def to_tsvs_classification(output_dir, results_df, result, fold, dataset='train'
 
     results_df.to_csv(os.path.join(performance_dir, dataset + '.tsv'), index=False, sep='\t')
     pd.DataFrame([result], index=[0]).to_csv(os.path.join(performance_dir, dataset + '_metrics.tsv'), index=False, sep='\t')
+
+def apply_2_external_data_hydra(output_model_folder, participant_tsv_validation, cov_tsv_validation, output_tsv_folder, num_subtype):
+    """
+    This is to apply the trained HYDRA model to external data (should be harmonized to the training data if from different studies/sites)
+    Args:
+        output_model_folder: The model folder: {output_dir}/clustering/{k}_clusters/models
+        participant_tsv_validation: the participant tsv for the validation set; should follow the same header as the training data
+        cov_tsv_validation: the covariate tsv for the validation set; should follow the same header as the training data
+        output_tsv_folder: {output_dir}/clustering/{k}_clusters/tsv
+
+    Returns:
+    """
+    from mlni.hydra_clustering import RB_Input
+    from joblib import load
+
+    df_header_val = pd.read_csv(participant_tsv_validation, sep='\t')[['participant_id', 'session_id', 'diagnosis']]
+    if cov_tsv_validation == None:
+        input_data = RB_Input(participant_tsv_validation, covariate_tsv=None)
+    else:
+        input_data = RB_Input(participant_tsv_validation, covariate_tsv=cov_tsv_validation)
+
+    feature = input_data.get_x()
+
+    ## load the saved hyperplanes for the k subtypes
+    for i in range(num_subtype):
+        ## calculate the HYDRA scores
+        model = load(os.path.join(output_model_folder, 'svm-' + str(i) + '_last_repetition.joblib'))
+        weights = model.coef_
+        bias = model.intercept_
+        y_hat = np.dot(feature, weights.transpose()) + bias
+        df_header_val['subtype' + '_' + str(i)] = y_hat
+
+    df_header_val.to_csv(os.path.join(output_tsv_folder, 'Validation_external_hydra_scores.tsv'), index=False, sep='\t', encoding='utf-8')
