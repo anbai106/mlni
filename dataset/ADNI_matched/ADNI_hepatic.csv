@@ -1,0 +1,154 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10382.1,10382-1,3,SL006803,Angiopoietin-related protein 3,ANGL3,Q9Y5C1,27329,ANGPTL3,Human,RFU,Protein,20,S2
+X10445.20,10445-20,3,SL004747,Apolipoprotein M,ApoM,O95445,55937,APOM,Human,RFU,Protein,20,S2
+X10663.42,10663-42,3,SL018014,Insulin-induced gene 1 protein,INSI1,O15503,3638,INSIG1,Human,RFU,Protein,20,S1
+X11239.49,11239-49,3,SL019365,Transmembrane protease serine 6,TMPS6,Q8IU80,164656,TMPRSS6,Human,RFU,Protein,20,S2
+X11241.8,11241-8,3,SL011173,Argininosuccinate lyase,ARLY,P04424,435,ASL,Human,RFU,Protein,20,S2
+X11318.20,11318-20,3,SL004840,Apolipoprotein A-V,Apo A-V,Q6Q788,116519,APOA5,Human,RFU,Protein,20,S2
+X11537.12,11537-12,3,SL008830,Transferrin receptor protein 2,TFR2,Q9UP52,7036,TFR2,Human,RFU,Protein,20,S1
+X12370.30,12370-30,3,SL006348,Apolipoprotein F,Apo F,Q13790,319,APOF,Human,RFU,Protein,20,S2
+X12423.38,12423-38,3,SL019697,APOBEC1 complementation factor,A1CF,Q9NQ94,29974,A1CF,Human,RFU,Protein,20,S1
+X12575.30,12575-30,3,SL008027,"C-1-tetrahydrofolate synthase, cytoplasmic",C1TC,P11586,4522,MTHFD1,Human,RFU,Protein,20,S2
+X12881.17,12881-17,3,SL019970,Retinol dehydrogenase 16,RDH16,O75452,8608,RDH16,Human,RFU,Protein,20,S2
+X13119.26,13119-26,3,SL004467,Protein Z-dependent protease inhibitor,protein Z inhibitor,Q9UK55,51156,SERPINA10,Human,RFU,Protein,20,S2
+X13125.45,13125-45,3,SL000616,Vitronectin,Vitronectin,P04004,7448,VTN,Human,RFU,Protein,20,S2
+X13704.5,13704-5,3,SL014847,"Hydroxymethylglutaryl-CoA synthase, mitochondrial",HMCS2,P54868,3158,HMGCS2,Human,RFU,Protein,20,S1
+X13717.15,13717-15,3,SL006542,Ficolin-2,FCN2,Q15485,2220,FCN2,Human,RFU,Protein,20,S2
+X13722.105,13722-105,3,SL000325,Complement component C9,C9,P02748,735,C9,Human,RFU,Protein,20,S3
+X13741.36,13741-36,3,SL000462,Insulin-like growth factor-binding protein 1,IGFBP-1,P08833,3484,IGFBP1,Human,RFU,Protein,20,S2
+X14048.7,14048-7,3,SL004588,Interleukin-1 Receptor accessory protein,IL-1 R AcP,Q9NPH3,3556,IL1RAP,Human,RFU,Protein,20,S2
+X14073.31,14073-31,3,SL000440,Hemopexin,Hemopexin,P02790,3263,HPX,Human,RFU,Protein,20,S3
+X14105.5,14105-5,3,SL004876,Kallistatin,Kallistatin,P29622,5267,SERPINA4,Human,RFU,Protein,20,S3
+X14107.1,14107-1,3,SL020315,5-formyltetrahydrofolate cyclo-ligase,MTHFS,P49914,10588,MTHFS,Human,RFU,Protein,20,S2
+X14708.59,14708-59,3,SL007931,Complement component C8 gamma chain,CO8G,P07360,733,C8G,Human,RFU,Protein,20,S2
+X15343.337,15343-337,3,SL000491,"Kininogen, HMW, Two Chain","Kininogen, HMW, Two Chain",P01042,3827,KNG1,Human,RFU,Protein,20,S2
+X15364.101,15364-101,3,SL000275,Apolipoprotein C-I,Apo C-I,P02654,341,APOC1,Human,RFU,Protein,20,S3
+X15453.3,15453-3,3,SL003022,Alpha-1-microglobulin,a1-Microglobulin,P02760,259,AMBP,Human,RFU,Protein,20,S2
+X15468.14,15468-14,3,SL002690,Complement factor H-related protein 1,FHR1,Q03591,3078,CFHR1,Human,RFU,Protein,20,S3
+X15487.164,15487-164,3,SL006149,Liver carboxylesterase 1,"carboxylesterase, liver",P23141,1066,CES1,Human,RFU,Protein,20,S1
+X15514.26,15514-26,3,SL001814,Cholinesterase,Pseudocholinesterase,P06276,590,BCHE,Human,RFU,Protein,20,S2
+X15515.2,15515-2,3,SL000572,Serum amyloid A-1 protein,SAA,P0DJI8,6288,SAA1,Human,RFU,Protein,20,S2
+X15516.12,15516-12,3,SL005700,Serum amyloid A-4 protein,SAA-4,P35542,6291,SAA4,Human,RFU,Protein,20,S3
+X15584.9,15584-9,3,SL002691,Complement factor H-related protein 2,FHR2,P36980,3080,CFHR2,Human,RFU,Protein,20,S2
+X15589.1,15589-1,3,SL000431,Vitamin D-binding protein,"Gc-Globulin, Mixed Type",P02774,2638,GC,Human,RFU,Protein,20,S3
+X15686.49,15686-49,3,SL007288,Inhibin beta C chain,INHBC,P55103,3626,INHBC,Human,RFU,Protein,20,S1
+X16055.3,16055-3,3,SL006830,Complement factor H-related protein 5,complement factor H-related 5,Q9BXR6,81494,CFHR5,Human,RFU,Protein,20,S2
+X16561.9,16561-9,3,SL005720,Alpha-1B-glycoprotein,Alpha-1B-glycoprotein,P04217,1,A1BG,Human,RFU,Protein,20,S2
+X16763.11,16763-11,3,SL017261,Leukocyte cell-derived chemotaxin-2,LECT2,O14960,3950,LECT2,Human,RFU,Protein,20,S2
+X16836.1,16836-1,3,SL002693,Complement factor H-related protein 3,FHR3,Q02985,10878,CFHR3,Human,RFU,Protein,20,S1
+X16872.248,16872-248,3,SL007013,Maleylacetoacetate isomerase,MAAI,O43708,2954,GSTZ1,Human,RFU,Protein,20,S1
+X17341.89,17341-89,3,SL010906,"Acetyl-CoA acetyltransferase, cytosolic",THIC,Q9BWD1,39,ACAT2,Human,RFU,Protein,20,S1
+X17396.23,17396-23,3,SL008013,Alcohol dehydrogenase 1A,ADH1A,P07327,124,ADH1A,Human,RFU,Protein,20,S2
+X17403.14,17403-14,3,SL006190,"Short/branched chain specific acyl-CoA dehydrogenase, mitochondrial",acyl-Coenzyme A dehydrogenase,P45954,36,ACADSB,Human,RFU,Protein,20,S1
+X17453.34,17453-34,3,SL000351,Ceruloplasmin,Ceruloplasmin,P00450,1356,CP,Human,RFU,Protein,20,S2
+X17509.6,17509-6,3,SL008852,4-hydroxyphenylpyruvate dioxygenase,HPPD,P32754,3242,HPD,Human,RFU,Protein,20,S2
+X17758.79,17758-79,3,SL009078,L-xylulose reductase,DCXR,Q7Z4W1,51181,DCXR,Human,RFU,Protein,20,S2
+X17768.50,17768-50,3,SL020969,Hydroxyacid oxidase 1,HAOX1,Q9UJM8,54363,HAO1,Human,RFU,Protein,20,S1
+X17776.15,17776-15,3,SL020962,Peroxisomal trans-2-enoyl-CoA reductase,PECR,Q9BY49,55825,PECR,Human,RFU,Protein,20,S1
+X18196.8,18196-8,3,SL004742,Afamin,Afamin,P43652,173,AFM,Human,RFU,Protein,20,S2
+X18206.18,18206-18,3,SL020944,Alcohol dehydrogenase 6,ADH6,P28332,130,ADH6,Human,RFU,Protein,20,S2
+X18343.10,18343-10,3,SL020975,"Peroxisomal 2,4-dienoyl-CoA reductase",DECR2,Q9NUI1,26063,DECR2,Human,RFU,Protein,20,S1
+X18380.78,18380-78,3,SL000254,Serum albumin,Albumin,P02768,213,ALB,Human,RFU,Protein,20,S3
+X18397.5,18397-5,3,SL014729,Aldo-keto reductase family 1 member C4,AK1C4,P17516,1109,AKR1C4,Human,RFU,Protein,20,S2
+X18398.1,18398-1,3,SL021346,3-oxo-5-beta-steroid 4-dehydrogenase,AK1D1,P51857,6718,AKR1D1,Human,RFU,Protein,20,S1
+X18832.65,18832-65,3,SL021544,Serum amyloid A-2 protein,SAA2,P0DJI9,6289,SAA2,Human,RFU,Protein,20,S1
+X18876.77,18876-77,3,SL021174,Carbohydrate sulfotransferase 4,CHST4,Q8NCG5,10164,CHST4,Human,RFU,Protein,20,S2
+X20067.26,20067-26,3,SL004728,Factor seven-activating protease,FSAP,Q14520,3026,HABP2,Human,RFU,Protein,20,S2
+X20203.45,20203-45,3,SL000311,Complement C1s subcomponent,C1s,P09871,716,C1S,Human,RFU,Protein,20,S3
+X21118.48,21118-48,3,SL005349,GTP cyclohydrolase I feedback regulatory protein,GFRP,P30047,2644,GCHFR,Human,RFU,Protein,20,S2
+X21247.16,21247-16,3,SL022101,S-adenosylmethionine synthase isoform type-1,METK1,Q00266,4143,MAT1A,Human,RFU,Protein,20,S2
+X21346.71,21346-71,3,SL022008,"Dihydroorotate dehydrogenase (quinone), mitochondrial",PYRD,Q02127,1723,DHODH,Human,RFU,Protein,20,S1
+X2190.55,2190-55,1,SL002662,Coagulation Factor XI,Coagulation Factor XI,P03951,2160,F11,Human,RFU,Protein,20,S2
+X21967.20,21967-20,3,SL019336,Corticosteroid 11-beta-dehydrogenase isozyme 1,DHI1,P28845,3290,HSD11B1,Human,RFU,Protein,20,S1
+X22078.4,22078-4,3,SL022902,Tyrosine aminotransferase,ATTY,P17735,6898,TAT,Human,RFU,Protein,20,S1
+X22091.14,22091-14,3,SL022799,Beta-ureidopropionase,BUP1,Q9UBR1,51733,UPB1,Human,RFU,Protein,20,S1
+X22365.52,22365-52,3,SL023037,Cyclic AMP-dependent transcription factor ATF-5,ATF5,Q9Y2D1,22809,ATF5,Human,RFU,Protein,20,S1
+X22505.24,22505-24,3,SL022938,"NAD kinase 2, mitochondrial",NAKD2,Q4G0N4,133686,NADK2,Human,RFU,Protein,20,S1
+X22972.26,22972-26,3,SL003174,Gro-beta,Gro-b,P19875,2920,CXCL2,Human,RFU,Protein,20,S2
+X23601.43,23601-43,3,SL023533,Acyl-coenzyme A thioesterase 12,ACO12,Q8WYK0,134526,ACOT12,Human,RFU,Protein,20,S2
+X2381.52,2381-52,4,SL000319,Complement C5,C5,P01031,727,C5,Human,RFU,Protein,20,S2
+X24307.22,24307-22,3,SL023228,Lysine-specific demethylase 8,KDM8,Q8N371,79831,KDM8,Human,RFU,Protein,20,S2
+X24646.47,24646-47,3,SL006473,Serine--pyruvate aminotransferase,SPYA,P21549,189,AGXT,Human,RFU,Protein,20,S1
+X24662.78,24662-78,3,SL023641,Tetratricopeptide repeat protein 36,TTC36,A6NLP5,143941,TTC36,Human,RFU,Protein,20,S1
+X2474.54,2474-54,5,SL000573,Serum amyloid P-component,SAP,P02743,325,APCS,Human,RFU,Protein,20,S2
+X25288.16,25288-16,3,SL023561,Dimethylaniline monooxygenase [N-oxide-forming] 3,FMO3,P31513,2328,FMO3,Human,RFU,Protein,20,S1
+X25464.1,25464-1,4,SL013771,Cytochrome P450 2C19,CP2CJ,P33261,1557,CYP2C19,Human,RFU,Protein,20,S1
+X25484.120,25484-120,3,SL021128,AT-rich interactive domain-containing protein 3C,ARI3C,A6NKF2,138715,ARID3C,Human,RFU,Protein,20,S2
+X2567.5,2567-5,6,SL003328,Complement factor I,Factor I,P05156,3426,CFI,Human,RFU,Protein,20,S3
+X2683.1,2683-1,2,SL000456,"Complement C3b, inactivated",iC3b,P01024,718,C3,Human,RFU,Protein,20,S3
+X2706.69,2706-69,2,SL000590,Thyroxine-binding globulin,Thyroxine-Binding Globulin,P05543,6906,SERPINA7,Human,RFU,Protein,20,S3
+X2750.3,2750-3,2,SL000019,Apolipoprotein A-I,Apo A-I,P02647,335,APOA1,Human,RFU,Protein,20,S2
+X2943.5,2943-5,2,SL000398,Cytochrome P450 3A4,Cytochrome P450 3A4,P08684,1576,CYP3A4,Human,RFU,Protein,20,S2
+X2961.1,2961-1,2,SL000048,Vitamin K-dependent protein C,Protein C,P04070,5624,PROC,Human,RFU,Protein,20,S2
+X3000.66,3000-66,1,SL004516,Mannose-binding protein C,MBL,P11226,4153,MBL2,Human,RFU,Protein,20,S2
+X3024.18,3024-18,2,SL000250,Alpha-2-antiplasmin,a2-Antiplasmin,P08697,5345,SERPINF2,Human,RFU,Protein,20,S2
+X3074.6,3074-6,2,SL003309,Lipopolysaccharide-binding protein,LBP,P18428,3929,LBP,Human,RFU,Protein,20,S2
+X3184.25,3184-25,2,SL000358,Coagulation factor VII,Coagulation Factor VII,P08709,2155,F7,Human,RFU,Protein,20,S2
+X3186.2,3186-2,2,SL002525,Complement C2,C2,P06681,717,C2,Human,RFU,Protein,20,S2
+X3316.58,3316-58,1,SL004466,Heparin cofactor 2,Heparin cofactor II,P05546,3053,SERPIND1,Human,RFU,Protein,20,S2
+X3344.60,3344-60,4,SL000272,Antithrombin-III,Antithrombin III,P01008,462,SERPINC1,Human,RFU,Protein,20,S3
+X3367.8,3367-8,3,SL006777,Fetuin-B,FETUB,Q9UGM5,26998,FETUB,Human,RFU,Protein,20,S2
+X3484.60,3484-60,2,SL000271,Angiotensinogen,Angiotensinogen,P01019,183,AGT,Human,RFU,Protein,20,S2
+X3504.58,3504-58,2,SL004536,Hepcidin,LEAP-1,P81172,57817,HAMP,Human,RFU,Protein,20,S2
+X3518.54,3518-54,2,SL004015,Carboxypeptidase B2,TAFI,Q96IY4,1361,CPB2,Human,RFU,Protein,20,S2
+X3580.25,3580-25,5,SL000249,Alpha-1-antitrypsin,a1-Antitrypsin,P01009,5265,SERPINA1,Human,RFU,Protein,20,S2
+X3617.80,3617-80,4,SL006512,Hepatocyte growth factor activator,HGFA,Q04756,3083,HGFAC,Human,RFU,Protein,20,S2
+X3710.49,3710-49,2,SL000268,Angiostatin,Angiostatin,P00747,5340,PLG,Human,RFU,Protein,20,S2
+X4127.75,4127-75,1,SL000322,Complement component C6,C6,P13671,729,C6,Human,RFU,Protein,20,S3
+X4129.72,4129-72,1,SL000414,Complement factor B,Factor B,P00751,629,CFB,Human,RFU,Protein,20,S3
+X4152.58,4152-58,2,SL000545,Plasma kallikrein,Prekallikrein,P03952,3818,KLKB1,Human,RFU,Protein,20,S3
+X4159.130,4159-130,1,SL000415,Complement factor H,Factor H,P08603,3075,CFH,Human,RFU,Protein,20,S3
+X4261.55,4261-55,2,SL005493,Serum paraoxonase/arylesterase 1,paraoxonase 1,P27169,5444,PON1,Human,RFU,Protein,20,S1
+X4332.6,4332-6,2,SL013488,C-type lectin domain family 1 member B,CLC1B,Q9P126,51266,CLEC1B,Human,RFU,Protein,20,S1
+X4337.49,4337-49,2,SL000051,C-reactive protein,CRP,P02741,1401,CRP,Human,RFU,Protein,20,S2
+X4407.10,4407-10,1,SL005202,Hepatocyte growth factor-like protein,MSP,P26927,4485,MST1,Human,RFU,Protein,20,S2
+X4785.30,4785-30,3,SL000347,Corticosteroid-binding globulin,CBG,P08185,866,SERPINA6,Human,RFU,Protein,20,S1
+X4811.33,4811-33,3,SL004739,Inter-alpha-trypsin inhibitor heavy chain H4,ITI heavy chain H4,Q14624,3700,ITIH4,Human,RFU,Protein,20,S2
+X4874.3,4874-3,1,SL000003,Angiogenin,Angiogenin,P03950,283,ANG,Human,RFU,Protein,20,S2
+X4876.32,4876-32,1,SL000357,Coagulation factor IX,Coagulation Factor IX,P00740,2158,F9,Human,RFU,Protein,20,S2
+X4880.21,4880-21,1,SL007756,Growth/differentiation factor 2,GDF2,Q9UK05,2658,GDF2,Human,RFU,Protein,20,S1
+X4913.78,4913-78,1,SL003300,C-C motif chemokine 16,HCC-4,O15467,6360,CCL16,Human,RFU,Protein,20,S2
+X4929.55,4929-55,1,SL005102,Sex hormone-binding globulin,SHBG,P04278,6462,SHBG,Human,RFU,Protein,20,S2
+X4989.7,4989-7,1,SL003341,Fibrinogen gamma chain,Fibrinogen g-chain dimer,P02679,2266,FGG,Human,RFU,Protein,20,S2
+X4996.66,4996-66,1,SL006448,Histidine-rich glycoprotein,HRG,P04196,3273,HRG,Human,RFU,Protein,20,S2
+X5223.59,5223-59,3,SL015728,Glucokinase regulatory protein,GCKR,Q14397,2646,GCKR,Human,RFU,Protein,20,S1
+X5231.79,5231-79,3,SL012707,Proprotein convertase subtilisin/kexin type 9,PCSK9,Q8NBP7,255738,PCSK9,Human,RFU,Protein,20,S2
+X5316.54,5316-54,3,SL000558,Prothrombin,Prothrombin,P00734,2147,F2,Human,RFU,Protein,20,S3
+X5400.52,5400-52,3,SL003184,"Leptin receptor, soluble",sLeptin R,P48357,3953,LEPR,Human,RFU,Protein,20,S2
+X5452.71,5452-71,3,SL008835,Asialoglycoprotein receptor 1,ASGR1,P07306,432,ASGR1,Human,RFU,Protein,20,S2
+X5581.28,5581-28,3,SL012486,Fibrinogen-like protein 1,FGL1,Q08830,2267,FGL1,Human,RFU,Protein,20,S2
+X5601.2,5601-2,3,SL004514,N-acetylmuramoyl-L-alanine amidase,PGRP-L,Q96PD5,114770,PGLYRP2,Human,RFU,Protein,20,S3
+X5644.60,5644-60,3,SL007198,Ribonuclease 4,RNAS4,P34096,6038,RNASE4,Human,RFU,Protein,20,S2
+X5658.64,5658-64,3,SL003991,Coagulation factor XIII B chain,coagulation factor XIII B,P05160,2165,F13B,Human,RFU,Protein,20,S2
+X5708.1,5708-1,3,SL007589,Liver-expressed antimicrobial peptide 2,LEAP2,Q969E1,116842,LEAP2,Human,RFU,Protein,20,S2
+X5792.8,5792-8,2,SL000011,alpha-Fetoprotein,AFP,P02771,174,AFP,Human,RFU,Protein,20,S2
+X5813.58,5813-58,3,SL000408,Erythropoietin,Epo,P01588,2056,EPO,Human,RFU,Protein,20,S2
+X5861.78,5861-78,3,SL008466,"3-hydroxyanthranilate 3,4-dioxygenase",3HAO,P46952,23498,HAAO,Human,RFU,Protein,20,S2
+X5947.90,5947-90,3,SL000598,Thrombopoietin,Tpo,P40225,7066,THPO,Human,RFU,Protein,20,S1
+X6296.36,6296-36,3,SL017395,Oncoprotein-induced transcript 3 protein,OIT3,Q8WWZ8,170392,OIT3,Human,RFU,Protein,20,S2
+X6350.43,6350-43,3,SL003021,Apolipoprotein C-II,Apo C-II,P02655,344,APOC2,Human,RFU,Protein,20,S1
+X6414.8,6414-8,3,SL008961,Out at first protein homolog,OAF,Q86UD1,220323,OAF,Human,RFU,Protein,20,S2
+X6415.90,6415-90,3,SL017429,Carboxypeptidase N subunit 2,CPN2,P22792,1370,CPN2,Human,RFU,Protein,20,S2
+X6461.54,6461-54,3,SL003020,Apolipoprotein C-III,Apo C-III,P02656,345,APOC3,Human,RFU,Protein,20,S1
+X6471.53,6471-53,3,SL002692,Complement factor H-related protein 4,FHR4,Q92496,10877,CFHR4,Human,RFU,Protein,20,S1
+X6558.5,6558-5,3,SL012886,Collectin-10,COL10,Q9Y6Z7,10584,COLEC10,Human,RFU,Protein,20,S1
+X6580.29,6580-29,3,SL004740,Pregnancy zone protein,Pregnancy zone protein,P20742,5858,PZP,Human,RFU,Protein,20,S2
+X6605.17,6605-17,3,SL005608,Insulin-like growth factor-binding protein complex acid labile subunit,IGFALS,P35858,3483,IGFALS,Human,RFU,Protein,20,S2
+X7127.3,7127-3,3,SL000274,Apolipoprotein A-II,Apo A-II,P02652,336,APOA2,Human,RFU,Protein,20,S2
+X7142.5,7142-5,3,SL018083,Carboxypeptidase N catalytic chain,CBPN,P15169,1369,CPN1,Human,RFU,Protein,20,S2
+X7145.1,7145-1,3,SL006517,Inter-alpha-trypsin inhibitor heavy chain H3,ITIH3,Q06033,3699,ITIH3,Human,RFU,Protein,20,S2
+X7155.46,7155-46,3,SL015990,C4b-binding protein beta chain,C4b-binding protein beta chain,P20851,725,C4BPB,Human,RFU,Protein,20,S2
+X7183.102,7183-102,3,SL018132,Angiopoietin-like protein 8,TD26,Q6UXH0,55908,ANGPTL8,Human,RFU,Protein,20,S1
+X7831.39,7831-39,3,SL000566,Retinol-binding protein 4,RBP,P02753,5950,RBP4,Human,RFU,Protein,20,S2
+X7948.129,7948-129,3,SL010876,Glycolipid transfer protein domain-containing protein 2,GLTD2,A6NH11,388323,GLTPD2,Human,RFU,Protein,20,S1
+X7955.195,7955-195,3,SL004710,Inter-alpha-trypsin inhibitor heavy chain H1,ITI heavy chain H1,P19827,3697,ITIH1,Human,RFU,Protein,20,S2
+X8288.27,8288-27,3,SL000282,Beta-2-glycoprotein 1,b2-Glycoprotein I,P02749,350,APOH,Human,RFU,Protein,20,S3
+X8325.37,8325-37,3,SL018474,Alcohol dehydrogenase 4,ADH4,P08319,127,ADH4,Human,RFU,Protein,20,S2
+X8791.151,8791-151,3,SL010448,"Carbonic anhydrase 5A, mitochondrial",Carbonic Anhydrase VA,P35218,763,CA5A,Human,RFU,Protein,20,S1
+X9002.36,9002-36,3,SL006615,Serpin A11,SPA11,Q86U17,256394,SERPINA11,Human,RFU,Protein,20,S2
+X9213.24,9213-24,3,SL018900,Formimidoyltransferase-cyclodeaminase,FTCD,O95954,10841,FTCD,Human,RFU,Protein,20,S1
+X9326.33,9326-33,3,SL004711,Inter-alpha-trypsin inhibitor heavy chain H2,ITI heavy chain H2,P19823,3698,ITIH2,Human,RFU,Protein,20,S2
+X9449.150,9449-150,3,SL015989,C4b-binding protein alpha chain,C4b-binding protein alpha chain,P04003,722,C4BPA,Human,RFU,Protein,20,S2
+X9474.22,9474-22,3,SL008489,Asialoglycoprotein receptor 2,ASGR2,P07307,433,ASGR2,Human,RFU,Protein,20,S1
+X9829.91,9829-91,3,SL000579,Bile salt sulfotransferase,SULT 2A1,Q06520,6822,SULT2A1,Human,RFU,Protein,20,S1
+X9880.33,9880-33,3,SL019158,"Tryptophan 2,3-dioxygenase",T23O,P48775,6999,TDO2,Human,RFU,Protein,20,S2

@@ -1,0 +1,157 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10558.26,10558-26,3,SL008436,Protocadherin-9,PCDH9,Q9HC56,5101,PCDH9,Human,RFU,Protein,20,S2
+X10743.13,10743-13,3,SL008760,SLIT and NTRK-like protein 1,SLIK1,Q96PX8,114798,SLITRK1,Human,RFU,Protein,20,S2
+X10880.38,10880-38,3,SL018034,Protein FAM163B,F163B,P0C2L3,642968,FAM163B,Human,RFU,Protein,20,S2
+X10890.135,10890-135,3,SL018026,Lactase-like protein,LCTL,Q6UWM7,197021,LCTL,Human,RFU,Protein,20,S1
+X10900.272,10900-272,3,SL013230,Stathmin-2,STMN2,Q93045,11075,STMN2,Human,RFU,Protein,20,S2
+X11116.16,11116-16,3,SL018991,Uncharacterized protein C11orf87,CK087,Q6NUJ2,399947,C11orf87,Human,RFU,Protein,20,S2
+X11220.53,11220-53,3,SL019359,Uncharacterized protein C10orf105,CJ105,Q8TEF2,414152,C10orf105,Human,RFU,Protein,20,S1
+X11279.42,11279-42,3,SL019373,Gamma-aminobutyric acid type B receptor subunit 1,GABR1,Q9UBS5,2550,GABBR1,Human,RFU,Protein,20,S1
+X11371.1,11371-1,3,SL019419,Probable G-protein coupled receptor 101,GP101,Q96P66,83550,GPR101,Human,RFU,Protein,20,S1
+X11872.9,11872-9,3,SL019027,Protocadherin gamma-B1,PCDGD,Q9Y5G3,56104,PCDHGB1,Human,RFU,Protein,20,S1
+X12479.50,12479-50,3,SL014768,cAMP-dependent protein kinase type I-beta regulatory subunit,KAP1,P31321,5575,PRKAR1B,Human,RFU,Protein,20,S2
+X12527.50,12527-50,3,SL013736,Thyroid hormone receptor alpha,THA,P10827,7067,THRA,Human,RFU,Protein,20,S1
+X12538.19,12538-19,3,SL019759,Regulator of G-protein signaling 7,RGS7,P49802,6000,RGS7,Human,RFU,Protein,20,S2
+X12683.156,12683-156,3,SL019830,Dihydropyrimidinase-related protein 5,DPYL5,Q9BPU6,56896,DPYSL5,Human,RFU,Protein,20,S1
+X12853.112,12853-112,3,SL019937,Tropomodulin-2,TMOD2,Q9NZR1,29767,TMOD2,Human,RFU,Protein,20,S2
+X12860.7,12860-7,3,SL006617,cAMP-regulated phosphoprotein 21,cAMP-regulated phosphoprotein 21,Q9UBL0,10777,ARPP21,Human,RFU,Protein,20,S1
+X12895.28,12895-28,3,SL019952,Diacylglycerol kinase beta,DGKB,Q9Y6T7,1607,DGKB,Human,RFU,Protein,20,S1
+X13105.7,13105-7,3,SL007311,Synaptosomal-associated protein 25,SNP25,P60880,6616,SNAP25,Human,RFU,Protein,20,S1
+X13240.170,13240-170,3,SL019993,SH3 and multiple ankyrin repeat domains protein 1,SHAN1,Q9Y566,50944,SHANK1,Human,RFU,Protein,20,S1
+X13375.48,13375-48,3,SL020085,Synaptogyrin-3,SNG3,O43761,9143,SYNGR3,Human,RFU,Protein,20,S1
+X13416.8,13416-8,3,SL020086,Transmembrane protein 132D,T132D,Q14C87,121256,TMEM132D,Human,RFU,Protein,20,S2
+X13522.20,13522-20,3,SL007318,Visinin-like protein 1,VISL1,P62760,7447,VSNL1,Human,RFU,Protein,20,S2
+X13529.39,13529-39,3,SL020132,Nucleosome assembly protein 1-like 2,NP1L2,Q9ULW6,4674,NAP1L2,Human,RFU,Protein,20,S2
+X13539.131,13539-131,3,SL020168,Small conductance calcium-activated potassium channel protein 1,KCNN1,Q92952,3780,KCNN1,Human,RFU,Protein,20,S1
+X13540.1,13540-1,3,SL020159,G-protein coupled receptor 26,GPR26,Q8NDV2,2849,GPR26,Human,RFU,Protein,20,S1
+X13548.53,13548-53,3,SL020158,Phosphatidate phosphatase PPAPDC1A,PPC1A,Q5VZY2,196051,PLPP4,Human,RFU,Protein,20,S1
+X13556.28,13556-28,3,SL020157,5-hydroxytryptamine receptor 2A,5HT2A,P28223,3356,HTR2A,Human,RFU,Protein,20,S1
+X13561.5,13561-5,3,SL020176,5-hydroxytryptamine receptor 6,5HT6R,P50406,3362,HTR6,Human,RFU,Protein,20,S1
+X13563.259,13563-259,3,SL020184,Acyl-CoA-binding domain-containing protein 7,ACBD7,Q8N6N7,414149,ACBD7,Human,RFU,Protein,20,S2
+X13613.23,13613-23,3,SL005741,Adenylate kinase isoenzyme 5,Adenylate kinase isoenzyme 5,Q9Y6K8,26289,AK5,Human,RFU,Protein,20,S1
+X13948.50,13948-50,3,SL025871,Gamma-aminobutyric acid type B receptor subunit 2:Extracellular domain,GABR2:ECD,O75899,9568,GABBR2,Human,RFU,Protein,20,S2
+X14035.13,14035-13,3,SL007386,T-lymphoma invasion and metastasis-inducing protein 1,TIAM1,Q13009,7074,TIAM1,Human,RFU,Protein,20,S1
+X14104.1,14104-1,3,SL026018,TLR4 interactor with leucine rich repeats:Cytoplasmic domain,TRIL:CD,Q7L0X0,9865,TRIL,Human,RFU,Protein,20,S1
+X14114.18,14114-18,3,SL019019,PILR alpha-associated neural protein,PIANP,Q8IYJ0,196500,PIANP,Human,RFU,Protein,20,S2
+X14271.23,14271-23,3,SL007707,Ras-related protein Rab-6B,RAB6B,Q9NRW1,51560,RAB6B,Human,RFU,Protein,20,S2
+X14291.53,14291-53,3,SL019710,"Arf-GAP with GTPase, ANK repeat and PH domain-containing protein 2",AGAP2,Q99490,116986,AGAP2,Human,RFU,Protein,20,S1
+X15325.14,15325-14,3,SL007137,Neuromodulin,NEUM,P17677,2596,GAP43,Human,RFU,Protein,20,S2
+X15422.12,15422-12,3,SL019975,Myelin P2 protein,MYP2,P02689,5375,PMP2,Human,RFU,Protein,20,S1
+X15511.37,15511-37,3,SL008970,Neuronal pentraxin receptor,NPTXR,O95502,23467,NPTXR,Human,RFU,Protein,20,S2
+X15573.110,15573-110,3,SL008782,Neurocan core protein,CSPG3,O14594,1463,NCAN,Human,RFU,Protein,20,S2
+X15619.49,15619-49,3,SL012514,Myelin-oligodendrocyte glycoprotein,MOG,Q16653,4340,MOG,Human,RFU,Protein,20,S1
+X15670.15,15670-15,3,SL017430,Complement C1q-like protein 2,C1QL2,Q7Z5L3,165257,C1QL2,Human,RFU,Protein,20,S2
+X16293.1,16293-1,3,SL005255,Somatoliberin,Growth hormone-releasing factor,P01286,2691,GHRH,Human,RFU,Protein,20,S2
+X16900.29,16900-29,3,SL012713,MAM domain-containing glycosylphosphatidylinositol anchor protein 1,MDGA1,Q8NFP4,266727,MDGA1,Human,RFU,Protein,20,S2
+X16908.5,16908-5,3,SL010377,Oligodendrocyte-myelin glycoprotein,OMGP,P23515,4974,OMG,Human,RFU,Protein,20,S3
+X17343.6,17343-6,3,SL019113,Syntaphilin,SNPH,O15079,9751,SNPH,Human,RFU,Protein,20,S1
+X17355.56,17355-56,3,SL019674,Synaptotagmin-4,SYT4,Q9H2B2,6860,SYT4,Human,RFU,Protein,20,S2
+X17516.7,17516-7,3,SL000562,Ras-related protein Rab-3A,Rab3A,P20336,5864,RAB3A,Human,RFU,Protein,20,S2
+X17721.82,17721-82,3,SL004797,Growth arrest-specific protein 7,GAS7,O60861,8522,GAS7,Human,RFU,Protein,20,S1
+X17775.8,17775-8,3,SL011308,Transgelin-3,TAGL3,Q9UI15,29114,TAGLN3,Human,RFU,Protein,20,S2
+X17791.25,17791-25,3,SL011188,Hippocalcin-like protein 1,HPCL1,P37235,3241,HPCAL1,Human,RFU,Protein,20,S1
+X17855.28,17855-28,3,SL005549,Regulator of G-protein signaling 4,RGS4,P49798,5999,RGS4,Human,RFU,Protein,20,S1
+X18303.39,18303-39,3,SL020951,Neurogranin,NEUG,Q92686,4900,NRGN,Human,RFU,Protein,20,S2
+X18316.75,18316-75,3,SL021092,Neuronal-specific septin-3,SEPT3,Q9UH03,55964,SEPTIN3,Human,RFU,Protein,20,S1
+X18332.17,18332-17,3,SL020907,Complexin-1,CPLX1,O14810,10815,CPLX1,Human,RFU,Protein,20,S2
+X18833.76,18833-76,3,SL011227,Astrocytic phosphoprotein PEA-15,PEA15,Q15121,8682,PEA15,Human,RFU,Protein,20,S2
+X18896.23,18896-23,3,SL021212,Heparan-sulfate 6-O-sulfotransferase 3,H6ST3,Q8IZP7,266722,HS6ST3,Human,RFU,Protein,20,S2
+X19370.30,19370-30,3,SL018828,Heparan sulfate glucosamine 3-O-sulfotransferase 4,HS3S4,Q9Y661,9951,HS3ST4,Human,RFU,Protein,20,S1
+X19563.3,19563-3,3,SL008781,Seizure 6-like protein,SEZ6L,Q9BYH1,23544,SEZ6L,Human,RFU,Protein,20,S3
+X19637.9,19637-9,3,SL003526,Corticoliberin,CRH,P06850,1392,CRH,Human,RFU,Protein,20,S1
+X19638.9,19638-9,3,SL021368,Dynorphin A (1-17),Dynorphin A (1-17),P01213,5173,PDYN,Human,RFU,Protein,20,S2
+X20126.19,20126-19,3,SL004271,Glial fibrillary acidic protein,GFAP,P14136,2670,GFAP,Human,RFU,Protein,20,S1
+X20522.2,20522-2,3,SL018781,Interleukin-1 receptor accessory protein-like 1,IRPL1,Q9NZN1,11141,IL1RAPL1,Human,RFU,Protein,20,S2
+X20544.103,20544-103,3,SL021684,"Glutamate receptor ionotropic, kainate 2",GRIK2,Q13002,2898,GRIK2,Human,RFU,Protein,20,S1
+X20579.50,20579-50,3,SL008643,Myelin-associated glycoprotein,MAG,P20916,4099,MAG,Human,RFU,Protein,20,S2
+X20993.13,20993-13,3,SL021964,BEN domain-containing protein 6,BEND6,Q5SZJ8,221336,BEND6,Human,RFU,Protein,20,S1
+X21342.25,21342-25,3,SL020281,Regulator of G-protein signaling 14,RGS14,O43566,10636,RGS14,Human,RFU,Protein,20,S1
+X21514.1,21514-1,3,SL011105,Platelet glycoprotein Ib beta chain,GP1BB,P13224,2812,GP1BB,Human,RFU,Protein,20,S1
+X21567.214,21567-214,3,SL012817,Complement C1q tumor necrosis factor-related protein 4,C1QT4,Q9BXJ3,114900,C1QTNF4,Human,RFU,Protein,20,S2
+X21588.4,21588-4,3,SL022082,BTB/POZ domain-containing protein KCTD4,KCTD4,Q8WVF5,386618,KCTD4,Human,RFU,Protein,20,S1
+X21667.57,21667-57,3,SL021450,"Calcium/calmodulin-dependent 3',5'-cyclic nucleotide phosphodiesterase 1B",PDE1B,Q01064,5153,PDE1B,Human,RFU,Protein,20,S2
+X21711.86,21711-86,3,SL006980,Brain-specific angiogenesis inhibitor 1,BAI1,O14514,575,ADGRB1,Human,RFU,Protein,20,S2
+X21713.11,21713-11,3,SL012470,Reelin,RELN,P78509,5649,RELN,Human,RFU,Protein,20,S2
+X21770.18,21770-18,3,SL022629,Galactosylgalactosylxylosylprotein 3-beta-glucuronosyltransferase 1,B3GA1,Q9P2W7,27087,B3GAT1,Human,RFU,Protein,20,S2
+X21887.2,21887-2,3,SL012665,Cerebellin-2,CBLN2,Q8IUK8,147381,CBLN2,Human,RFU,Protein,20,S2
+X21940.12,21940-12,3,SL012354,Protein Wnt-10b,WN10B,O00744,7480,WNT10B,Human,RFU,Protein,20,S2
+X22049.24,22049-24,3,SL005796,14-3-3 protein eta,14-3-3 eta,Q04917,7533,YWHAH,Human,RFU,Protein,20,S2
+X22152.162,22152-162,3,SL022834,Polypeptide N-acetylgalactosaminyltransferase 9,GALT9,Q9HCQ5,50614,GALNT9,Human,RFU,Protein,20,S2
+X22430.15,22430-15,3,SL014721,N-chimaerin,CHIN,P15882,1123,CHN1,Human,RFU,Protein,20,S1
+X22579.93,22579-93,3,SL009054,Neurexin-1-beta,NRX1B,P58400,9378,NRXN1,Human,RFU,Protein,20,S2
+X22588.35,22588-35,3,SL021524,Adhesion G protein-coupled receptor B2,AGRB2,O60241,576,ADGRB2,Human,RFU,Protein,20,S2
+X22817.126,22817-126,3,SL022764,E3 ubiquitin-protein ligase TRIM9,TRIM9,Q9C026,114088,TRIM9,Human,RFU,Protein,20,S2
+X23162.36,23162-36,3,SL021293,Mitogen-activated protein kinase kinase kinase 10,M3K10,Q02779,4294,MAP3K10,Human,RFU,Protein,20,S2
+X23299.52,23299-52,3,SL023571,Tubulin polymerization-promoting protein,TPPP,O94811,11076,TPPP,Human,RFU,Protein,20,S1
+X23320.11,23320-11,3,SL023390,Multivesicular body subunit 12B,MB12B,Q9H7P6,89853,MVB12B,Human,RFU,Protein,20,S2
+X23411.108,23411-108,3,SL023483,Paraneoplastic antigen Ma2,PNMA2,Q9UL42,10687,PNMA2,Human,RFU,Protein,20,S2
+X23425.19,23425-19,3,SL023195,Ermin,ERMIN,Q8TAM6,57471,ERMN,Human,RFU,Protein,20,S2
+X23689.52,23689-52,3,SL023192,Copine-6,CPNE6,O95741,9362,CPNE6,Human,RFU,Protein,20,S1
+X23695.1,23695-1,3,SL023293,Fibronectin type III and SPRY domain-containing protein 1,FSD1,Q9BTV5,79187,FSD1,Human,RFU,Protein,20,S1
+X24013.6,24013-6,3,SL010865,Metabotropic glutamate receptor 4,GRM4,Q14833,2914,GRM4,Human,RFU,Protein,20,S2
+X24407.31,24407-31,3,SL023609,Kinesin-like protein KIF3C,KIF3C,O14782,3797,KIF3C,Human,RFU,Protein,20,S2
+X24434.16,24434-16,3,SL023377,Phytanoyl-CoA hydroxylase-interacting protein,PHYIP,Q92561,9796,PHYHIP,Human,RFU,Protein,20,S1
+X24435.1,24435-1,3,SL004793,Dynamin-1,Dynamin,Q05193,1759,DNM1,Human,RFU,Protein,20,S2
+X24437.6,24437-6,3,SL023783,YjeF N-terminal domain-containing protein 3,YJEN3,A6XGL0,374887,YJEFN3,Human,RFU,Protein,20,S1
+X24651.1,24651-1,3,SL016462,Reticulon-1,RTN1,Q16799,6252,RTN1,Human,RFU,Protein,20,S2
+X24661.4,24661-4,3,SL023341,MAP6 domain-containing protein 1,MA6D1,Q9H9H5,79929,MAP6D1,Human,RFU,Protein,20,S1
+X24946.9,24946-9,3,SL023675,Rho GTPase-activating protein 22,RHG22,Q7Z5H3,58504,ARHGAP22,Human,RFU,Protein,20,S1
+X25257.162,25257-162,3,SL009568,Oligodendrocyte transcription factor 1,OLIG1,Q8TAK6,116448,OLIG1,Human,RFU,Protein,20,S1
+X25308.8,25308-8,3,SL013795,LIM domain kinase 1,LIMK1,P53667,3984,LIMK1,Human,RFU,Protein,20,S2
+X2838.53,2838-53,1,SL003332,Matrix metalloproteinase-17,MMP-17,Q9ULZ9,4326,MMP17,Human,RFU,Protein,20,S2
+X3198.4,3198-4,1,SL008639,Iduronate 2-sulfatase,IDS,P22304,3423,IDS,Human,RFU,Protein,20,S2
+X3209.69,3209-69,1,SL005437,Matrix extracellular phosphoglycoprotein,MEPE,Q9NQ76,56955,MEPE,Human,RFU,Protein,20,S1
+X3296.92,3296-92,2,SL008623,Contactin-2,CNTN2,Q02246,6900,CNTN2,Human,RFU,Protein,20,S2
+X3450.4,3450-4,2,SL001797,Kallikrein-6,Kallikrein 6,Q92876,5653,KLK6,Human,RFU,Protein,20,S1
+X3461.58,3461-58,1,SL009089,Brevican core protein,PGCB,Q96GW7,63827,BCAN,Human,RFU,Protein,20,S2
+X3486.58,3486-58,2,SL000299,Fibroblast growth factor 1,b-ECGF,P05230,2246,FGF1,Human,RFU,Protein,20,S1
+X3494.71,3494-71,3,SL004335,Fibroblast growth factor 17,FGF-17,O60258,8822,FGF17,Human,RFU,Protein,20,S1
+X3630.27,3630-27,4,SL004804,Cell adhesion molecule 3,Nectin-like protein 1,Q8N126,57863,CADM3,Human,RFU,Protein,20,S2
+X3806.55,3806-55,1,SL004844,Ephrin type-A receptor 5,EphA5,P54756,2044,EPHA5,Human,RFU,Protein,20,S2
+X3808.76,3808-76,2,SL003990,Fibroblast growth factor receptor 2,FGFR-2,P21802,2263,FGFR2,Human,RFU,Protein,20,S1
+X4557.61,4557-61,2,SL014111,Kin of IRRE-like protein 3,KIRR3,Q8IZU9,84623,KIRREL3,Human,RFU,Protein,20,S2
+X5105.2,5105-2,3,SL005208,Reticulon-4 receptor,Nogo Receptor,Q9BZR6,65078,RTN4R,Human,RFU,Protein,20,S2
+X5124.62,5124-62,3,SL005169,Intercellular adhesion molecule 5,sICAM-5,Q9UMF0,7087,ICAM5,Human,RFU,Protein,20,S2
+X5456.59,5456-59,2,SL006694,Beta-Ala-His dipeptidase,CNDP1,Q96KN2,84735,CNDP1,Human,RFU,Protein,20,S3
+X5476.66,5476-66,3,SL000556,Protein kinase C gamma type,PKC-G,P05129,5582,PRKCG,Human,RFU,Protein,20,S2
+X5609.92,5609-92,3,SL012636,Protein FAM19A5,F19A5,Q7Z5A7,25817,TAFA5,Human,RFU,Protein,20,S2
+X5703.26,5703-26,3,SL017108,Noelin,NOE1,Q99784,10439,OLFM1,Human,RFU,Protein,20,S2
+X5743.82,5743-82,3,SL012512,Cocaine- and amphetamine-regulated transcript protein,CART,Q16568,9607,CARTPT,Human,RFU,Protein,20,S2
+X6267.51,6267-51,3,SL013269,Stathmin-4,STMN4,Q9H169,81551,STMN4,Human,RFU,Protein,20,S1
+X6274.15,6274-15,3,SL017404,WSC domain-containing protein 2,WSCD2,Q2TBF2,9671,WSCD2,Human,RFU,Protein,20,S2
+X6280.11,6280-11,3,SL016388,Protocadherin-8,PCDH8,O95206,5100,PCDH8,Human,RFU,Protein,20,S1
+X6321.65,6321-65,3,SL017402,Protocadherin gamma-A10,PCDGA,Q9Y5H3,56106,PCDHGA10,Human,RFU,Protein,20,S2
+X6369.82,6369-82,3,SL013514,Deformed epidermal autoregulatory factor 1 homolog,DEAF1,O75398,10522,DEAF1,Human,RFU,Protein,20,S2
+X6478.2,6478-2,3,SL017460,IgLON family member 5,IGLO5,A6NGN9,402665,IGLON5,Human,RFU,Protein,20,S2
+X6586.19,6586-19,3,SL017503,Disintegrin and metalloproteinase domain-containing protein 11,ADA11,O75078,4185,ADAM11,Human,RFU,Protein,20,S2
+X6609.22,6609-22,3,SL008878,"2',3'-cyclic-nucleotide 3'-phosphodiesterase",CN37,P09543,1267,CNP,Human,RFU,Protein,20,S2
+X6612.90,6612-90,3,SL017490,BRICHOS domain-containing protein 5,CP079,Q6PL45,283870,BRICD5,Human,RFU,Protein,20,S2
+X6620.82,6620-82,3,SL017491,Leucine-rich repeat and immunoglobulin-like domain-containing nogo receptor-interacting protein 1,LIGO1,Q96FE5,84894,LINGO1,Human,RFU,Protein,20,S2
+X6904.14,6904-14,3,SL018013,Leucine-rich repeat transmembrane neuronal protein 2,LRRT2,O43300,26045,LRRTM2,Human,RFU,Protein,20,S2
+X6966.144,6966-144,3,SL017968,Syntaxin-1B,STX1B,P61266,112755,STX1B,Human,RFU,Protein,20,S1
+X7104.71,7104-71,3,SL018117,Calcium-binding protein 7,CABP7,Q86V35,164633,CABP7,Human,RFU,Protein,20,S2
+X7210.25,7210-25,3,SL004470,Amyloid-like protein 1,Amyloid-like protein 1,P51693,333,APLP1,Human,RFU,Protein,20,S3
+X7736.28,7736-28,3,SL018248,Opalin,OPALI,Q96PE5,93377,OPALIN,Human,RFU,Protein,20,S1
+X7894.155,7894-155,3,SL005162,Fibroblast growth factor 3,FGF-3,P11487,2248,FGF3,Human,RFU,Protein,20,S1
+X7933.75,7933-75,3,SL018350,Disintegrin and metalloproteinase domain-containing protein 22,ADA22,Q9P0K1,53616,ADAM22,Human,RFU,Protein,20,S2
+X7968.15,7968-15,3,SL014208,Cytotoxic and regulatory T-cell molecule,CRTAM,O95727,56253,CRTAM,Human,RFU,Protein,20,S1
+X7975.97,7975-97,3,SL018363,Netrin receptor UNC5A,UNC5A,Q6ZN44,90249,UNC5A,Human,RFU,Protein,20,S2
+X7983.1,7983-1,3,SL015369,Protocadherin gamma-C5,PCDGM,Q9Y5F6,56097,PCDHGC5,Human,RFU,Protein,20,S1
+X8003.57,8003-57,3,SL012685,Leucine-rich repeat LGI family member 3,LGI3,Q8N145,203190,LGI3,Human,RFU,Protein,20,S1
+X8257.71,8257-71,3,SL009326,Oxytocin-neurophysin 1,NEU1,P01178,5020,OXT,Human,RFU,Protein,20,S1
+X8357.43,8357-43,3,SL018475,Sulfotransferase 4A1,ST4A1,Q9BR01,25830,SULT4A1,Human,RFU,Protein,20,S2
+X8859.51,8859-51,3,SL012383,Carbonic anhydrase-related protein 11,CAH11,O75493,770,CA11,Human,RFU,Protein,20,S2
+X8876.51,8876-51,3,SL018703,Neurexin-2-beta,NRX2B,P58401,9379,NRXN2,Human,RFU,Protein,20,S1
+X8890.9,8890-9,3,SL018697,Transmembrane protein 132B,T132B,Q14DG7,114795,TMEM132B,Human,RFU,Protein,20,S2
+X8906.60,8906-60,3,SL018698,Leucine-rich repeat and transmembrane domain-containing protein 2,LRTM2,Q8N967,654429,LRTM2,Human,RFU,Protein,20,S2
+X8976.13,8976-13,3,SL014893,"Beta-1,4 N-acetylgalactosaminyltransferase 1",B4GN1,Q00973,2583,B4GALNT1,Human,RFU,Protein,20,S1
+X9089.77,9089-77,3,SL015106,Junctophilin-3,JPH3,Q8WXH2,57338,JPH3,Human,RFU,Protein,20,S1
+X9118.7,9118-7,3,SL018816,PH and SEC7 domain-containing protein 2,PSD2,Q9BQI7,84249,PSD2,Human,RFU,Protein,20,S1
+X9256.78,9256-78,3,SL012506,Neuronal pentraxin-1,NPTX1,Q15818,4884,NPTX1,Human,RFU,Protein,20,S2
+X9313.27,9313-27,3,SL017250,Cerebellin-1,CBLN1,P23435,869,CBLN1,Human,RFU,Protein,20,S2
+X9337.43,9337-43,3,SL012423,Protachykinin-1,TKN1,P20366,6863,TAC1,Human,RFU,Protein,20,S1
+X9360.33,9360-33,3,SL012367,EGF-like repeat and discoidin I-like domain-containing protein 3,EDIL3,O43854,10085,EDIL3,Human,RFU,Protein,20,S2
+X9386.42,9386-42,3,SL010981,Tetratricopeptide repeat protein 9B,TTC9B,Q8N6N2,148014,TTC9B,Human,RFU,Protein,20,S1
+X9577.26,9577-26,3,SL019020,Synaptotagmin-2,SYT2,Q8N9I0,127833,SYT2,Human,RFU,Protein,20,S1
+X9959.60,9959-60,3,SL019199,Transmembrane protein 59-like,TM59L,Q9UK28,25789,TMEM59L,Human,RFU,Protein,20,S2
+X9974.8,9974-8,3,SL007726,Delta-like protein 3,DLL3,Q9NYJ7,10683,DLL3,Human,RFU,Protein,20,S1

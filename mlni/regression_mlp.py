@@ -73,7 +73,7 @@ class MLPRegressionAlgorithm(RegressionAlgorithm):
         self._verbose = verbose
 
     def _lauch_mlp(self, x_train, x_test, y_train, y_test, size):
-        mlp = MLPRegressor(hidden_layer_sizes=int(size), tol=1e-6, max_iter=500)
+        mlp = MLPRegressor(hidden_layer_sizes=int(size), tol=1e-6, max_iter=1000)
         mlp.fit(x_train, y_train)
         y_hat_train = mlp.predict(x_train)
         y_hat = mlp.predict(x_test)
@@ -176,7 +176,7 @@ class MLPRegressionAlgorithm(RegressionAlgorithm):
         best_size_mean = np.power(10, np.mean(np.log10(best_size_list_mean)))
         # MAE
         mean_mae = np.mean(bal_mae_list_mean)
-        mlp_mean = MLPRegressor(hidden_layer_sizes=int(best_size_mean), tol=1e-6, max_iter=500)
+        mlp_mean = MLPRegressor(hidden_layer_sizes=int(best_size_mean), tol=1e-6, max_iter=10000)
         mlp_mean.fit(self._x, self._y)
 
         ### also save the single model with the lowest MAE

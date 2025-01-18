@@ -1,0 +1,42 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10479.18,10479-18,3,SL000645,Stromelysin-2,MMP-10,P09238,4319,MMP10,Human,RFU,Protein,20,S2
+X10851.77,10851-77,3,SL007417,Interleukin-27 subunit beta,IL27B,Q14213,10148,EBI3,Human,RFU,Protein,20,S2
+X10975.59,10975-59,3,SL008738,Mucin-like protein 1,MUCL1,Q96DR8,118430,MUCL1,Human,RFU,Protein,20,S1
+X12531.5,12531-5,3,SL019768,Endogenous retrovirus group V member 1 Env polyprotein,ERVV1,B6SEH8,,ERVV-1,Human,RFU,Protein,20,S1
+X13236.25,13236-25,3,SL012449,Protein Wnt-3a,WNT3A,P56704,89780,WNT3A,Human,RFU,Protein,20,S1
+X15631.18,15631-18,3,SL014708,Pregnancy-specific beta-1-glycoprotein 1,PSG1,P11464,5669,PSG1,Human,RFU,Protein,20,S1
+X16315.105,16315-105,3,SL003321,Vascular endothelial growth factor receptor 1,VEGF sR1,P17948,2321,FLT1,Human,RFU,Protein,20,S1
+X17454.15,17454-15,3,SL006311,Epidermal growth factor-like protein 6,EGFL6,Q8IUX8,25975,EGFL6,Human,RFU,Protein,20,S1
+X18212.43,18212-43,3,SL005474,Glutathione S-transferase Mu 5,GSTM5-5,P46439,2949,GSTM5,Human,RFU,Protein,20,S1
+X18326.50,18326-50,3,SL020991,Melanoma-associated antigen 8,MAGA8,P43361,4107,MAGEA8,Human,RFU,Protein,20,S2
+X19147.6,19147-6,3,SL011890,Galactoside-binding soluble lectin 13,PP13,Q9UHV8,29124,LGALS13,Human,RFU,Protein,20,S1
+X19774.8,19774-8,3,SL009289,Hemoglobin subunit gamma-2,HBG2,P69892,3048,HBG2,Human,RFU,Protein,20,S2
+X21009.28,21009-28,3,SL022235,Sentan,SNTAN,A6NMZ2,132203,SNTN,Human,RFU,Protein,20,S1
+X21350.29,21350-29,3,SL022089,Protein lin-28 homolog B,LN28B,Q6ZN17,389421,LIN28B,Human,RFU,Protein,20,S2
+X21391.17,21391-17,3,SL001767,Choriogonadotropin subunit beta 3,b-CF,P0DN86,1082,CGB3,Human,RFU,Protein,20,S2
+X21674.132,21674-132,3,SL005869,Butyrophilin subfamily 1 member A1,Butyrophilin 1A1,Q13410,696,BTN1A1,Human,RFU,Protein,20,S1
+X21883.17,21883-17,3,SL003992,Bone morphogenetic protein 5,BMP-5,P22003,653,BMP5,Human,RFU,Protein,20,S2
+X22960.8,22960-8,3,SL010460,Low affinity immunoglobulin gamma Fc region receptor II-b,FCG2B,P31994,2213,FCGR2B,Human,RFU,Protein,20,S2
+X23248.1,23248-1,3,SL023240,X antigen family member 2,XAGE2,Q96GT9,9502,XAGE2,Human,RFU,Protein,20,S1
+X23336.2,23336-2,3,SL006642,Putative potassium channel regulatory protein,KCNRG,Q8N5I3,283518,KCNRG,Human,RFU,Protein,20,S2
+X2681.23,2681-23,2,SL000441,Hepatocyte growth factor,HGF,P14210,3082,HGF,Human,RFU,Protein,20,S2
+X3196.6,3196-6,2,SL008023,Hyaluronan and proteoglycan link protein 1,HPLN1,P10915,1404,HAPLN1,Human,RFU,Protein,20,S2
+X4148.49,4148-49,2,SL002755,Pappalysin-1,PAPP-A,Q13219,5069,PAPPA,Human,RFU,Protein,20,S2
+X4420.7,4420-7,2,SL009988,Disintegrin and metalloproteinase domain-containing protein 12,ADAM12,O43184,8038,ADAM12,Human,RFU,Protein,20,S1
+X4708.3,4708-3,2,SL004253,Estradiol 17-beta-dehydrogenase 1,17-beta-HSD 1,P14061,3292,HSD17B1,Human,RFU,Protein,20,S2
+X4842.62,4842-62,2,SL000070,Glypican-3,Glypican 3,P51654,2719,GPC3,Human,RFU,Protein,20,S2
+X5756.66,5756-66,3,SL008518,Pappalysin-2,PAPP2,Q9BXP8,60676,PAPPA2,Human,RFU,Protein,20,S2
+X6231.46,6231-46,3,SL006310,Stanniocalcin-2,STC2,O76061,8614,STC2,Human,RFU,Protein,20,S1
+X6238.55,6238-55,3,SL012873,Pregnancy-specific beta-1-glycoprotein 8,PSG8,Q9UQ74,440533,PSG8,Human,RFU,Protein,20,S1
+X6405.74,6405-74,3,SL009333,Pregnancy-specific beta-1-glycoprotein 2,PSG2,P11465,5670,PSG2,Human,RFU,Protein,20,S2
+X6410.26,6410-26,3,SL007424,Early placenta insulin-like peptide,INSL4,Q14641,3641,INSL4,Human,RFU,Protein,20,S1
+X6444.15,6444-15,3,SL012511,Pregnancy-specific beta-1-glycoprotein 3,PSG3,Q16557,5671,PSG3,Human,RFU,Protein,20,S1
+X6456.17,6456-17,3,SL012480,Pregnancy-specific beta-1-glycoprotein 6,PSG6,Q00889,5675,PSG6,Human,RFU,Protein,20,S1
+X6526.77,6526-77,3,SL009411,Odorant-binding protein 2a,OBP2A,Q9NY56,29991,OBP2A,Human,RFU,Protein,20,S1
+X6973.111,6973-111,4,SL025882,"Insulin-like growth factor II:Isoform 3, Pro-form",IGF-II:Pro-form,P01344,3481,IGF2,Human,RFU,Protein,20,S2
+X7073.69,7073-69,4,SL018042,Uncharacterized protein C22orf15,CV015,Q8WYQ4,150248,C22orf15,Human,RFU,Protein,20,S1
+X7258.5,7258-5,3,SL004558,Bone marrow proteoglycan,EMBP,P13727,5553,PRG2,Human,RFU,Protein,20,S1
+X7766.25,7766-25,3,SL018241,Zona pellucida sperm-binding protein 4,ZP4,Q12836,57829,ZP4,Human,RFU,Protein,20,S2
+X7846.44,7846-44,3,SL009418,Pregnancy-specific beta-1-glycoprotein 11,PSG11,Q9UQ72,5680,PSG11,Human,RFU,Protein,20,S1
+X8252.2,8252-2,3,SL012580,Palmitoleoyl-protein carboxylesterase NOTUM,NOTUM,Q6P988,147111,NOTUM,Human,RFU,Protein,20,S2
+X9233.71,9233-71,3,SL004468,Tissue factor pathway inhibitor 2,TFPI -2,P48307,7980,TFPI2,Human,RFU,Protein,20,S2

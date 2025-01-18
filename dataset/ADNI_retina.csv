@@ -1,0 +1,28 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10008.43,10008-43,3,SL019234,Guanylyl cyclase-activating protein 1,GUC1A,P43080,2978,GUCA1A,Human,RFU,Protein,20,S1
+X10420.30,10420-30,3,SL018037,Fas apoptotic inhibitory molecule 1,FAIM1,Q9NVQ4,55179,FAIM,Human,RFU,Protein,20,S1
+X10917.40,10917-40,3,SL006983,Guanine nucleotide-binding protein G(I)/G(S)/G(O) subunit gamma-T2,GBGT2,O14610,2793,GNGT2,Human,RFU,Protein,20,S1
+X11534.6,11534-6,3,SL019063,"Leucine-rich repeat, immunoglobulin-like domain and transmembrane domain-containing protein 3",LRIT3,Q3SXY7,345193,LRIT3,Human,RFU,Protein,20,S1
+X11716.28,11716-28,3,SL019575,"Leucine-rich repeat, immunoglobulin-like domain and transmembrane domain-containing protein 2",LRIT2,A6NDA9,340745,LRIT2,Human,RFU,Protein,20,S1
+X12483.62,12483-62,3,SL007576,Nuclear receptor ROR-beta,RORB,Q92753,6096,RORB,Human,RFU,Protein,20,S2
+X12774.12,12774-12,3,SL019873,Potassium/sodium hyperpolarization-activated cyclic nucleotide-gated channel 1,HCN1,O60741,348980,HCN1,Human,RFU,Protein,20,S1
+X12856.14,12856-14,3,SL019959,Transmembrane protein 237,TM237,Q96Q45,65062,TMEM237,Human,RFU,Protein,20,S1
+X12936.38,12936-38,3,SL019347,Retinaldehyde-binding protein 1,RLBP1,P12271,6017,RLBP1,Human,RFU,Protein,20,S2
+X13525.17,13525-17,3,SL020151,Potassium voltage-gated channel subfamily G member 4,KCNG4,Q8TDN1,93107,KCNG4,Human,RFU,Protein,20,S1
+X14139.16,14139-16,3,SL007828,Neuregulin-4,NRG4,Q8WWG1,145957,NRG4,Human,RFU,Protein,20,S1
+X14334.3,14334-3,3,SL014781,Recoverin,RECO,P35243,5957,RCVRN,Human,RFU,Protein,20,S1
+X16070.7,16070-7,3,SL004652,Wnt inhibitory factor 1,WIF-1,Q9Y5W5,11197,WIF1,Human,RFU,Protein,20,S2
+X18888.37,18888-37,3,SL021138,Fatty acid-binding protein 12,FBP12,A6NFH5,646486,FABP12,Human,RFU,Protein,20,S1
+X20393.10,20393-10,3,SL022160,"Retinal cone rhodopsin-sensitive cGMP 3',5'-cyclic phosphodiesterase subunit gamma",CNCG,Q13956,5149,PDE6H,Human,RFU,Protein,20,S1
+X21146.187,21146-187,3,SL022275,Tubby-related protein 1,TULP1,O00294,7287,TULP1,Human,RFU,Protein,20,S1
+X21276.11,21276-11,3,SL005773,CD133 antigen,CD133,O43490,8842,PROM1,Human,RFU,Protein,20,S2
+X21492.19,21492-19,3,SL012507,Clusterin-like protein 1,CLUL1,Q15846,27098,CLUL1,Human,RFU,Protein,20,S2
+X22401.26,22401-26,3,SL022904,Guanylyl cyclase-activating protein 2,GUC1B,Q9UMX6,2979,GUCA1B,Human,RFU,Protein,20,S1
+X22516.30,22516-30,3,SL022773,Neural retina-specific leucine zipper protein,NRL,P54845,4901,NRL,Human,RFU,Protein,20,S2
+X23646.5,23646-5,3,SL023404,Aryl-hydrocarbon-interacting protein-like 1,AIPL1,Q9NZN9,23746,AIPL1,Human,RFU,Protein,20,S1
+X24462.4,24462-4,3,SL023764,Cyclic nucleotide-gated cation channel beta-1,CNGB1,Q14028,1258,CNGB1,Human,RFU,Protein,20,S1
+X24690.1,24690-1,3,SL023584,Calcium-binding protein 2,CABP2,Q9NPB3,51475,CABP2,Human,RFU,Protein,20,S1
+X25461.3,25461-3,3,SL023143,S-arrestin,ARRS,P10523,6295,SAG,Human,RFU,Protein,20,S1
+X6497.10,6497-10,3,SL012365,Retinoschisin,XLRS1,O15537,6247,RS1,Human,RFU,Protein,20,S1
+X7186.111,7186-111,3,SL018100,Syntaxin-3,STX3,Q13277,6809,STX3,Human,RFU,Protein,20,S2
+X9365.91,9365-91,3,SL017443,Protein eyes shut homolog,EYS,Q5T1H1,346007,EYS,Human,RFU,Protein,20,S1

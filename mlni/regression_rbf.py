@@ -129,7 +129,7 @@ class SVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
         self._verbose = verbose
 
     def _launch_svr(self, kernel_train, x_test, y_train, y_test, c):
-        svr = SVR(C=c, kernel='precomputed', max_iter=1e6, tol=1e-2)
+        svr = SVR(C=c, kernel='precomputed', max_iter=1000000, tol=1e-2)
         svr.fit(kernel_train, y_train)
         y_hat_train = svr.predict(kernel_train)
         y_hat = svr.predict(x_test)
@@ -251,15 +251,30 @@ class SVRAlgorithmWithPrecomputedKernel(RegressionAlgorithm):
 
     def save_weights(self, classifier, x, output_dir):
 
-        dual_coefficients = classifier.dual_coef_
-        sv_indices = classifier.support_
+        # dual_coefficients = classifier.dual_coef_
+        # sv_indices = classifier.support_
 
-        weighted_sv = dual_coefficients.transpose() * x[sv_indices]
-        weights = np.sum(weighted_sv, 0)
+        # weighted_sv = dual_coefficients.transpose() * x[sv_indices]
+        # weights = np.sum(weighted_sv, 0)
 
-        np.savetxt(os.path.join(output_dir, 'weights.txt'), weights)
+        # np.savetxt(os.path.join(output_dir, 'weights.txt'), weights)
 
-        return weights
+        # return weights
+        dual_coefficients_mean = classifier[0].dual_coef_
+        sv_indices_mean = classifier[0].support_
+        weighted_sv_mean = dual_coefficients_mean.transpose() * x[sv_indices_mean]
+        weights_mean = np.sum(weighted_sv_mean, 0)
+        np.savetxt(os.path.join(output_dir, 'weights_mean.txt'), weights_mean)
+
+        # Handle single model
+        dual_coefficients_single = classifier[1].dual_coef_
+        sv_indices_single = classifier[1].support_
+        weighted_sv_single = dual_coefficients_single.transpose() * x[sv_indices_single]
+        weights_single = np.sum(weighted_sv_single, 0)
+        np.savetxt(os.path.join(output_dir, 'weights_single.txt'), weights_single)
+
+        # Return both sets of weights
+        return {'mean': weights_mean, 'single': weights_single}
 
     def save_parameters(self, parameters_dict, output_dir):
         with open(os.path.join(output_dir, 'best_parameters.json'), 'w') as f:

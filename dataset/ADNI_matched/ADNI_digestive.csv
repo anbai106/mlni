@@ -1,0 +1,85 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10453.7,10453-7,3,SL018233,Carcinoembryonic antigen-related cell adhesion molecule 20,CEA20,Q6UY09,125931,CEACAM20,Human,RFU,Protein,20,S1
+X10462.14,10462-14,3,SL012880,Insulin-like peptide INSL5,INSL5,Q9Y5Q6,10022,INSL5,Human,RFU,Protein,20,S1
+X10463.23,10463-23,3,SL002514,Intestinal-type alkaline phosphatase,"Alkaline phosphatase, intestine",P09923,248,ALPI,Human,RFU,Protein,20,S2
+X10473.2,10473-2,3,SL002602,Trefoil factor 2,Trefoil factor 2,Q03403,7032,TFF2,Human,RFU,Protein,20,S1
+X10496.11,10496-11,3,SL009322,Calcium-activated chloride channel regulator 1,CaCC,A8K7I4,1179,CLCA1,Human,RFU,Protein,20,S2
+X10608.9,10608-9,3,SL012418,Histatin-1,HIS1,P15515,3346,HTN1,Human,RFU,Protein,20,S1
+X10835.25,10835-25,3,SL018593,"Alpha-1,4-N-acetylglucosaminyltransferase",A4GCT,Q9UNA3,51146,A4GNT,Human,RFU,Protein,20,S2
+X10848.137,10848-137,3,SL018632,Butyrophilin-like protein 3,BTNL3,Q6UXE8,10917,BTNL3,Human,RFU,Protein,20,S1
+X11102.22,11102-22,3,SL012561,Regenerating islet-derived protein 4,REG4,Q9BYZ8,83998,REG4,Human,RFU,Protein,20,S2
+X11152.46,11152-46,3,SL003918,Kallikrein-13,kallikrein 13,Q9UKR3,26085,KLK13,Human,RFU,Protein,20,S2
+X11242.33,11242-33,3,SL019353,Protein-glutamine gamma-glutamyltransferase K,TGM1,P22735,7051,TGM1,Human,RFU,Protein,20,S1
+X11377.19,11377-19,3,SL019442,Alcohol dehydrogenase class 4 mu/sigma chain,ADH7,P40394,131,ADH7,Human,RFU,Protein,20,S1
+X12737.12,12737-12,3,SL015520,Plastin-1,PLSI,Q14651,5357,PLS1,Human,RFU,Protein,20,S1
+X12975.11,12975-11,3,SL002694,"Keratin, type I cytoskeletal 20",Keratin 20,P35900,54474,KRT20,Human,RFU,Protein,20,S1
+X13605.16,13605-16,3,SL015314,Annexin A10,ANX10,Q9UJ72,11199,ANXA10,Human,RFU,Protein,20,S2
+X13661.193,13661-193,3,SL008382,Cystatin-D,CYTD,P28325,1473,CST5,Human,RFU,Protein,20,S1
+X13747.9,13747-9,3,SL010288,Carbonic anhydrase 6,Carbonic anhydrase 6,P23280,765,CA6,Human,RFU,Protein,20,S1
+X13944.3,13944-3,3,SL000578,Sulfotransferase 1A3,SULT 1A3,P0DMM9,445329,SULT1A3,Human,RFU,Protein,20,S1
+X14076.74,14076-74,3,SL007888,Cystatin-S,Cystatin-S,P01036,1472,CST4,Human,RFU,Protein,20,S1
+X14103.12,14103-12,3,SL010619,Tryptase gamma,TPSG1,Q9NRR2,25823,TPSG1,Human,RFU,Protein,20,S1
+X14132.21,14132-21,3,SL020171,HERV-H LTR-associating protein 2,HHLA2,Q9UM44,11148,HHLA2,Human,RFU,Protein,20,S2
+X15376.134,15376-134,3,SL007121,Cathepsin E,CATE,P14091,1510,CTSE,Human,RFU,Protein,20,S1
+X15385.116,15385-116,3,SL004848,"Fatty acid-binding protein, intestinal",FABP2,P12104,2169,FABP2,Human,RFU,Protein,20,S1
+X16292.288,16292-288,3,SL011908,Gastric inhibitory polypeptide,GIP,P09681,2695,GIP,Human,RFU,Protein,20,S2
+X16302.11,16302-11,3,SL010290,BPI fold-containing family A member 2,SPLC2,Q96DR5,140683,BPIFA2,Human,RFU,Protein,20,S2
+X16591.71,16591-71,3,SL012820,Acidic mammalian chitinase,CHIA,Q9BZP6,27159,CHIA,Human,RFU,Protein,20,S2
+X16613.3,16613-3,3,SL008898,Cadherin-17,CAD17,Q12864,1015,CDH17,Human,RFU,Protein,20,S2
+X16785.45,16785-45,3,SL004530,Defensin-5,HD-5,Q01523,1670,DEFA5,Human,RFU,Protein,20,S2
+X17172.19,17172-19,3,SL007073,Statherin,STAT,P02808,6779,STATH,Human,RFU,Protein,20,S2
+X17505.125,17505-125,3,SL019672,N-acetylated-alpha-linked acidic dipeptidase-like protein,NALDL,Q9UQQ1,10004,NAALADL1,Human,RFU,Protein,20,S2
+X17672.184,17672-184,3,SL006288,Gastric intrinsic factor,Gastric intrinsic factor,P27352,2694,CBLIF,Human,RFU,Protein,20,S1
+X17685.9,17685-9,3,SL005129,Apolipoprotein A-IV,Apo A-IV,P06727,337,APOA4,Human,RFU,Protein,20,S3
+X19213.1,19213-1,3,SL012371,Serine protease inhibitor Kazal-type 4,ISK4,O60575,27290,SPINK4,Human,RFU,Protein,20,S1
+X19768.13,19768-13,3,SL000395,Cystatin B,Cystatin B,P04080,1476,CSTB,Human,RFU,Protein,20,S2
+X19786.26,19786-26,3,SL006554,Meprin A subunit alpha,MEP1A,Q16819,4224,MEP1A,Human,RFU,Protein,20,S1
+X20593.10,20593-10,3,SL018857,"Beta-1,3-galactosyltransferase 5",B3GT5,Q9Y2C3,10317,B3GALT5,Human,RFU,Protein,20,S2
+X21572.91,21572-91,3,SL009063,Xylosyltransferase 2,XYLT2,Q9H1B5,64132,XYLT2,Human,RFU,Protein,20,S1
+X22007.1,22007-1,3,SL004361,Resistin-like beta,RELM-beta,Q9BQ08,84666,RETNLB,Human,RFU,Protein,20,S1
+X22076.34,22076-34,3,SL013849,Protein atonal homolog 1,ATOH1,Q92858,474,ATOH1,Human,RFU,Protein,20,S1
+X22104.39,22104-39,3,SL022903,Homeobox protein CDX-1,CDX1,P47902,1044,CDX1,Human,RFU,Protein,20,S1
+X22561.3,22561-3,3,SL017111,Uncharacterized protein UNQ511/PRO1026,YA003,Q6UX82,646627,LYPD8,Human,RFU,Protein,20,S1
+X22572.19,22572-19,3,SL020705,Pepsin A-4,PEPA4,P0DJD7,643847,PGA4,Human,RFU,Protein,20,S1
+X23317.10,23317-10,3,SL012597,Dehydrogenase/reductase SDR family member 11,DHR11,Q6UWP2,79154,DHRS11,Human,RFU,Protein,20,S2
+X23522.1,23522-1,3,SL023782,GTPase IMAP family member GIMD1,GIMD1,P0DJR0,100507096,GIMD1,Human,RFU,Protein,20,S2
+X23581.131,23581-131,3,SL023012,Obestatin,Obestatin,Q9UBU3,51738,GHRL,Human,RFU,Protein,20,S1
+X23597.11,23597-11,3,SL023429,Arf-GAP domain and FG repeat-containing protein 2,AGFG2,O95081,3268,AGFG2,Human,RFU,Protein,20,S1
+X24901.4,24901-4,3,SL013734,Villin-1,VILI,P09327,7429,VIL1,Human,RFU,Protein,20,S1
+X25220.8,25220-8,3,SL023179,Cysteine-rich tail protein 1,CRTP1,A8MQ03,375791,CYSRT1,Human,RFU,Protein,20,S1
+X2752.62,2752-62,2,SL004329,Growth/differentiation factor 5,BMP-14,P43026,8200,GDF5,Human,RFU,Protein,20,S2
+X2890.59,2890-59,2,SL003303,C-C motif chemokine 28,CCL28,Q9NRJ3,56477,CCL28,Human,RFU,Protein,20,S2
+X2982.82,2982-82,2,SL005165,Galectin-4,Galectin-4,P56470,3960,LGALS4,Human,RFU,Protein,20,S2
+X3189.61,3189-61,2,SL010372,Enteropeptidase,Enterokinase,P98073,5651,TMPRSS15,Human,RFU,Protein,20,S2
+X3212.30,3212-30,3,SL010375,Neutral ceramidase,ASAH2,Q9NR71,56624,ASAH2,Human,RFU,Protein,20,S2
+X3356.50,3356-50,1,SL004868,Carbonic anhydrase 7,Carbonic anhydrase VII,P43166,766,CA7,Human,RFU,Protein,20,S1
+X3727.35,3727-35,1,SL011509,Peptide YY,PYY,P10082,5697,PYY,Human,RFU,Protein,20,S1
+X3728.52,3728-52,2,SL000570,Secretin,Secretin,P09683,6343,SCT,Human,RFU,Protein,20,S1
+X3798.71,3798-71,1,SL005508,Carbonic anhydrase 9,Carbonic anhydrase 9,Q16790,768,CA9,Human,RFU,Protein,20,S1
+X4435.66,4435-66,2,SL009045,Ectonucleotide pyrophosphatase/phosphodiesterase family member 7,ENPP7,Q6UWV6,339221,ENPP7,Human,RFU,Protein,20,S1
+X4801.13,4801-13,3,SL007153,Lactoperoxidase,PERL,P22079,4025,LPO,Human,RFU,Protein,20,S1
+X5631.83,5631-83,3,SL008634,Promotilin,MOTI,P12872,4295,MLN,Human,RFU,Protein,20,S1
+X6223.5,6223-5,3,SL008392,Guanylate cyclase activator 2B,GUC2B,Q16661,2981,GUCA2B,Human,RFU,Protein,20,S2
+X6450.8,6450-8,3,SL017471,Gastrotropin,FABP6,P51161,2172,FABP6,Human,RFU,Protein,20,S1
+X6530.63,6530-63,3,SL012802,Opiorphin prepropeptide,PROL1,Q99935,58503,OPRPN,Human,RFU,Protein,20,S1
+X6533.20,6533-20,3,SL017464,Deoxyribonuclease-2-beta,DNS2B,Q8WZ79,58511,DNASE2B,Human,RFU,Protein,20,S1
+X6568.18,6568-18,3,SL025878,"HEPACAM family member 2:Isoform 2, Extracellular domain",HECA2:ECD,A8MVW5,253012,HEPACAM2,Human,RFU,Protein,20,S1
+X6571.75,6571-75,3,SL025825,Uncharacterized protein C17orf78:N-term,CQ078:N-term,Q8N4C9,284099,C17orf78,Human,RFU,Protein,20,S1
+X7020.13,7020-13,3,SL018044,Carbohydrate sulfotransferase 5,CHST5,Q9GZS9,23563,CHST5,Human,RFU,Protein,20,S1
+X7092.7,7092-7,3,SL018073,Protein disulfide-isomerase-like protein of the testis,PDILT,Q8N807,204474,PDILT,Human,RFU,Protein,20,S1
+X7184.13,7184-13,3,SL014937,Carcinoembryonic antigen-related cell adhesion molecule 7,CEAM7,Q14002,1087,CEACAM7,Human,RFU,Protein,20,S1
+X7818.101,7818-101,3,SL018271,Guanylate-binding protein 6,GBP6,Q6ZN66,163351,GBP6,Human,RFU,Protein,20,S1
+X7822.11,7822-11,3,SL018247,HRAS-like suppressor 2,HRSL2,Q9NWW9,54979,PLAAT2,Human,RFU,Protein,20,S1
+X7838.27,7838-27,3,SL012804,Submaxillary gland androgen-regulated protein 3A,SMR3A,Q99954,26952,SMR3A,Human,RFU,Protein,20,S1
+X7857.22,7857-22,3,SL012431,Neurotensin/neuromedin N,NEUT,P30990,4922,NTS,Human,RFU,Protein,20,S2
+X7918.114,7918-114,3,SL005114,Alpha-amylase 1,"Amylase, alpha 1A",P04745,276,AMY1A,Human,RFU,Protein,20,S2
+X8018.43,8018-43,3,SL018397,V-set and immunoglobulin domain-containing protein 2,VSIG2,Q96IQ7,23584,VSIG2,Human,RFU,Protein,20,S2
+X8219.14,8219-14,3,SL012373,Zymogen granule membrane protein 16,ZG16,O60844,653808,ZG16,Human,RFU,Protein,20,S2
+X8310.6,8310-6,3,SL008737,Zymogen granule protein 16 homolog B,U773,Q96DA0,124220,ZG16B,Human,RFU,Protein,20,S2
+X8367.142,8367-142,3,SL018491,V-set and immunoglobulin domain-containing protein 1,VSIG1,Q86XK7,340547,VSIG1,Human,RFU,Protein,20,S1
+X9017.58,9017-58,3,SL018796,Lactase-phlorizin hydrolase,LPH,P09848,3938,LCT,Human,RFU,Protein,20,S1
+X9026.40,9026-40,3,SL018801,Butyrophilin-like protein 8,BTNL8,Q6UX41,79908,BTNL8,Human,RFU,Protein,20,S1
+X9115.78,9115-78,3,SL008406,ADAM DEC1,ADEC1,O15204,27299,ADAMDEC1,Human,RFU,Protein,20,S2
+X9185.15,9185-15,3,SL008591,Trefoil factor 1,TFF1,P04155,7031,TFF1,Human,RFU,Protein,20,S2
+X9607.39,9607-39,3,SL019004,Proline-rich protein 27,CD040,Q6MZM9,401137,PRR27,Human,RFU,Protein,20,S1
+X9994.217,9994-217,3,SL019217,Potassium-transporting ATPase subunit beta,ATP4B,P51164,496,ATP4B,Human,RFU,Protein,20,S1
