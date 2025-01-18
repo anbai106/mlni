@@ -1,0 +1,174 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10447.18,10447-18,3,SL018138,Polyadenylate-binding protein 3,PABP3,Q9H361,5042,PABPC3,Human,RFU,Protein,20,S2
+X10507.166,10507-166,3,SL009308,Acrosomal protein SP-10,sperm protein 10,P26436,56,ACRV1,Human,RFU,Protein,20,S1
+X10557.6,10557-6,3,SL018003,Testis-expressed sequence 29 protein,TEX29,Q8N6K0,121793,TEX29,Human,RFU,Protein,20,S2
+X10572.65,10572-65,3,SL012372,Cystatin-8,CST8,O60676,10047,CST8,Human,RFU,Protein,20,S2
+X10620.21,10620-21,3,SL000548,Beta-microseminoprotein,PSP-94,P08118,4477,MSMB,Human,RFU,Protein,20,S2
+X10624.45,10624-45,3,SL018582,Serine protease inhibitor Kazal-type 13,ISK13,Q1W4C9,153218,SPINK13,Human,RFU,Protein,20,S1
+X10667.78,10667-78,3,SL018036,Uncharacterized protein C1orf185,CA185,Q5T7R7,284546,C1orf185,Human,RFU,Protein,20,S1
+X10710.23,10710-23,3,SL012618,Zona pellucida-binding protein 2,ZPBP2,Q6X784,124626,ZPBP2,Human,RFU,Protein,20,S1
+X10753.31,10753-31,3,SL018585,Disintegrin and metalloproteinase domain-containing protein 7,ADAM7,Q9H2U9,8756,ADAM7,Human,RFU,Protein,20,S2
+X10767.52,10767-52,3,SL018836,G-protein coupled receptor 64,GPR64,Q8IZP9,10149,ADGRG2,Human,RFU,Protein,20,S1
+X10785.8,10785-8,3,SL018337,Leucine-rich repeat-containing protein 52,LRC52,Q8N7C0,440699,LRRC52,Human,RFU,Protein,20,S2
+X10817.26,10817-26,3,SL018588,TOMM20-like protein 1,TO20L,Q6UXN7,387990,TOMM20L,Human,RFU,Protein,20,S2
+X11071.1,11071-1,3,SL000481,Interleukin-5,IL-5,P05113,3567,IL5,Human,RFU,Protein,20,S1
+X11162.37,11162-37,3,SL019313,Equatorin,EQTN,Q9NQ60,54586,EQTN,Human,RFU,Protein,20,S1
+X11179.7,11179-7,3,SL006717,Testis-specific serine/threonine-protein kinase 1,TSSK1,Q9BXA7,83942,TSSK1B,Human,RFU,Protein,20,S2
+X11260.47,11260-47,3,SL012729,SUN domain-containing protein 5,SPA4L,Q8TC36,140732,SUN5,Human,RFU,Protein,20,S1
+X11456.2,11456-2,3,SL019448,Melanoma-associated antigen B10,MAGBA,Q96LZ2,139422,MAGEB10,Human,RFU,Protein,20,S1
+X12576.21,12576-21,3,SL002732,Melanoma-associated antigen 3,MAGE-3,P43357,4102,MAGEA3,Human,RFU,Protein,20,S2
+X12711.19,12711-19,3,SL007244,Gap junction alpha-8 protein,CXA8,P48165,2703,GJA8,Human,RFU,Protein,20,S1
+X12743.18,12743-18,3,SL015328,BAG family molecular chaperone regulator 5,BAG5,Q9UL15,9529,BAG5,Human,RFU,Protein,20,S1
+X12748.6,12748-6,3,SL019854,Bromodomain testis-specific protein,BRDT,Q58F21,676,BRDT,Human,RFU,Protein,20,S1
+X12793.4,12793-4,3,SL019894,Piwi-like protein 1,PIWL1,Q96J94,9271,PIWIL1,Human,RFU,Protein,20,S1
+X12800.5,12800-5,3,SL019890,Tubulin polymerization-promoting protein family member 2,TPPP2,P59282,122664,TPPP2,Human,RFU,Protein,20,S2
+X12838.28,12838-28,3,SL019935,Dual specificity protein phosphatase 15,DUS15,Q9H1R2,128853,DUSP15,Human,RFU,Protein,20,S1
+X13056.18,13056-18,3,SL019585,Orphan sodium- and chloride-dependent neurotransmitter transporter NTT5,S6A16,Q9GZN6,28968,SLC6A16,Human,RFU,Protein,20,S1
+X13374.4,13374-4,3,SL012530,Beta-defensin 113,DB113,Q30KQ7,245927,DEFB113,Human,RFU,Protein,20,S2
+X13405.61,13405-61,3,SL012422,Serine protease inhibitor Kazal-type 2,ISK2,P20155,6691,SPINK2,Human,RFU,Protein,20,S2
+X13412.5,13412-5,3,SL012556,WAP four-disulfide core domain protein 6,WFDC6,Q9BQY6,140870,WFDC6,Human,RFU,Protein,20,S1
+X13429.3,13429-3,3,SL012827,WAP four-disulfide core domain protein 10A,WF10A,Q9H1F0,140832,WFDC10A,Human,RFU,Protein,20,S2
+X13439.6,13439-6,3,SL020093,IQ domain-containing protein F3,IQCF3,P0C7M6,401067,IQCF3,Human,RFU,Protein,20,S1
+X13517.3,13517-3,3,SL020152,Patched domain-containing protein 3,PTHD3,Q3KNS1,374308,PTCHD3,Human,RFU,Protein,20,S1
+X13549.15,13549-15,3,SL020150,Disintegrin and metalloproteinase domain-containing protein 29,ADA29,Q9UKF5,11086,ADAM29,Human,RFU,Protein,20,S1
+X13699.6,13699-6,3,SL000062,Prostate-specific antigen,PSA,P07288,354,KLK3,Human,RFU,Protein,20,S1
+X13958.5,13958-5,3,SL020270,Probable RNA-binding protein 46,RBM46,Q8TBY0,166863,RBM46,Human,RFU,Protein,20,S1
+X13984.23,13984-23,3,SL020293,ATP-dependent RNA helicase DDX25,DDX25,Q9UHL0,29118,DDX25,Human,RFU,Protein,20,S1
+X14085.28,14085-28,3,SL001718,Interleukin-13,IL-13,P35225,3596,IL13,Human,RFU,Protein,20,S2
+X14178.18,14178-18,3,SL007463,Cyclin-dependent kinase inhibitor 3,CDKN3,Q16667,1033,CDKN3,Human,RFU,Protein,20,S1
+X14192.31,14192-31,3,SL019930,Phosducin-like protein 2,PDCL2,Q8N4E4,132954,PDCL2,Human,RFU,Protein,20,S2
+X16309.30,16309-30,3,SL010381,Dickkopf-like protein 1,Soggy-1,Q9UK85,27120,DKKL1,Human,RFU,Protein,20,S2
+X17366.6,17366-6,3,SL010950,DCN1-like protein 1,DCNL1,Q96GG9,54165,DCUN1D1,Human,RFU,Protein,20,S2
+X18203.9,18203-9,3,SL020916,Gamma-crystallin C,CRGC,P07315,1420,CRYGC,Human,RFU,Protein,20,S1
+X18205.123,18205-123,3,SL011949,Melanoma-associated antigen 6,MAGE-6,P43360,4105,MAGEA6,Human,RFU,Protein,20,S1
+X18242.8,18242-8,3,SL004276,Sperm surface protein Sp17,Sperm protein 17,Q15506,53340,SPA17,Human,RFU,Protein,20,S1
+X18268.5,18268-5,3,SL020996,G antigen 2A,GAG2A,Q6NT46,729447,GAGE2A,Human,RFU,Protein,20,S2
+X18405.117,18405-117,3,SL006495,AP-1 complex subunit sigma-2,AP1S2,P56377,8905,AP1S2,Human,RFU,Protein,20,S2
+X18866.8,18866-8,3,SL021140,Calcineurin subunit B type 2,CANB2,Q96LZ3,5535,PPP3R2,Human,RFU,Protein,20,S2
+X18898.36,18898-36,3,SL021221,Hepatoma-derived growth factor-like protein 1,HDGL1,Q5TGJ6,154150,HDGFL1,Human,RFU,Protein,20,S1
+X19139.3,19139-3,3,SL018905,Heat shock factor 2-binding protein,HSF2B,O75031,11077,HSF2BP,Human,RFU,Protein,20,S1
+X19317.114,19317-114,3,SL000549,Prostatic acid phosphatase,Prostatic acid phosphatase,P15309,55,ACP3,Human,RFU,Protein,20,S1
+X20068.61,20068-61,3,SL020989,G antigen 12F,GG12F,P0CL80,100008586,GAGE12F,Human,RFU,Protein,20,S1
+X20075.130,20075-130,3,SL005064,Melanoma-associated antigen 4,MAGE-4,P43358,4103,MAGEA4,Human,RFU,Protein,20,S2
+X20381.21,20381-21,3,SL022169,PIH1 domain-containing protein 2,PIHD2,Q8WWB5,120379,PIH1D2,Human,RFU,Protein,20,S1
+X20428.5,20428-5,3,SL022166,Phosphoethanolamine/phosphocholine phosphatase,PHOP1,Q8TCT1,162466,PHOSPHO1,Human,RFU,Protein,20,S1
+X20447.11,20447-11,3,SL022258,Homeobox protein TGIF2LY,TF2LY,Q8IUE0,90655,TGIF2LY,Human,RFU,Protein,20,S1
+X20543.19,20543-19,3,SL007658,Beta-defensin 127,DB127,Q9H1M4,140850,DEFB127,Human,RFU,Protein,20,S1
+X20549.1,20549-1,3,SL021683,Izumo sperm-egg fusion protein 4,IZUM4,Q1ZYL8,113177,IZUMO4,Human,RFU,Protein,20,S2
+X20922.4,20922-4,3,SL022162,Profilin-4,PROF4,Q8NHR9,375189,PFN4,Human,RFU,Protein,20,S1
+X20942.4,20942-4,3,SL022009,DnaJ homolog subfamily B member 8,DNJB8,Q8NHS0,165721,DNAJB8,Human,RFU,Protein,20,S2
+X20946.41,20946-41,3,SL022060,Gametocyte-specific factor 1,GTSF1,Q8WW33,121355,GTSF1,Human,RFU,Protein,20,S1
+X21106.206,21106-206,3,SL014913,Centrin-1,CETN1,Q12798,1068,CETN1,Human,RFU,Protein,20,S2
+X21164.83,21164-83,3,SL022257,Homeobox protein TGIF2LX,TF2LX,Q8IUE1,90316,TGIF2LX,Human,RFU,Protein,20,S1
+X21191.24,21191-24,3,SL022021,Dual specificity protein phosphatase 21,DUS21,Q9H596,63904,DUSP21,Human,RFU,Protein,20,S1
+X21526.88,21526-88,3,SL009242,Izumo sperm-egg fusion protein 1,sperm-egg fusion protein 1,Q8IYV9,284359,IZUMO1,Human,RFU,Protein,20,S1
+X21849.2,21849-2,3,SL006731,Ubiquilin-3,UBQL3,Q9H347,50613,UBQLN3,Human,RFU,Protein,20,S2
+X22089.13,22089-13,3,SL022871,Protein BTG4,BTG4,Q9NY30,54766,BTG4,Human,RFU,Protein,20,S1
+X22094.15,22094-15,3,SL022852,Uncharacterized protein C2orf73,CB073,Q8N5S3,129852,C2orf73,Human,RFU,Protein,20,S1
+X22099.1,22099-1,3,SL022918,Uncharacterized protein C4orf36,CD036,Q96KX1,132989,C4orf36,Human,RFU,Protein,20,S1
+X22369.12,22369-12,3,SL023042,Doublesex- and mab-3-related transcription factor C2,DMRTD,Q8IXT2,63946,DMRTC2,Human,RFU,Protein,20,S2
+X22402.12,22402-12,3,SL022926,Histone H2A type 1-A,H2A1A,Q96QV6,221613,H2AC1,Human,RFU,Protein,20,S2
+X22484.17,22484-17,3,SL021863,Casein kinase I isoform alpha-like,KC1AL,Q8N752,122011,CSNK1A1L,Human,RFU,Protein,20,S2
+X22784.4,22784-4,3,SL022791,Spermatogenesis-associated protein 22,SPT22,Q8NHS9,84690,SPATA22,Human,RFU,Protein,20,S1
+X22786.57,22786-57,3,SL022890,Spermatogenesis-associated protein 46,SPT46,Q5T0L3,284680,SPATA46,Human,RFU,Protein,20,S2
+X22787.39,22787-39,3,SL022927,Sperm protein associated with the nucleus on the X chromosome N3,SPXN3,Q5MJ09,139067,SPANXN3,Human,RFU,Protein,20,S1
+X22788.10,22788-10,3,SL022858,Sulfotransferase 6B1,ST6B1,Q6IMI4,391365,SULT6B1,Human,RFU,Protein,20,S2
+X22799.17,22799-17,3,SL022928,TBC1 domain family member 28,TBC28,Q2M2D7,254272,TBC1D28,Human,RFU,Protein,20,S1
+X22801.83,22801-83,3,SL022919,Telomere repeats-binding bouquet formation protein 2,TERB2,Q8NHR7,145645,TERB2,Human,RFU,Protein,20,S1
+X23210.4,23210-4,3,SL022857,ETS translocation variant 2,ETV2,O00321,2116,ETV2,Human,RFU,Protein,20,S2
+X23270.14,23270-14,3,SL023623,Spermatogenesis-associated protein 33,SPT33,Q96N06,124045,SPATA33,Human,RFU,Protein,20,S1
+X23342.4,23342-4,3,SL023642,Arrestin domain-containing protein 5,ARRD5,A6NEK1,645432,ARRDC5,Human,RFU,Protein,20,S2
+X23365.7,23365-7,3,SL023381,Fibronectin type III domain-containing protein 8,FNDC8,Q8TC99,54752,FNDC8,Human,RFU,Protein,20,S1
+X23375.4,23375-4,3,SL023451,Ret finger protein-like 3,RFPL3,O75679,10738,RFPL3,Human,RFU,Protein,20,S2
+X23382.30,23382-30,3,SL023149,Variable charge X-linked protein 3,VCX3,Q9NNX9,51481,VCX3A,Human,RFU,Protein,20,S2
+X23405.33,23405-33,3,SL023418,HORMA domain-containing protein 2,HORM2,Q8N7B1,150280,HORMAD2,Human,RFU,Protein,20,S1
+X23426.1,23426-1,3,SL023724,Variable charge X-linked protein 1,VCX1,Q9H320,26609,VCX,Human,RFU,Protein,20,S2
+X23564.83,23564-83,3,SL023622,Protein-lysine methyltransferase METTL21C,MT21C,Q5VZV1,196541,METTL21C,Human,RFU,Protein,20,S1
+X23579.3,23579-3,3,SL018622,Kita-kyushu lung cancer antigen 1,KKLC1,Q5H943,203413,CT83,Human,RFU,Protein,20,S2
+X23586.32,23586-32,3,SL004478,Cancer/testis antigen 1B,Cancer/testis antigen 1B,P78358,1485,CTAG1A,Human,RFU,Protein,20,S1
+X23591.9,23591-9,3,SL023446,piRNA biogenesis protein EXD1,EXD1,Q8NHP7,161829,EXD1,Human,RFU,Protein,20,S2
+X23596.17,23596-17,3,SL006649,Coiled-coil domain-containing protein 89,CCD89,Q8N998,220388,CCDC89,Human,RFU,Protein,20,S1
+X23632.22,23632-22,3,SL023425,Schlafen-like protein 1,SLNL1,Q499Z3,200172,SLFNL1,Human,RFU,Protein,20,S2
+X23648.36,23648-36,3,SL023194,Protein DDI1 homolog 1,DDI1,Q8WTU0,414301,DDI1,Human,RFU,Protein,20,S1
+X24422.36,24422-36,3,SL023761,Spermatogenesis-associated protein 24,SPA24,Q86W54,202051,SPATA24,Human,RFU,Protein,20,S2
+X24465.28,24465-28,3,SL005069,"synovial sarcoma, X breakpoint 4",SSX4,O60224,548313,SSX4,Human,RFU,Protein,20,S1
+X24479.25,24479-25,3,SL023784,Transmembrane protein 225B,T225B,P0DP42,100289187,TMEM225B,Human,RFU,Protein,20,S2
+X24497.8,24497-8,3,SL023631,Probable E3 ubiquitin-protein ligase TRIML1,TRIML,Q8N9V2,339976,TRIML1,Human,RFU,Protein,20,S2
+X24667.27,24667-27,3,SL023590,Cancer/testis antigen family 45 member A1,CT451,Q5HYN5,541466,CT45A1,Human,RFU,Protein,20,S1
+X24669.12,24669-12,3,SL023380,DnaJ homolog subfamily C member 5B,DNJ5B,Q9UF47,85479,DNAJC5B,Human,RFU,Protein,20,S2
+X24688.9,24688-9,3,SL023648,Doublesex- and mab-3-related transcription factor B1,DMRTB,Q96MA1,63948,DMRTB1,Human,RFU,Protein,20,S1
+X25217.35,25217-35,3,SL009248,Sperm protein associated with the nucleus on the X chromosome A,SPANXA,Q9NS26,30014,SPANXA1,Human,RFU,Protein,20,S2
+X25225.14,25225-14,3,SL021546,Ferritin heavy polypeptide-like 17,FHL17,Q9BXU8,53940,FTHL17,Human,RFU,Protein,20,S2
+X25249.33,25249-33,3,SL023375,"Pyruvate dehydrogenase E1 component subunit alpha, testis-specific form, mitochondrial",ODPAT,P29803,5161,PDHA2,Human,RFU,Protein,20,S1
+X25419.59,25419-59,3,SL023611,Sperm protein associated with the nucleus on the X chromosome N4,SPXN4,Q5MJ08,441525,SPANXN4,Human,RFU,Protein,20,S1
+X25453.57,25453-57,5,SL023269,Ropporin-1B,ROP1B,Q9BZX4,152015,ROPN1B,Human,RFU,Protein,20,S1
+X25951.17,25951-17,3,SL005014,Preferentially expressed antigen of melanoma,PRAME,P78395,23532,PRAME,Human,RFU,Protein,20,S2
+X2833.20,2833-20,1,SL003800,Kallikrein-4,Kallikrein 4,Q9Y5K2,9622,KLK4,Human,RFU,Protein,20,S1
+X3414.40,3414-40,2,SL006374,Cytoplasmic tyrosine-protein kinase BMX,BMX,P51813,660,BMX,Human,RFU,Protein,20,S1
+X4389.2,4389-2,1,SL007003,Desert hedgehog protein N-product,DHH,O43323,50846,DHH,Human,RFU,Protein,20,S2
+X5611.56,5611-56,3,SL012710,Beta-defensin 108B,D108B,Q8NET1,245911,DEFB108B,Human,RFU,Protein,20,S1
+X5617.41,5617-41,3,SL012362,Pro-FMRFamide-related neuropeptide FF,NPFF,O15130,8620,NPFF,Human,RFU,Protein,20,S2
+X5643.2,5643-2,3,SL012575,Epididymal-specific lipocalin-8,LCN8,Q6JVE9,138307,LCN8,Human,RFU,Protein,20,S1
+X5653.23,5653-23,3,SL017074,Probable inactive serine protease 37,PRS37,A4D1T9,136242,PRSS37,Human,RFU,Protein,20,S1
+X5689.1,5689-1,3,SL012531,Beta-defensin 112,DB112,Q30KQ8,245915,DEFB112,Human,RFU,Protein,20,S1
+X5726.49,5726-49,3,SL012583,Sperm-associated antigen 11A,SG11A,Q6PDA7,10407,SPAG11A,Human,RFU,Protein,20,S1
+X5762.35,5762-35,3,SL009230,Sperm-associated antigen 11B,Sperm-associated antigen 11,Q08648,10407,SPAG11B,Human,RFU,Protein,20,S1
+X5763.67,5763-67,3,SL004535,Beta-defensin 104,HBD-4,Q8WTQ1,140596,DEFB104A,Human,RFU,Protein,20,S1
+X5765.53,5765-53,3,SL012548,Beta-defensin 121,DB121,Q5J5C9,245934,DEFB121,Human,RFU,Protein,20,S1
+X6228.58,6228-58,3,SL009244,Sperm acrosome membrane-associated protein 1,sperm acrosome associated 1,Q9HBV2,81833,SPACA1,Human,RFU,Protein,20,S1
+X6360.7,6360-7,3,SL012642,Beta-defensin 128,DB128,Q7Z7B8,245939,DEFB128,Human,RFU,Protein,20,S1
+X6368.9,6368-9,3,SL012826,Cystatin-like 1,CST1L,Q9H114,128817,CSTL1,Human,RFU,Protein,20,S2
+X6372.7,6372-7,3,SL017449,Y-box-binding protein 2,YBOX2,Q9Y2T7,51087,YBX2,Human,RFU,Protein,20,S2
+X6377.54,6377-54,3,SL017438,Lysozyme-like protein 2,LYZL2,Q7Z4W2,119180,LYZL2,Human,RFU,Protein,20,S2
+X6399.52,6399-52,3,SL012680,Beta-defensin 107,D107A,Q8IZN7,245910,DEFB107A,Human,RFU,Protein,20,S1
+X6411.58,6411-58,3,SL012524,Beta-defensin 135,DB135,Q30KP9,613209,DEFB135,Human,RFU,Protein,20,S1
+X6424.2,6424-2,3,SL017436,Probable inactive ribonuclease-like protein 13,RNS13,Q5GAN3,440163,RNASE13,Human,RFU,Protein,20,S2
+X6494.60,6494-60,3,SL009252,Sperm acrosome-associated protein 5,sperm acrosome associated 5,Q96QH8,389852,SPACA5,Human,RFU,Protein,20,S2
+X6556.5,6556-5,3,SL012863,Ectonucleotide pyrophosphatase/phosphodiesterase family member 5,ENPP5,Q9UJA9,59084,ENPP5,Human,RFU,Protein,20,S2
+X6907.17,6907-17,3,SL017957,Transmembrane and coiled-coil domain-containing protein 5A,TMC5A,Q8N6Q1,145942,TMCO5A,Human,RFU,Protein,20,S1
+X7046.6,7046-6,3,SL018041,Uncharacterized protein C20orf173,CT173,Q96LM9,140873,C20orf173,Human,RFU,Protein,20,S1
+X7066.199,7066-199,4,SL018032,Protein FAM209B,F209B,Q5JX69,388799,FAM209B,Human,RFU,Protein,20,S1
+X7097.8,7097-8,3,SL018129,Testis-specific chromodomain protein Y 1,CDY1,Q9Y6F8,253175,CDY1,Human,RFU,Protein,20,S1
+X7106.37,7106-37,3,SL012654,Oocyte-secreted protein 2,PLACL,Q86WS3,219990,OOSP2,Human,RFU,Protein,20,S1
+X7147.35,7147-35,3,SL012660,WAP four-disulfide core domain protein 8,WFDC8,Q8IUA0,90199,WFDC8,Human,RFU,Protein,20,S1
+X7740.33,7740-33,3,SL018229,Fetal and adult testis-expressed transcript protein,FATE1,Q969F0,89885,FATE1,Human,RFU,Protein,20,S1
+X7742.11,7742-11,3,SL025971,RING finger protein 148:region 1,RN148:region 1,Q8N7C7,378925,RNF148,Human,RFU,Protein,20,S1
+X7767.1,7767-1,3,SL012589,Colipase-like protein 2,CF126,Q6UWE3,389383,CLPSL2,Human,RFU,Protein,20,S1
+X7782.34,7782-34,3,SL012453,Epididymal secretory protein E3-beta,EP3B,P56851,64184,EDDM3B,Human,RFU,Protein,20,S1
+X7809.22,7809-22,3,SL018265,Spermatogenesis-associated protein 9,SPAT9,Q9BWV2,83890,SPATA9,Human,RFU,Protein,20,S2
+X7827.20,7827-20,3,SL018276,Disintegrin and metalloproteinase domain-containing protein 32,ADA32,Q8TC27,203102,ADAM32,Human,RFU,Protein,20,S1
+X7873.32,7873-32,3,SL018280,Testis-specific serine/threonine-protein kinase 2,TSSK2,Q96PF2,23617,TSSK2,Human,RFU,Protein,20,S1
+X7967.38,7967-38,3,SL018313,Putative POTE ankyrin domain family member M,POTEM,A6NI47,641455,POTEM,Human,RFU,Protein,20,S1
+X7969.163,7969-163,3,SL012712,Protein WFDC11,WFD11,Q8NEX6,259239,WFDC11,Human,RFU,Protein,20,S1
+X7991.54,7991-54,3,SL018364,IQ domain-containing protein F1,IQCF1,Q8N6M8,132141,IQCF1,Human,RFU,Protein,20,S1
+X8004.15,8004-15,3,SL009421,"Glyceraldehyde-3-phosphate dehydrogenase, testis-specific",G3PT,O14556,26330,GAPDHS,Human,RFU,Protein,20,S1
+X8033.1,8033-1,3,SL018389,DnaJ homolog subfamily C member 18,DJC18,Q9H819,202052,DNAJC18,Human,RFU,Protein,20,S1
+X8048.9,8048-9,3,SL018378,"Ferritin, mitochondrial",FTMT,Q8N4E7,94033,FTMT,Human,RFU,Protein,20,S2
+X8065.245,8065-245,3,SL018401,Prostate and testis expressed protein 4,PATE4,P0C8F1,399968,PATE4,Human,RFU,Protein,20,S1
+X8076.4,8076-4,3,SL007524,Sperm acrosome membrane-associated protein 3,SACA3,Q8IXA5,124912,SPACA3,Human,RFU,Protein,20,S2
+X8079.39,8079-39,3,SL018383,EP300-interacting inhibitor of differentiation 3,EID3,Q8N140,493861,EID3,Human,RFU,Protein,20,S2
+X8315.5,8315-5,3,SL012695,Beta-defensin 119,DB119,Q8N690,245932,DEFB119,Human,RFU,Protein,20,S1
+X8334.65,8334-65,3,SL018477,T-complex protein 11 homolog,TCP11,Q8WWU5,6954,TCP11,Human,RFU,Protein,20,S2
+X8340.9,8340-9,3,SL012533,Beta-defensin 110,DB110,Q30KQ9,245913,DEFB110,Human,RFU,Protein,20,S1
+X8347.222,8347-222,3,SL012830,Beta-defensin 129,DB129,Q9H1M3,140881,DEFB129,Human,RFU,Protein,20,S1
+X8386.11,8386-11,3,SL006948,Prostate and testis expressed protein 1,PATE,Q8WXA2,160065,PATE1,Human,RFU,Protein,20,S2
+X8389.8,8389-8,3,SL018481,Leucine-rich repeat-containing protein 74A,CN16B,Q0VAA2,145497,LRRC74A,Human,RFU,Protein,20,S1
+X8391.12,8391-12,3,SL012528,Beta-defensin 115,DB115,Q30KQ5,245929,DEFB115,Human,RFU,Protein,20,S1
+X8520.8,8520-8,3,SL018586,Disintegrin and metalloproteinase domain-containing protein 30,ADA30,Q9UKF2,11085,ADAM30,Human,RFU,Protein,20,S1
+X8635.283,8635-283,3,SL005453,Zona pellucida-binding protein 1,ZPBP1,Q9BS86,11055,ZPBP,Human,RFU,Protein,20,S1
+X8773.172,8773-172,3,SL025844,EMILIN-3:region 1,EMIL3:region 1,Q9NT22,90187,EMILIN3,Human,RFU,Protein,20,S2
+X8852.10,8852-10,3,SL018701,SUN domain-containing protein 3,SUN3,Q8TAQ9,256979,SUN3,Human,RFU,Protein,20,S1
+X8897.3,8897-3,3,SL018694,Leucine-rich repeat-containing protein 37A2,L37A2,A6NM11,474170,LRRC37A2,Human,RFU,Protein,20,S1
+X8980.19,8980-19,3,SL018778,Cell surface glycoprotein CD200 receptor 2,MO2R2,Q6Q8B3,344807,CD200R1L,Human,RFU,Protein,20,S1
+X9022.49,9022-49,3,SL012641,Beta-defensin 132,DB132,Q7Z7B7,400830,DEFB132,Human,RFU,Protein,20,S2
+X9082.25,9082-25,3,SL018786,Protein sel-1 homolog 2,SE1L2,Q5TEA6,80343,SEL1L2,Human,RFU,Protein,20,S1
+X9282.12,9282-12,3,SL009427,Cysteine-rich secretory protein 2,CRIS2,P16562,7180,CRISP2,Human,RFU,Protein,20,S2
+X9306.7,9306-7,3,SL007604,Beta-defensin 118,DB118,Q96PH6,117285,DEFB118,Human,RFU,Protein,20,S1
+X9332.6,9332-6,3,SL012523,Beta-defensin 136,DB136,Q30KP8,613210,DEFB136,Human,RFU,Protein,20,S1
+X9345.436,9345-436,3,SL012663,WAP four-disulfide core domain protein 13,WFD13,Q8IUB5,164237,WFDC13,Human,RFU,Protein,20,S1
+X9363.11,9363-11,3,SL017420,Cancer/testis antigen 55,CX048,Q8WUE5,54967,CT55,Human,RFU,Protein,20,S1
+X9475.22,9475-22,3,SL007043,Epididymal secretory glutathione peroxidase,GPX5,O75715,2880,GPX5,Human,RFU,Protein,20,S1
+X9524.46,9524-46,3,SL019067,Putative spermatogenesis-associated protein 31D4,S31D4,Q6ZUB0,389761,SPATA31D4,Human,RFU,Protein,20,S1
+X9536.16,9536-16,3,SL012501,Epididymal secretory protein E3-alpha,EP3A,Q14507,10876,EDDM3A,Human,RFU,Protein,20,S2
+X9606.4,9606-4,3,SL019046,Nuclear pore membrane glycoprotein 210-like,P210L,Q5VU65,91181,NUP210L,Human,RFU,Protein,20,S1
+X9828.86,9828-86,3,SL009423,L-lactate dehydrogenase C chain,LDHC,P07864,3948,LDHC,Human,RFU,Protein,20,S1

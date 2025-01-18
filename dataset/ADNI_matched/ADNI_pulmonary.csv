@@ -1,0 +1,6 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10990.21,10990-21,3,SL017128,Leucine-rich repeat serine/threonine-protein kinase 2,LRRK2,Q5S007,120892,LRRK2,Human,RFU,Protein,20,S2
+X11207.3,11207-3,3,SL025927,Macrophage scavenger receptor types I and II:Cytoplasmic domain,Macrophage scavenger receptor:CD,P21757,4481,MSR1,Human,RFU,Protein,20,S1
+X19590.46,19590-46,3,SL004484,Pulmonary surfactant-associated protein D,SP-D,P35247,6441,SFTPD,Human,RFU,Protein,20,S2
+X3044.3,3044-3,2,SL003323,C-C motif chemokine 18,PARC,P55774,6362,CCL18,Human,RFU,Protein,20,S2
+X4125.52,4125-52,2,SL003680,"Advanced glycosylation end product-specific receptor, soluble",sRAGE,Q15109,177,AGER,Human,RFU,Protein,20,S2

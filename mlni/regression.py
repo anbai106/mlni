@@ -526,12 +526,15 @@ class KFoldCV(RegressionValidation):
                                         'y_hat': self._fold_results[i]['y_hat'],
                                         'y_index': self._fold_results[i]['y_index']})
             subjects_df.to_csv(os.path.join(container_dir, 'subjects_fold-' + str(i) + '.tsv'),
-                               index=False, sep='\t', encoding='utf-8')
+                            index=False, sep='\t', encoding='utf-8')
             subjects_folds.append(subjects_df)
 
-            results_df = pd.DataFrame({'mae': self._fold_results[i]['mae']}, index=['i', ])
+            results_df = pd.DataFrame({
+                'mae_mean': self._fold_results[i]['mae_mean'],
+                'mae_single': self._fold_results[i]['mae_single']
+            }, index=['i', ])
             results_df.to_csv(os.path.join(container_dir, 'results_fold-' + str(i) + '.tsv'),
-                              index=False, sep='\t', encoding='utf-8')
+                            index=False, sep='\t', encoding='utf-8')
             results_folds.append(results_df)
 
         all_subjects = pd.concat(subjects_folds)
@@ -540,10 +543,10 @@ class KFoldCV(RegressionValidation):
 
         all_results = pd.concat(results_folds)
         all_results.to_csv(os.path.join(output_dir, 'results.tsv'),
-                           index=False, sep='\t', encoding='utf-8')
+                        index=False, sep='\t', encoding='utf-8')
 
         mean_results = pd.DataFrame(all_results.apply(np.nanmean).to_dict(), columns=all_results.columns, index=[0, ])
         mean_results.to_csv(os.path.join(output_dir, 'mean_results.tsv'),
                             index=False, sep='\t', encoding='utf-8')
         print("Mean results of the regression:")
-        print("Mean absolute error: %s" % (mean_results['mae'].to_string(index = False)))
+        print("Mean absolute error for the average model: %s" % (mean_results['mae_mean'].to_string(index=False)))

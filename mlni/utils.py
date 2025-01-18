@@ -1195,8 +1195,8 @@ class DatasetShuffler(Dataset):
     def __getitem__(self, idx):
         x = self.data_tensor_x[idx, :]
         y = self.data_tensor_y[idx]
-        participant_id = self.df_header.iloc[idx, :][0]
-        session_id = self.df_header.iloc[idx, :][1]
+        participant_id = self.df_header.iloc[idx].iloc[0]
+        session_id = self.df_header.iloc[idx].iloc[1]
 
         if self.transformations:
             x = self.transformations(x)

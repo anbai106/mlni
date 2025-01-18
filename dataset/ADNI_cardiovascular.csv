@@ -1,0 +1,23 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X10398.110,10398-110,3,SL019275,Ankyrin repeat domain-containing protein 1,ANKR1,Q15327,27063,ANKRD1,Human,RFU,Protein,20,S1
+X11164.7,11164-7,3,SL019319,Teneurin-2,TEN2,Q9NT68,57451,TENM2,Human,RFU,Protein,20,S1
+X11324.3,11324-3,3,SL006952,Peroxidasin-like protein,PXDNL,A1KZ92,137902,PXDNL,Human,RFU,Protein,20,S1
+X13924.13,13924-13,3,SL018834,Myocardial zonula adherens protein,MYZAP,P0CAP1,100820829,MYZAP,Human,RFU,Protein,20,S1
+X16751.15,16751-15,3,SL002689,Natriuretic peptides B,BNP,P16860,4879,NPPB,Human,RFU,Protein,20,S1
+X17832.12,17832-12,3,SL021002,Isopentenyl-diphosphate delta-isomerase 2,IDI2,Q9BXS1,91734,IDI2,Human,RFU,Protein,20,S2
+X18207.6,18207-6,3,SL008779,Charged multivesicular body protein 1b,CHM1B,Q7LBR1,57132,CHMP1B,Human,RFU,Protein,20,S2
+X19291.2,19291-2,3,SL007959,Calsequestrin-2,CASQ2,O14958,845,CASQ2,Human,RFU,Protein,20,S1
+X20107.11,20107-11,3,SL008030,Myosin light polypeptide 4,MYL4,P12829,4635,MYL4,Human,RFU,Protein,20,S2
+X21115.48,21115-48,3,SL021961,Pre-miRNA 5'-monophosphate methyltransferase,BN3D2,Q7Z5W3,144233,BCDIN3D,Human,RFU,Protein,20,S2
+X21545.51,21545-51,3,SL022124,Musculoskeletal embryonic nuclear protein 1,MSTN1,Q8IVN3,389125,MUSTN1,Human,RFU,Protein,20,S2
+X21579.35,21579-35,3,SL008202,"Myosin-binding protein C, cardiac-type",MYPC3,Q14896,4607,MYBPC3,Human,RFU,Protein,20,S1
+X23589.21,23589-21,3,SL023543,Protein phosphatase 1 regulatory subunit 27,PPR27,Q86WC6,116729,PPP1R27,Human,RFU,Protein,20,S1
+X24289.1,24289-1,3,SL017974,Coiled-coil domain-containing transmembrane protein C7orf53,CG053,Q8N8F7,286006,LSMEM1,Human,RFU,Protein,20,S1
+X24710.1,24710-1,3,SL023653,Microtubule-associated tumor suppressor candidate 2,MTUS2,Q5JR59,23281,MTUS2,Human,RFU,Protein,20,S1
+X3587.53,3587-53,1,SL007056,Bone morphogenetic protein 10,BMP10,O95393,27302,BMP10,Human,RFU,Protein,20,S2
+X3799.11,3799-11,2,SL004867,Carbonic anhydrase 3,Carbonic anhydrase III,P07451,761,CA3,Human,RFU,Protein,20,S2
+X4392.54,4392-54,2,SL005161,Fibroblast growth factor 12,FGF-12,P61328,2257,FGF12,Human,RFU,Protein,20,S1
+X5315.22,5315-22,3,SL000052,"Troponin T, cardiac muscle",Troponin T,P45379,7139,TNNT2,Human,RFU,Protein,20,S1
+X5441.67,5441-67,3,SL001761,"Troponin I, cardiac muscle",Troponin I,P19429,7137,TNNI3,Human,RFU,Protein,20,S1
+X8074.32,8074-32,3,SL018405,"Transmembrane protein 70, mitochondrial",TMM70,Q9BUB7,54968,TMEM70,Human,RFU,Protein,20,S1
+X9053.16,9053-16,3,SL008130,Cysteine-rich protein 2,CRIP2,P52943,1397,CRIP2,Human,RFU,Protein,20,S2

@@ -1,0 +1,12 @@
+Analytes,SeqId,SeqIdVersion,SomaId,TargetFullName,Target,UniProt,EntrezGeneID,EntrezGeneSymbol,Organism,Units,Type,Dilution,NormGroup
+X12904.180,12904-180,3,SL004440,cubilin,cubilin,O60494,8029,CUBN,Human,RFU,Protein,20,S1
+X13101.60,13101-60,3,SL007631,Sclerostin,SOST,Q9BQB4,50964,SOST,Human,RFU,Protein,20,S1
+X13470.43,13470-43,3,SL014902,Parathyroid hormone/parathyroid hormone-related peptide receptor,PTH1R,Q03431,5745,PTH1R,Human,RFU,Protein,20,S1
+X13498.1,13498-1,3,SL020130,Inositol oxygenase,MIOX,Q9UGB7,55586,MIOX,Human,RFU,Protein,20,S1
+X16852.10,16852-10,3,SL019239,Na(+)/H(+) exchange regulatory cofactor NHE-RF3,NHRF3,Q5T2W1,5174,PDZK1,Human,RFU,Protein,20,S1
+X25209.15,25209-15,3,SL008450,Sodium/potassium-transporting ATPase gamma chain,ATNG,P54710,486,FXYD2,Human,RFU,Protein,20,S2
+X3396.54,3396-54,2,SL000565,Renin,Renin,P00797,5972,REN,Human,RFU,Protein,20,S2
+X8032.23,8032-23,3,SL018377,Mitochondrial coiled-coil domain protein 1,MCCD1,P59942,401250,MCCD1,Human,RFU,Protein,20,S1
+X9243.10,9243-10,3,SL012687,Lysozyme g-like protein 1,LYG1,Q8N1E2,129530,LYG1,Human,RFU,Protein,20,S2
+X9451.20,9451-20,3,SL005386,Uromodulin,Uromodulin,P07911,7369,UMOD,Human,RFU,Protein,20,S2
+X9778.45,9778-45,3,SL019131,Transmembrane protein 52B,TM52B,Q4KMG9,120939,TMEM52B,Human,RFU,Protein,20,S2
