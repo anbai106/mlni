@@ -11,7 +11,7 @@ After installing Anaconda3, there are three choices to use MLNI.
 #### Use MLNI as a python package
 We recommend the users to use Conda virtual environment:
 ```
-1) conda create --name mlni python=3.7
+1) conda create --name mlni python=3.6
 ```
 Activate the virtual environment:
 ```
