@@ -14,7 +14,7 @@ __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020"
 __credits__ = ["Junhao Wen, Jorge Samper-González"]
 __license__ = "See LICENSE file"
-__version__ = "0.1.5"
+__version__ = "0.1.5.1"
 __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
@@ -25,7 +25,7 @@ class RB_RepeatedHoldOut_ElasticNet_Regression(WorkFlow):
     """
 
     def __init__(self, input, split_index, output_dir, n_threads=8, n_iterations=100, test_size=0.2,
-                 grid_search_folds=10, alpha_range=np.logspace(-6, 2, 17), l1_ratio_range=np.linspace(0.1, 0.1, 1), verbose=False):
+                 grid_search_folds=10, alpha_range=np.logspace(-4, 0, 5), l1_ratio_range=np.linspace(0.1, 0.9, 5), verbose=False):
         self._input = input
         self._split_index = split_index
         self._output_dir = output_dir
@@ -67,8 +67,8 @@ class ElasticNetRegressionAlgorithm(RegressionAlgorithm):
     '''
 
     def __init__(self, x, y, grid_search_folds=10,
-                 alpha_range=np.logspace(-6, 2, 17),
-                 l1_ratio_range=np.linspace(0.1, 0.1, 1),
+                 alpha_range=np.logspace(-4, 0, 5),
+                 l1_ratio_range=np.linspace(0.1, 0.9, 5),
                  n_threads=15, verbose=False):
         self._x = x
         self._y = y

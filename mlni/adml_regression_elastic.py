@@ -1,18 +1,20 @@
 from mlni.regression_elastic import RB_RepeatedHoldOut_ElasticNet_Regression
-from mlni.base import RB_Input, VB_Input
+from mlni.base import RB_Input
 import os, pickle
 from mlni.utils import make_cv_partition
+import numpy as np
 
 __author__ = "Junhao Wen"
 __copyright__ = "Copyright 2019-2020"
 __credits__ = ["Junhao Wen"]
 __license__ = "See LICENSE file"
-__version__ = "0.1.5"
+__version__ = "0.1.5.1"
 __maintainer__ = "Junhao Wen"
 __email__ = "junhao.wen89@gmail.com"
 __status__ = "Development"
 
-def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', n_threads=8, seed=None, verbose=False):
+def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out', n_threads=8, alpha_range=np.logspace(-4, 0, 5),
+                   l1_ratio_range=np.linspace(0.1, 0.9, 5), seed=None, verbose=False):
     """
     Core function for regression with ROI-based features using ElasticNet regression
     Args:
@@ -45,7 +47,8 @@ def regression_roi(feature_tsv, output_dir, cv_repetition, cv_strategy='hold_out
     ## Here, we perform a nested CV (outer CV with defined CV method, inner CV with 10-fold grid search) for regression.
     if cv_strategy == 'hold_out':
         wf_regression = RB_RepeatedHoldOut_ElasticNet_Regression(input_data, split_index, os.path.join(output_dir, 'regression'),
-                                        n_threads=n_threads, n_iterations=cv_repetition, verbose=verbose)
+                                        n_threads=n_threads, n_iterations=cv_repetition, alpha_range=alpha_range,
+                                        l1_ratio_range=l1_ratio_range, verbose=verbose)
         wf_regression.run()
     else:
         raise Exception("CV methods have not been implemented")

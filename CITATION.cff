@@ -4,8 +4,8 @@ authors:
     given-names: Junhao
     orcid: "https://orcid.org/0000-0003-2077-3070"
 cff-version: 1.2.0
-version: 0.1.4
-date-released: "2023-09-24"
+version: 0.1.5.1
+date-released: "2025-05-26"
 keywords:
   - "classification, clustering, regression"
   - research

@@ -23,7 +23,7 @@ Install other python package dependencies (go to the root folder of MLNI):
 ```
 Finally, we need install mlni from PyPi:
 ```
-4) pip install mlni==0.1.5
+4) pip install mlni==0.1.5.1
 ```
 
 #### Use MLNI from commandline:
