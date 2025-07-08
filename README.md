@@ -25,6 +25,8 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 
 ### If you use this software for regression:
 > Wen, J., 2024. **The Genetic Architecture of Multimodal Human Brain Age**. Nature Communications, pp.1-22. [10.1038/s41467-024-46796-6](https://www.nature.com/articles/s41467-024-46796-6) - [Paper in PDF](https://www.nature.com/articles/s41467-024-46796-6)
+> The MULTI Consortium., 2025. **Multi-organ metabolome biological age implicates cardiometabolic conditions and mortality risk. [10.1038/s41467-025-59964-z](https://www.nature.com/articles/s41467-025-59964-z) - [Paper in PDF](https://www.nature.com/articles/s41467-025-59964-z)
+> Wen, J., 2025. **Refining the generation, interpretation, and application of multi-organ, multi-omics biological aging clocks**. Nature Aging. [10.1101/2025.02.06.25321803](https://www.medrxiv.org/content/10.1101/2025.02.06.25321803v5) - [Paper in PDF](https://www.medrxiv.org/content/10.1101/2025.02.06.25321803v5)
 
 ### If you use this software for clustering:
 > Varol, E., 2017. **HYDRA: Revealing heterogeneity of imaging and genetic patterns through a multiple max-margin discriminative analysis framework**. Neuroimage, 145, pp.346-364. [doi:10.1016/j.neuroimage.2016.02.041](https://www.sciencedirect.com/science/article/abs/pii/S1053811916001506?via%3Dihub) - [Paper in PDF](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5408358/pdf/nihms762663.pdf)
@@ -35,3 +37,5 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 > Wen, J., 2022. **Characterizing Heterogeneity in Neuroimaging, Cognition, Clinical Symptoms, and Genetics Among Patients With Late-Life Depression**. JAMA Psychiatry -  [Link](https://jamanetwork.com/journals/jamapsychiatry/article-abstract/2789902)
 
 > Lalousis, P.A., 2022. **Neurobiologically Based Stratification of Recent Onset Depression and Psychosis: Identification of Two Distinct Transdiagnostic Phenotypes**. Biological Psychiatry. -  [Link](https://www.sciencedirect.com/science/article/pii/S0006322322011568#bib50)
+
+> Wen, J., 2025. **Neuroimaging endophenotypes reveal underlying mechanisms and genetic factors contributing to progression and development of four brain disorders**. Nature BME. -  [Link](https://www.nature.com/articles/s41551-025-01412-w)
