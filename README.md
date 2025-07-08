@@ -25,7 +25,9 @@ MLNI is a python package that performs various tasks using neuroimaging data: i)
 
 ### If you use this software for regression:
 > Wen, J., 2024. **The Genetic Architecture of Multimodal Human Brain Age**. Nature Communications, pp.1-22. [10.1038/s41467-024-46796-6](https://www.nature.com/articles/s41467-024-46796-6) - [Paper in PDF](https://www.nature.com/articles/s41467-024-46796-6)
+
 > The MULTI Consortium., 2025. **Multi-organ metabolome biological age implicates cardiometabolic conditions and mortality risk. [10.1038/s41467-025-59964-z](https://www.nature.com/articles/s41467-025-59964-z) - [Paper in PDF](https://www.nature.com/articles/s41467-025-59964-z)
+
 > Wen, J., 2025. **Refining the generation, interpretation, and application of multi-organ, multi-omics biological aging clocks**. Nature Aging. [10.1101/2025.02.06.25321803](https://www.medrxiv.org/content/10.1101/2025.02.06.25321803v5) - [Paper in PDF](https://www.medrxiv.org/content/10.1101/2025.02.06.25321803v5)
 
 ### If you use this software for clustering:
