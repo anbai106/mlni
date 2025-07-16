@@ -1300,11 +1300,21 @@ def test(model, data_loader, use_cuda, loss_func):
             loss = loss_func(predicted, labels)
             total_loss += loss.item()
 
-            # Generate detailed DataFrame
-            for idx, sub in enumerate(data['participant_id']):
-                row = [sub, data['session_id'][idx],
-                       labels[idx].item(), predicted[idx].item()]
+            # Generate detailed DataFrame (there is a bug for this if the dataloader only have 1 subject; in the MLNI 0.1.2, I changed this in the local package, but this will be pushed for a new release...)
+            # for idx, sub in enumerate(data['participant_id']):
+            #     row = [sub, data['session_id'][idx],
+            #            labels[idx].item(), predicted[idx].item()]
+            #
+            #     row_df = pd.DataFrame(np.array(row).reshape(1, -1), columns=columns)
+            #     results_df = pd.concat([results_df, row_df])
 
+            for idx in range(len(data['participant_id'])):
+                label_val = labels.item() if labels.dim() == 0 else labels[idx].item()
+                pred_val = predicted.item() if predicted.dim() == 0 else predicted[idx].item()
+                row = [data['participant_id'][idx],
+                       data['session_id'][idx],
+                       label_val,
+                       pred_val]
                 row_df = pd.DataFrame(np.array(row).reshape(1, -1), columns=columns)
                 results_df = pd.concat([results_df, row_df])
 
